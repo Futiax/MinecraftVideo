@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "video:item/music_disc_videoone"
+    }
+}

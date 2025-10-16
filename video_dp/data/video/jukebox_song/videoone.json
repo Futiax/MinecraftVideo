@@ -1,0 +1,9 @@
+{
+    "comparator_output": 11,
+    "description": "videoone",
+    "length_in_seconds": 2761.728,
+    "sound_event": {
+        "sound_id": "video:music_disc.videoone",
+        "range": 64.0
+    }
+}

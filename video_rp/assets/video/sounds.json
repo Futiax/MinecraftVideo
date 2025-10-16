@@ -1,0 +1,10 @@
+{
+    "music_disc.videoone": {
+        "sounds": [
+            {
+                "name": "video:records/videoone",
+                "stream": true
+            }
+        ]
+    }
+}
