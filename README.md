@@ -127,7 +127,7 @@ Each color has 4 shade variants (180, 220, 255, 135) define by minecraft code.
 
 ## 📝 License
 
-This project is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/) **with commercial use exceptions**.
+This project is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/) **with commercial use exceptions**.
 
 **You are free to:**
 
