@@ -26,7 +26,8 @@ pip install numpy opencv-python pillow requests nbt cython
 
 ### Minecraft Setup
 
-The project expects the following directory structure:
+-   **[Improved Map Colors](https://modrinth.com/mod/improved-map-colors)** : mod is required for this version.
+-   The project expects the following directory structure:
 
 ```
 ../minecraft/
