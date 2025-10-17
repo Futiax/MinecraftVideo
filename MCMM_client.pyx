@@ -22,7 +22,6 @@ import cv2
 from requests import get
 from PIL import Image
 from nbt import nbt
-from pyffmpeg import FFmpeg
 
 
 ctypedef np.uint8_t DTYPE_t
@@ -185,10 +184,16 @@ cpdef void process_video(str video_path, INTP_t width, INTP_t height, INTP_t fra
         audio_json = load(f)
         audio_json["length_in_seconds"] = video_frame_nbr / video_fps
         f.seek(0); dump(audio_json, f, indent=4); f.truncate()
-        
-    ffmpeg = FFmpeg()
-    ffmpeg.input(video_path).output(str(rp_audio_path), acodec='libvorbis', vn=None, loglevel='error', y=None).run()
-    print("Audio extrait et converti en OGG.")
+    
+    # Extraction et conversion audio en Vorbis pour Minecraft
+    print("Extraction de l'audio...")
+    cmd = f'ffmpeg -y -i "{video_path}" -vn -c:a libvorbis -q:a 4 "{rp_audio_path}"'
+    result = os.system(cmd)
+    if result == 0:
+        print("✓ Audio extrait et converti en OGG (Vorbis)")
+    else:
+        print(f"⚠ Avertissement: ffmpeg a retourné le code {result}")
+        print("Le traitement vidéo continue...")
     
     frame_skip = video_fps / framerate if framerate > 0 else 1
     start_time = time()

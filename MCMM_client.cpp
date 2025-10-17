@@ -2791,6 +2791,9 @@ static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
 #define __Pyx_PyList_Append(L,x) PyList_Append(L,x)
 #endif
 
+/* PyIntCompare.proto */
+static CYTHON_INLINE int __Pyx_PyInt_BoolEqObjC(PyObject *op1, PyObject *op2, long intval, long inplace);
+
 /* BufferFallbackError.proto */
 static void __Pyx_RaiseBufferFallbackError(void);
 
@@ -3460,7 +3463,6 @@ static const char __pyx_k_P[] = "P";
 static const char __pyx_k_c[] = "c";
 static const char __pyx_k_r[] = "r+";
 static const char __pyx_k_s[] = "s | ";
-static const char __pyx_k_y[] = "y";
 static const char __pyx_k_1f[] = ".1f";
 static const char __pyx_k__2[] = ".";
 static const char __pyx_k__3[] = "*";
@@ -3470,14 +3472,13 @@ static const char __pyx_k_gc[] = "gc";
 static const char __pyx_k_id[] = "id";
 static const char __pyx_k_np[] = "np";
 static const char __pyx_k_os[] = "os";
-static const char __pyx_k_vn[] = "vn";
 static const char __pyx_k_wb[] = "wb";
 static const char __pyx_k_PIL[] = "PIL";
 static const char __pyx_k_RGB[] = "RGB";
 static const char __pyx_k__14[] = "#";
-static const char __pyx_k__19[] = "/";
-static const char __pyx_k__20[] = "\r";
-static const char __pyx_k__44[] = "?";
+static const char __pyx_k__23[] = "/";
+static const char __pyx_k__24[] = "\r";
+static const char __pyx_k__48[] = "?";
 static const char __pyx_k_abc[] = "abc";
 static const char __pyx_k_and[] = " and ";
 static const char __pyx_k_cv2[] = "cv2";
@@ -3509,6 +3510,7 @@ static const char __pyx_k_name[] = "name";
 static const char __pyx_k_ndim[] = "ndim";
 static const char __pyx_k_open[] = "open";
 static const char __pyx_k_pack[] = "pack";
+static const char __pyx_k_path[] = "path";
 static const char __pyx_k_read[] = "read";
 static const char __pyx_k_seek[] = "seek";
 static const char __pyx_k_size[] = "size";
@@ -3546,7 +3548,6 @@ static const char __pyx_k_write[] = "write";
 static const char __pyx_k_Dither[] = "Dither";
 static const char __pyx_k_Erreur[] = "\nErreur: ";
 static const char __pyx_k_FFmpeg[] = "FFmpeg";
-static const char __pyx_k_acodec[] = "acodec";
 static const char __pyx_k_colors[] = "colors";
 static const char __pyx_k_dither[] = "dither";
 static const char __pyx_k_enable[] = "enable";
@@ -3555,11 +3556,11 @@ static const char __pyx_k_format[] = "format";
 static const char __pyx_k_height[] = "height";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_indent[] = "indent";
+static const char __pyx_k_isfile[] = "isfile";
 static const char __pyx_k_locked[] = "locked";
 static const char __pyx_k_lstrip[] = "lstrip";
 static const char __pyx_k_main_2[] = "main";
 static const char __pyx_k_name_2[] = "__name__";
-static const char __pyx_k_output[] = "output";
 static const char __pyx_k_parent[] = "parent";
 static const char __pyx_k_pickle[] = "pickle";
 static const char __pyx_k_reduce[] = "__reduce__";
@@ -3574,7 +3575,9 @@ static const char __pyx_k_TAG_Int[] = "TAG_Int";
 static const char __pyx_k_convert[] = "convert";
 static const char __pyx_k_disable[] = "disable";
 static const char __pyx_k_fortran[] = "fortran";
+static const char __pyx_k_getsize[] = "getsize";
 static const char __pyx_k_memview[] = "memview";
+static const char __pyx_k_options[] = "options";
 static const char __pyx_k_palette[] = "palette";
 static const char __pyx_k_parents[] = "parents";
 static const char __pyx_k_pathlib[] = "pathlib";
@@ -3590,7 +3593,6 @@ static const char __pyx_k_exist_ok[] = "exist_ok";
 static const char __pyx_k_getstate[] = "__getstate__";
 static const char __pyx_k_isOpened[] = "isOpened";
 static const char __pyx_k_itemsize[] = "itemsize";
-static const char __pyx_k_loglevel[] = "loglevel";
 static const char __pyx_k_ms_frame[] = "ms/frame    ";
 static const char __pyx_k_pyffmpeg[] = "pyffmpeg";
 static const char __pyx_k_pyx_type[] = "__pyx_type";
@@ -3606,7 +3608,6 @@ static const char __pyx_k_enumerate[] = "enumerate";
 static const char __pyx_k_framerate[] = "framerate";
 static const char __pyx_k_fromarray[] = "fromarray";
 static const char __pyx_k_isenabled[] = "isenabled";
-static const char __pyx_k_libvorbis[] = "libvorbis";
 static const char __pyx_k_pyx_state[] = "__pyx_state";
 static const char __pyx_k_reduce_ex[] = "__reduce_ex__";
 static const char __pyx_k_video_mp4[] = "video.mp4";
@@ -3626,6 +3627,7 @@ static const char __pyx_k_MCMM_client[] = "MCMM_client";
 static const char __pyx_k_MemoryError[] = "MemoryError";
 static const char __pyx_k_PickleError[] = "PickleError";
 static const char __pyx_k_collections[] = "collections";
+static const char __pyx_k_nostdin_y_i[] = "-nostdin -y -i ";
 static const char __pyx_k_CAP_PROP_FPS[] = "CAP_PROP_FPS";
 static const char __pyx_k_TAG_Compound[] = "TAG_Compound";
 static const char __pyx_k_Tlchargement[] = "T\303\251l\303\251chargement...";
@@ -3659,12 +3661,15 @@ static const char __pyx_k_length_in_seconds[] = "length_in_seconds";
 static const char __pyx_k_pyx_unpickle_Enum[] = "__pyx_unpickle_Enum";
 static const char __pyx_k_unlimitedTracking[] = "unlimitedTracking";
 static const char __pyx_k_Conversion_termine[] = "\n\342\234\223 Conversion termin\303\251e!";
+static const char __pyx_k_Fichier_audio_vide[] = "Fichier audio vide";
 static const char __pyx_k_asyncio_coroutines[] = "asyncio.coroutines";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_strided_and_direct[] = "<strided and direct>";
 static const char __pyx_k_CAP_PROP_POS_FRAMES[] = "CAP_PROP_POS_FRAMES";
+static const char __pyx_k_c_a_libvorbis_q_a_6[] = " -c:a libvorbis -q:a 6 ";
 static const char __pyx_k_CAP_PROP_FRAME_COUNT[] = "CAP_PROP_FRAME_COUNT";
 static const char __pyx_k_strided_and_indirect[] = "<strided and indirect>";
+static const char __pyx_k_Extraction_de_l_audio[] = "Extraction de l'audio...";
 static const char __pyx_k_Invalid_shape_in_axis[] = "Invalid shape in axis ";
 static const char __pyx_k_contiguous_and_direct[] = "<contiguous and direct>";
 static const char __pyx_k_minecraft_saves_world[] = "../minecraft/saves/world";
@@ -3677,12 +3682,13 @@ static const char __pyx_k_Dimension_d_is_not_direct[] = "Dimension %d is not dir
 static const char __pyx_k_Index_out_of_bounds_axis_d[] = "Index out of bounds (axis %d)";
 static const char __pyx_k_Step_may_not_be_zero_axis_d[] = "Step may not be zero (axis %d)";
 static const char __pyx_k_itemsize_0_for_cython_array[] = "itemsize <= 0 for cython.array";
+static const char __pyx_k_chec_de_la_conversion_FFmpeg[] = "\303\211chec de la conversion FFmpeg";
 static const char __pyx_k_Entrez_le_framerate_dsir_1_20[] = "Entrez le framerate d\303\251sir\303\251 [1-20] : ";
 static const char __pyx_k_unable_to_allocate_array_data[] = "unable to allocate array data.";
 static const char __pyx_k_strided_and_direct_or_indirect[] = "<strided and direct or indirect>";
+static const char __pyx_k_Audio_extrait_et_converti_en_OG[] = "\342\234\223 Audio extrait et converti en OGG";
 static const char __pyx_k_minecraft_resourcepacks_video_r[] = "../minecraft/resourcepacks/video_rp";
 static const char __pyx_k_All_dimensions_preceding_dimensi[] = "All dimensions preceding dimension %d must be indexed and not sliced";
-static const char __pyx_k_Audio_extrait_et_converti_en_OGG[] = "Audio extrait et converti en OGG.";
 static const char __pyx_k_Buffer_view_does_not_expose_stri[] = "Buffer view does not expose strides";
 static const char __pyx_k_Can_only_create_a_buffer_that_is[] = "Can only create a buffer that is contiguous in memory.";
 static const char __pyx_k_Cannot_assign_to_read_only_memor[] = "Cannot assign to read-only memoryview";
@@ -3691,6 +3697,8 @@ static const char __pyx_k_Cannot_transpose_memoryview_with[] = "Cannot transpose
 static const char __pyx_k_Empty_shape_tuple_for_cython_arr[] = "Empty shape tuple for cython.array";
 static const char __pyx_k_Entrez_la_hauteur_en_nombre_de_c[] = "Entrez la hauteur en nombre de cartes : ";
 static const char __pyx_k_Entrez_la_largeur_en_nombre_de_c[] = "Entrez la largeur en nombre de cartes : ";
+static const char __pyx_k_Erreur_lors_de_la_conversion_aud[] = "Erreur lors de la conversion audio: ";
+static const char __pyx_k_Fichier_audio_de_sortie_manquant[] = "Fichier audio de sortie manquant";
 static const char __pyx_k_Incompatible_checksums_0x_x_vs_0[] = "Incompatible checksums (0x%x vs (0x82a3537, 0x6ae9995, 0xb068931) = (name))";
 static const char __pyx_k_Indirect_dimensions_not_supporte[] = "Indirect dimensions not supported";
 static const char __pyx_k_Invalid_mode_expected_c_or_fortr[] = "Invalid mode, expected 'c' or 'fortran', got ";
@@ -3833,7 +3841,7 @@ typedef struct {
   PyObject *__pyx_kp_s_All_dimensions_preceding_dimensi;
   PyObject *__pyx_kp_u_Arrt;
   PyObject *__pyx_n_s_AssertionError;
-  PyObject *__pyx_kp_u_Audio_extrait_et_converti_en_OGG;
+  PyObject *__pyx_kp_u_Audio_extrait_et_converti_en_OG;
   PyObject *__pyx_kp_s_Buffer_view_does_not_expose_stri;
   PyObject *__pyx_n_s_CAP_PROP_FPS;
   PyObject *__pyx_n_s_CAP_PROP_FRAME_COUNT;
@@ -3856,7 +3864,11 @@ typedef struct {
   PyObject *__pyx_kp_u_Entrez_la_largeur_en_nombre_de_c;
   PyObject *__pyx_kp_u_Entrez_le_framerate_dsir_1_20;
   PyObject *__pyx_kp_u_Erreur;
+  PyObject *__pyx_kp_u_Erreur_lors_de_la_conversion_aud;
+  PyObject *__pyx_kp_u_Extraction_de_l_audio;
   PyObject *__pyx_n_s_FFmpeg;
+  PyObject *__pyx_kp_u_Fichier_audio_de_sortie_manquant;
+  PyObject *__pyx_kp_u_Fichier_audio_vide;
   PyObject *__pyx_kp_u_Frame;
   PyObject *__pyx_n_s_INTER_AREA;
   PyObject *__pyx_n_s_Image;
@@ -3899,15 +3911,14 @@ typedef struct {
   PyObject *__pyx_n_s_VideoCapture;
   PyObject *__pyx_n_s_View_MemoryView;
   PyObject *__pyx_kp_u__14;
-  PyObject *__pyx_kp_u__19;
   PyObject *__pyx_kp_u__2;
-  PyObject *__pyx_kp_u__20;
+  PyObject *__pyx_kp_u__23;
+  PyObject *__pyx_kp_u__24;
   PyObject *__pyx_n_s__3;
-  PyObject *__pyx_n_s__44;
+  PyObject *__pyx_n_s__48;
   PyObject *__pyx_kp_u__6;
   PyObject *__pyx_kp_u__7;
   PyObject *__pyx_n_s_abc;
-  PyObject *__pyx_n_s_acodec;
   PyObject *__pyx_n_s_allocate_buffer;
   PyObject *__pyx_kp_u_and;
   PyObject *__pyx_n_s_array;
@@ -3916,6 +3927,8 @@ typedef struct {
   PyObject *__pyx_n_s_base;
   PyObject *__pyx_n_s_c;
   PyObject *__pyx_n_u_c;
+  PyObject *__pyx_kp_u_c_a_libvorbis_q_a_6;
+  PyObject *__pyx_kp_u_chec_de_la_conversion_FFmpeg;
   PyObject *__pyx_n_s_chunk_size;
   PyObject *__pyx_n_s_class;
   PyObject *__pyx_n_s_class_getitem;
@@ -3947,7 +3960,6 @@ typedef struct {
   PyObject *__pyx_n_s_enter;
   PyObject *__pyx_n_s_enumerate;
   PyObject *__pyx_n_s_error;
-  PyObject *__pyx_n_u_error;
   PyObject *__pyx_n_s_exist_ok;
   PyObject *__pyx_n_s_exit;
   PyObject *__pyx_n_s_flags;
@@ -3960,6 +3972,7 @@ typedef struct {
   PyObject *__pyx_kp_u_futiax_videotomap;
   PyObject *__pyx_kp_u_gc;
   PyObject *__pyx_n_s_get;
+  PyObject *__pyx_n_s_getsize;
   PyObject *__pyx_n_s_getstate;
   PyObject *__pyx_kp_u_got;
   PyObject *__pyx_kp_u_got_differing_extents_in_dimensi;
@@ -3974,16 +3987,15 @@ typedef struct {
   PyObject *__pyx_n_s_isOpened;
   PyObject *__pyx_n_s_is_coroutine;
   PyObject *__pyx_kp_u_isenabled;
+  PyObject *__pyx_n_s_isfile;
   PyObject *__pyx_n_s_items;
   PyObject *__pyx_n_s_itemsize;
   PyObject *__pyx_kp_s_itemsize_0_for_cython_array;
   PyObject *__pyx_n_s_iter_content;
   PyObject *__pyx_n_s_json;
   PyObject *__pyx_n_u_length_in_seconds;
-  PyObject *__pyx_n_u_libvorbis;
   PyObject *__pyx_n_s_load;
   PyObject *__pyx_n_u_locked;
-  PyObject *__pyx_n_s_loglevel;
   PyObject *__pyx_n_s_lstrip;
   PyObject *__pyx_n_s_main;
   PyObject *__pyx_n_u_main;
@@ -4002,18 +4014,20 @@ typedef struct {
   PyObject *__pyx_n_s_new;
   PyObject *__pyx_n_s_new_2;
   PyObject *__pyx_kp_s_no_default___reduce___due_to_non;
+  PyObject *__pyx_kp_u_nostdin_y_i;
   PyObject *__pyx_n_s_np;
   PyObject *__pyx_n_s_numpy;
   PyObject *__pyx_kp_u_numpy__core_multiarray_failed_to;
   PyObject *__pyx_kp_u_numpy__core_umath_failed_to_impo;
   PyObject *__pyx_n_s_obj;
   PyObject *__pyx_n_s_open;
+  PyObject *__pyx_n_s_options;
   PyObject *__pyx_n_s_os;
-  PyObject *__pyx_n_s_output;
   PyObject *__pyx_n_s_pack;
   PyObject *__pyx_n_s_palette;
   PyObject *__pyx_n_s_parent;
   PyObject *__pyx_n_s_parents;
+  PyObject *__pyx_n_s_path;
   PyObject *__pyx_n_s_pathlib;
   PyObject *__pyx_n_s_pickle;
   PyObject *__pyx_n_s_print;
@@ -4073,13 +4087,11 @@ typedef struct {
   PyObject *__pyx_n_s_version_info;
   PyObject *__pyx_kp_u_video_mp4;
   PyObject *__pyx_n_s_video_path;
-  PyObject *__pyx_n_s_vn;
   PyObject *__pyx_n_u_wb;
   PyObject *__pyx_n_s_width;
   PyObject *__pyx_n_s_write;
   PyObject *__pyx_n_s_write_file;
   PyObject *__pyx_n_u_xCenter;
-  PyObject *__pyx_n_s_y;
   PyObject *__pyx_n_u_zCenter;
   PyObject *__pyx_int_0;
   PyObject *__pyx_int_1;
@@ -4111,10 +4123,10 @@ typedef struct {
   PyObject *__pyx_tuple__12;
   PyObject *__pyx_tuple__13;
   PyObject *__pyx_tuple__18;
+  PyObject *__pyx_tuple__19;
+  PyObject *__pyx_tuple__20;
   PyObject *__pyx_tuple__21;
   PyObject *__pyx_tuple__22;
-  PyObject *__pyx_tuple__23;
-  PyObject *__pyx_tuple__24;
   PyObject *__pyx_tuple__25;
   PyObject *__pyx_tuple__26;
   PyObject *__pyx_tuple__27;
@@ -4130,10 +4142,14 @@ typedef struct {
   PyObject *__pyx_tuple__37;
   PyObject *__pyx_tuple__38;
   PyObject *__pyx_tuple__39;
+  PyObject *__pyx_tuple__40;
   PyObject *__pyx_tuple__41;
-  PyObject *__pyx_codeobj__40;
-  PyObject *__pyx_codeobj__42;
-  PyObject *__pyx_codeobj__43;
+  PyObject *__pyx_tuple__42;
+  PyObject *__pyx_tuple__43;
+  PyObject *__pyx_tuple__45;
+  PyObject *__pyx_codeobj__44;
+  PyObject *__pyx_codeobj__46;
+  PyObject *__pyx_codeobj__47;
 } __pyx_mstate;
 
 #if CYTHON_USE_MODULE_STATE
@@ -4206,7 +4222,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_kp_s_All_dimensions_preceding_dimensi);
   Py_CLEAR(clear_module_state->__pyx_kp_u_Arrt);
   Py_CLEAR(clear_module_state->__pyx_n_s_AssertionError);
-  Py_CLEAR(clear_module_state->__pyx_kp_u_Audio_extrait_et_converti_en_OGG);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Audio_extrait_et_converti_en_OG);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Buffer_view_does_not_expose_stri);
   Py_CLEAR(clear_module_state->__pyx_n_s_CAP_PROP_FPS);
   Py_CLEAR(clear_module_state->__pyx_n_s_CAP_PROP_FRAME_COUNT);
@@ -4229,7 +4245,11 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_kp_u_Entrez_la_largeur_en_nombre_de_c);
   Py_CLEAR(clear_module_state->__pyx_kp_u_Entrez_le_framerate_dsir_1_20);
   Py_CLEAR(clear_module_state->__pyx_kp_u_Erreur);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Erreur_lors_de_la_conversion_aud);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Extraction_de_l_audio);
   Py_CLEAR(clear_module_state->__pyx_n_s_FFmpeg);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Fichier_audio_de_sortie_manquant);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Fichier_audio_vide);
   Py_CLEAR(clear_module_state->__pyx_kp_u_Frame);
   Py_CLEAR(clear_module_state->__pyx_n_s_INTER_AREA);
   Py_CLEAR(clear_module_state->__pyx_n_s_Image);
@@ -4272,15 +4292,14 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_VideoCapture);
   Py_CLEAR(clear_module_state->__pyx_n_s_View_MemoryView);
   Py_CLEAR(clear_module_state->__pyx_kp_u__14);
-  Py_CLEAR(clear_module_state->__pyx_kp_u__19);
   Py_CLEAR(clear_module_state->__pyx_kp_u__2);
-  Py_CLEAR(clear_module_state->__pyx_kp_u__20);
+  Py_CLEAR(clear_module_state->__pyx_kp_u__23);
+  Py_CLEAR(clear_module_state->__pyx_kp_u__24);
   Py_CLEAR(clear_module_state->__pyx_n_s__3);
-  Py_CLEAR(clear_module_state->__pyx_n_s__44);
+  Py_CLEAR(clear_module_state->__pyx_n_s__48);
   Py_CLEAR(clear_module_state->__pyx_kp_u__6);
   Py_CLEAR(clear_module_state->__pyx_kp_u__7);
   Py_CLEAR(clear_module_state->__pyx_n_s_abc);
-  Py_CLEAR(clear_module_state->__pyx_n_s_acodec);
   Py_CLEAR(clear_module_state->__pyx_n_s_allocate_buffer);
   Py_CLEAR(clear_module_state->__pyx_kp_u_and);
   Py_CLEAR(clear_module_state->__pyx_n_s_array);
@@ -4289,6 +4308,8 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_base);
   Py_CLEAR(clear_module_state->__pyx_n_s_c);
   Py_CLEAR(clear_module_state->__pyx_n_u_c);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_c_a_libvorbis_q_a_6);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_chec_de_la_conversion_FFmpeg);
   Py_CLEAR(clear_module_state->__pyx_n_s_chunk_size);
   Py_CLEAR(clear_module_state->__pyx_n_s_class);
   Py_CLEAR(clear_module_state->__pyx_n_s_class_getitem);
@@ -4320,7 +4341,6 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_enter);
   Py_CLEAR(clear_module_state->__pyx_n_s_enumerate);
   Py_CLEAR(clear_module_state->__pyx_n_s_error);
-  Py_CLEAR(clear_module_state->__pyx_n_u_error);
   Py_CLEAR(clear_module_state->__pyx_n_s_exist_ok);
   Py_CLEAR(clear_module_state->__pyx_n_s_exit);
   Py_CLEAR(clear_module_state->__pyx_n_s_flags);
@@ -4333,6 +4353,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_kp_u_futiax_videotomap);
   Py_CLEAR(clear_module_state->__pyx_kp_u_gc);
   Py_CLEAR(clear_module_state->__pyx_n_s_get);
+  Py_CLEAR(clear_module_state->__pyx_n_s_getsize);
   Py_CLEAR(clear_module_state->__pyx_n_s_getstate);
   Py_CLEAR(clear_module_state->__pyx_kp_u_got);
   Py_CLEAR(clear_module_state->__pyx_kp_u_got_differing_extents_in_dimensi);
@@ -4347,16 +4368,15 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_isOpened);
   Py_CLEAR(clear_module_state->__pyx_n_s_is_coroutine);
   Py_CLEAR(clear_module_state->__pyx_kp_u_isenabled);
+  Py_CLEAR(clear_module_state->__pyx_n_s_isfile);
   Py_CLEAR(clear_module_state->__pyx_n_s_items);
   Py_CLEAR(clear_module_state->__pyx_n_s_itemsize);
   Py_CLEAR(clear_module_state->__pyx_kp_s_itemsize_0_for_cython_array);
   Py_CLEAR(clear_module_state->__pyx_n_s_iter_content);
   Py_CLEAR(clear_module_state->__pyx_n_s_json);
   Py_CLEAR(clear_module_state->__pyx_n_u_length_in_seconds);
-  Py_CLEAR(clear_module_state->__pyx_n_u_libvorbis);
   Py_CLEAR(clear_module_state->__pyx_n_s_load);
   Py_CLEAR(clear_module_state->__pyx_n_u_locked);
-  Py_CLEAR(clear_module_state->__pyx_n_s_loglevel);
   Py_CLEAR(clear_module_state->__pyx_n_s_lstrip);
   Py_CLEAR(clear_module_state->__pyx_n_s_main);
   Py_CLEAR(clear_module_state->__pyx_n_u_main);
@@ -4375,18 +4395,20 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_new);
   Py_CLEAR(clear_module_state->__pyx_n_s_new_2);
   Py_CLEAR(clear_module_state->__pyx_kp_s_no_default___reduce___due_to_non);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_nostdin_y_i);
   Py_CLEAR(clear_module_state->__pyx_n_s_np);
   Py_CLEAR(clear_module_state->__pyx_n_s_numpy);
   Py_CLEAR(clear_module_state->__pyx_kp_u_numpy__core_multiarray_failed_to);
   Py_CLEAR(clear_module_state->__pyx_kp_u_numpy__core_umath_failed_to_impo);
   Py_CLEAR(clear_module_state->__pyx_n_s_obj);
   Py_CLEAR(clear_module_state->__pyx_n_s_open);
+  Py_CLEAR(clear_module_state->__pyx_n_s_options);
   Py_CLEAR(clear_module_state->__pyx_n_s_os);
-  Py_CLEAR(clear_module_state->__pyx_n_s_output);
   Py_CLEAR(clear_module_state->__pyx_n_s_pack);
   Py_CLEAR(clear_module_state->__pyx_n_s_palette);
   Py_CLEAR(clear_module_state->__pyx_n_s_parent);
   Py_CLEAR(clear_module_state->__pyx_n_s_parents);
+  Py_CLEAR(clear_module_state->__pyx_n_s_path);
   Py_CLEAR(clear_module_state->__pyx_n_s_pathlib);
   Py_CLEAR(clear_module_state->__pyx_n_s_pickle);
   Py_CLEAR(clear_module_state->__pyx_n_s_print);
@@ -4446,13 +4468,11 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_version_info);
   Py_CLEAR(clear_module_state->__pyx_kp_u_video_mp4);
   Py_CLEAR(clear_module_state->__pyx_n_s_video_path);
-  Py_CLEAR(clear_module_state->__pyx_n_s_vn);
   Py_CLEAR(clear_module_state->__pyx_n_u_wb);
   Py_CLEAR(clear_module_state->__pyx_n_s_width);
   Py_CLEAR(clear_module_state->__pyx_n_s_write);
   Py_CLEAR(clear_module_state->__pyx_n_s_write_file);
   Py_CLEAR(clear_module_state->__pyx_n_u_xCenter);
-  Py_CLEAR(clear_module_state->__pyx_n_s_y);
   Py_CLEAR(clear_module_state->__pyx_n_u_zCenter);
   Py_CLEAR(clear_module_state->__pyx_int_0);
   Py_CLEAR(clear_module_state->__pyx_int_1);
@@ -4484,10 +4504,10 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_tuple__12);
   Py_CLEAR(clear_module_state->__pyx_tuple__13);
   Py_CLEAR(clear_module_state->__pyx_tuple__18);
+  Py_CLEAR(clear_module_state->__pyx_tuple__19);
+  Py_CLEAR(clear_module_state->__pyx_tuple__20);
   Py_CLEAR(clear_module_state->__pyx_tuple__21);
   Py_CLEAR(clear_module_state->__pyx_tuple__22);
-  Py_CLEAR(clear_module_state->__pyx_tuple__23);
-  Py_CLEAR(clear_module_state->__pyx_tuple__24);
   Py_CLEAR(clear_module_state->__pyx_tuple__25);
   Py_CLEAR(clear_module_state->__pyx_tuple__26);
   Py_CLEAR(clear_module_state->__pyx_tuple__27);
@@ -4503,10 +4523,14 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_tuple__37);
   Py_CLEAR(clear_module_state->__pyx_tuple__38);
   Py_CLEAR(clear_module_state->__pyx_tuple__39);
+  Py_CLEAR(clear_module_state->__pyx_tuple__40);
   Py_CLEAR(clear_module_state->__pyx_tuple__41);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__40);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__42);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__43);
+  Py_CLEAR(clear_module_state->__pyx_tuple__42);
+  Py_CLEAR(clear_module_state->__pyx_tuple__43);
+  Py_CLEAR(clear_module_state->__pyx_tuple__45);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__44);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__46);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__47);
   return 0;
 }
 #endif
@@ -4557,7 +4581,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_kp_s_All_dimensions_preceding_dimensi);
   Py_VISIT(traverse_module_state->__pyx_kp_u_Arrt);
   Py_VISIT(traverse_module_state->__pyx_n_s_AssertionError);
-  Py_VISIT(traverse_module_state->__pyx_kp_u_Audio_extrait_et_converti_en_OGG);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Audio_extrait_et_converti_en_OG);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Buffer_view_does_not_expose_stri);
   Py_VISIT(traverse_module_state->__pyx_n_s_CAP_PROP_FPS);
   Py_VISIT(traverse_module_state->__pyx_n_s_CAP_PROP_FRAME_COUNT);
@@ -4580,7 +4604,11 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_kp_u_Entrez_la_largeur_en_nombre_de_c);
   Py_VISIT(traverse_module_state->__pyx_kp_u_Entrez_le_framerate_dsir_1_20);
   Py_VISIT(traverse_module_state->__pyx_kp_u_Erreur);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Erreur_lors_de_la_conversion_aud);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Extraction_de_l_audio);
   Py_VISIT(traverse_module_state->__pyx_n_s_FFmpeg);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Fichier_audio_de_sortie_manquant);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Fichier_audio_vide);
   Py_VISIT(traverse_module_state->__pyx_kp_u_Frame);
   Py_VISIT(traverse_module_state->__pyx_n_s_INTER_AREA);
   Py_VISIT(traverse_module_state->__pyx_n_s_Image);
@@ -4623,15 +4651,14 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_VideoCapture);
   Py_VISIT(traverse_module_state->__pyx_n_s_View_MemoryView);
   Py_VISIT(traverse_module_state->__pyx_kp_u__14);
-  Py_VISIT(traverse_module_state->__pyx_kp_u__19);
   Py_VISIT(traverse_module_state->__pyx_kp_u__2);
-  Py_VISIT(traverse_module_state->__pyx_kp_u__20);
+  Py_VISIT(traverse_module_state->__pyx_kp_u__23);
+  Py_VISIT(traverse_module_state->__pyx_kp_u__24);
   Py_VISIT(traverse_module_state->__pyx_n_s__3);
-  Py_VISIT(traverse_module_state->__pyx_n_s__44);
+  Py_VISIT(traverse_module_state->__pyx_n_s__48);
   Py_VISIT(traverse_module_state->__pyx_kp_u__6);
   Py_VISIT(traverse_module_state->__pyx_kp_u__7);
   Py_VISIT(traverse_module_state->__pyx_n_s_abc);
-  Py_VISIT(traverse_module_state->__pyx_n_s_acodec);
   Py_VISIT(traverse_module_state->__pyx_n_s_allocate_buffer);
   Py_VISIT(traverse_module_state->__pyx_kp_u_and);
   Py_VISIT(traverse_module_state->__pyx_n_s_array);
@@ -4640,6 +4667,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_base);
   Py_VISIT(traverse_module_state->__pyx_n_s_c);
   Py_VISIT(traverse_module_state->__pyx_n_u_c);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_c_a_libvorbis_q_a_6);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_chec_de_la_conversion_FFmpeg);
   Py_VISIT(traverse_module_state->__pyx_n_s_chunk_size);
   Py_VISIT(traverse_module_state->__pyx_n_s_class);
   Py_VISIT(traverse_module_state->__pyx_n_s_class_getitem);
@@ -4671,7 +4700,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_enter);
   Py_VISIT(traverse_module_state->__pyx_n_s_enumerate);
   Py_VISIT(traverse_module_state->__pyx_n_s_error);
-  Py_VISIT(traverse_module_state->__pyx_n_u_error);
   Py_VISIT(traverse_module_state->__pyx_n_s_exist_ok);
   Py_VISIT(traverse_module_state->__pyx_n_s_exit);
   Py_VISIT(traverse_module_state->__pyx_n_s_flags);
@@ -4684,6 +4712,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_kp_u_futiax_videotomap);
   Py_VISIT(traverse_module_state->__pyx_kp_u_gc);
   Py_VISIT(traverse_module_state->__pyx_n_s_get);
+  Py_VISIT(traverse_module_state->__pyx_n_s_getsize);
   Py_VISIT(traverse_module_state->__pyx_n_s_getstate);
   Py_VISIT(traverse_module_state->__pyx_kp_u_got);
   Py_VISIT(traverse_module_state->__pyx_kp_u_got_differing_extents_in_dimensi);
@@ -4698,16 +4727,15 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_isOpened);
   Py_VISIT(traverse_module_state->__pyx_n_s_is_coroutine);
   Py_VISIT(traverse_module_state->__pyx_kp_u_isenabled);
+  Py_VISIT(traverse_module_state->__pyx_n_s_isfile);
   Py_VISIT(traverse_module_state->__pyx_n_s_items);
   Py_VISIT(traverse_module_state->__pyx_n_s_itemsize);
   Py_VISIT(traverse_module_state->__pyx_kp_s_itemsize_0_for_cython_array);
   Py_VISIT(traverse_module_state->__pyx_n_s_iter_content);
   Py_VISIT(traverse_module_state->__pyx_n_s_json);
   Py_VISIT(traverse_module_state->__pyx_n_u_length_in_seconds);
-  Py_VISIT(traverse_module_state->__pyx_n_u_libvorbis);
   Py_VISIT(traverse_module_state->__pyx_n_s_load);
   Py_VISIT(traverse_module_state->__pyx_n_u_locked);
-  Py_VISIT(traverse_module_state->__pyx_n_s_loglevel);
   Py_VISIT(traverse_module_state->__pyx_n_s_lstrip);
   Py_VISIT(traverse_module_state->__pyx_n_s_main);
   Py_VISIT(traverse_module_state->__pyx_n_u_main);
@@ -4726,18 +4754,20 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_new);
   Py_VISIT(traverse_module_state->__pyx_n_s_new_2);
   Py_VISIT(traverse_module_state->__pyx_kp_s_no_default___reduce___due_to_non);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_nostdin_y_i);
   Py_VISIT(traverse_module_state->__pyx_n_s_np);
   Py_VISIT(traverse_module_state->__pyx_n_s_numpy);
   Py_VISIT(traverse_module_state->__pyx_kp_u_numpy__core_multiarray_failed_to);
   Py_VISIT(traverse_module_state->__pyx_kp_u_numpy__core_umath_failed_to_impo);
   Py_VISIT(traverse_module_state->__pyx_n_s_obj);
   Py_VISIT(traverse_module_state->__pyx_n_s_open);
+  Py_VISIT(traverse_module_state->__pyx_n_s_options);
   Py_VISIT(traverse_module_state->__pyx_n_s_os);
-  Py_VISIT(traverse_module_state->__pyx_n_s_output);
   Py_VISIT(traverse_module_state->__pyx_n_s_pack);
   Py_VISIT(traverse_module_state->__pyx_n_s_palette);
   Py_VISIT(traverse_module_state->__pyx_n_s_parent);
   Py_VISIT(traverse_module_state->__pyx_n_s_parents);
+  Py_VISIT(traverse_module_state->__pyx_n_s_path);
   Py_VISIT(traverse_module_state->__pyx_n_s_pathlib);
   Py_VISIT(traverse_module_state->__pyx_n_s_pickle);
   Py_VISIT(traverse_module_state->__pyx_n_s_print);
@@ -4797,13 +4827,11 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_version_info);
   Py_VISIT(traverse_module_state->__pyx_kp_u_video_mp4);
   Py_VISIT(traverse_module_state->__pyx_n_s_video_path);
-  Py_VISIT(traverse_module_state->__pyx_n_s_vn);
   Py_VISIT(traverse_module_state->__pyx_n_u_wb);
   Py_VISIT(traverse_module_state->__pyx_n_s_width);
   Py_VISIT(traverse_module_state->__pyx_n_s_write);
   Py_VISIT(traverse_module_state->__pyx_n_s_write_file);
   Py_VISIT(traverse_module_state->__pyx_n_u_xCenter);
-  Py_VISIT(traverse_module_state->__pyx_n_s_y);
   Py_VISIT(traverse_module_state->__pyx_n_u_zCenter);
   Py_VISIT(traverse_module_state->__pyx_int_0);
   Py_VISIT(traverse_module_state->__pyx_int_1);
@@ -4835,10 +4863,10 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_tuple__12);
   Py_VISIT(traverse_module_state->__pyx_tuple__13);
   Py_VISIT(traverse_module_state->__pyx_tuple__18);
+  Py_VISIT(traverse_module_state->__pyx_tuple__19);
+  Py_VISIT(traverse_module_state->__pyx_tuple__20);
   Py_VISIT(traverse_module_state->__pyx_tuple__21);
   Py_VISIT(traverse_module_state->__pyx_tuple__22);
-  Py_VISIT(traverse_module_state->__pyx_tuple__23);
-  Py_VISIT(traverse_module_state->__pyx_tuple__24);
   Py_VISIT(traverse_module_state->__pyx_tuple__25);
   Py_VISIT(traverse_module_state->__pyx_tuple__26);
   Py_VISIT(traverse_module_state->__pyx_tuple__27);
@@ -4854,10 +4882,14 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_tuple__37);
   Py_VISIT(traverse_module_state->__pyx_tuple__38);
   Py_VISIT(traverse_module_state->__pyx_tuple__39);
+  Py_VISIT(traverse_module_state->__pyx_tuple__40);
   Py_VISIT(traverse_module_state->__pyx_tuple__41);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__40);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__42);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__43);
+  Py_VISIT(traverse_module_state->__pyx_tuple__42);
+  Py_VISIT(traverse_module_state->__pyx_tuple__43);
+  Py_VISIT(traverse_module_state->__pyx_tuple__45);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__44);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__46);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__47);
   return 0;
 }
 #endif
@@ -4940,7 +4972,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_kp_s_All_dimensions_preceding_dimensi __pyx_mstate_global->__pyx_kp_s_All_dimensions_preceding_dimensi
 #define __pyx_kp_u_Arrt __pyx_mstate_global->__pyx_kp_u_Arrt
 #define __pyx_n_s_AssertionError __pyx_mstate_global->__pyx_n_s_AssertionError
-#define __pyx_kp_u_Audio_extrait_et_converti_en_OGG __pyx_mstate_global->__pyx_kp_u_Audio_extrait_et_converti_en_OGG
+#define __pyx_kp_u_Audio_extrait_et_converti_en_OG __pyx_mstate_global->__pyx_kp_u_Audio_extrait_et_converti_en_OG
 #define __pyx_kp_s_Buffer_view_does_not_expose_stri __pyx_mstate_global->__pyx_kp_s_Buffer_view_does_not_expose_stri
 #define __pyx_n_s_CAP_PROP_FPS __pyx_mstate_global->__pyx_n_s_CAP_PROP_FPS
 #define __pyx_n_s_CAP_PROP_FRAME_COUNT __pyx_mstate_global->__pyx_n_s_CAP_PROP_FRAME_COUNT
@@ -4963,7 +4995,11 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_kp_u_Entrez_la_largeur_en_nombre_de_c __pyx_mstate_global->__pyx_kp_u_Entrez_la_largeur_en_nombre_de_c
 #define __pyx_kp_u_Entrez_le_framerate_dsir_1_20 __pyx_mstate_global->__pyx_kp_u_Entrez_le_framerate_dsir_1_20
 #define __pyx_kp_u_Erreur __pyx_mstate_global->__pyx_kp_u_Erreur
+#define __pyx_kp_u_Erreur_lors_de_la_conversion_aud __pyx_mstate_global->__pyx_kp_u_Erreur_lors_de_la_conversion_aud
+#define __pyx_kp_u_Extraction_de_l_audio __pyx_mstate_global->__pyx_kp_u_Extraction_de_l_audio
 #define __pyx_n_s_FFmpeg __pyx_mstate_global->__pyx_n_s_FFmpeg
+#define __pyx_kp_u_Fichier_audio_de_sortie_manquant __pyx_mstate_global->__pyx_kp_u_Fichier_audio_de_sortie_manquant
+#define __pyx_kp_u_Fichier_audio_vide __pyx_mstate_global->__pyx_kp_u_Fichier_audio_vide
 #define __pyx_kp_u_Frame __pyx_mstate_global->__pyx_kp_u_Frame
 #define __pyx_n_s_INTER_AREA __pyx_mstate_global->__pyx_n_s_INTER_AREA
 #define __pyx_n_s_Image __pyx_mstate_global->__pyx_n_s_Image
@@ -5006,15 +5042,14 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_VideoCapture __pyx_mstate_global->__pyx_n_s_VideoCapture
 #define __pyx_n_s_View_MemoryView __pyx_mstate_global->__pyx_n_s_View_MemoryView
 #define __pyx_kp_u__14 __pyx_mstate_global->__pyx_kp_u__14
-#define __pyx_kp_u__19 __pyx_mstate_global->__pyx_kp_u__19
 #define __pyx_kp_u__2 __pyx_mstate_global->__pyx_kp_u__2
-#define __pyx_kp_u__20 __pyx_mstate_global->__pyx_kp_u__20
+#define __pyx_kp_u__23 __pyx_mstate_global->__pyx_kp_u__23
+#define __pyx_kp_u__24 __pyx_mstate_global->__pyx_kp_u__24
 #define __pyx_n_s__3 __pyx_mstate_global->__pyx_n_s__3
-#define __pyx_n_s__44 __pyx_mstate_global->__pyx_n_s__44
+#define __pyx_n_s__48 __pyx_mstate_global->__pyx_n_s__48
 #define __pyx_kp_u__6 __pyx_mstate_global->__pyx_kp_u__6
 #define __pyx_kp_u__7 __pyx_mstate_global->__pyx_kp_u__7
 #define __pyx_n_s_abc __pyx_mstate_global->__pyx_n_s_abc
-#define __pyx_n_s_acodec __pyx_mstate_global->__pyx_n_s_acodec
 #define __pyx_n_s_allocate_buffer __pyx_mstate_global->__pyx_n_s_allocate_buffer
 #define __pyx_kp_u_and __pyx_mstate_global->__pyx_kp_u_and
 #define __pyx_n_s_array __pyx_mstate_global->__pyx_n_s_array
@@ -5023,6 +5058,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_base __pyx_mstate_global->__pyx_n_s_base
 #define __pyx_n_s_c __pyx_mstate_global->__pyx_n_s_c
 #define __pyx_n_u_c __pyx_mstate_global->__pyx_n_u_c
+#define __pyx_kp_u_c_a_libvorbis_q_a_6 __pyx_mstate_global->__pyx_kp_u_c_a_libvorbis_q_a_6
+#define __pyx_kp_u_chec_de_la_conversion_FFmpeg __pyx_mstate_global->__pyx_kp_u_chec_de_la_conversion_FFmpeg
 #define __pyx_n_s_chunk_size __pyx_mstate_global->__pyx_n_s_chunk_size
 #define __pyx_n_s_class __pyx_mstate_global->__pyx_n_s_class
 #define __pyx_n_s_class_getitem __pyx_mstate_global->__pyx_n_s_class_getitem
@@ -5054,7 +5091,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_enter __pyx_mstate_global->__pyx_n_s_enter
 #define __pyx_n_s_enumerate __pyx_mstate_global->__pyx_n_s_enumerate
 #define __pyx_n_s_error __pyx_mstate_global->__pyx_n_s_error
-#define __pyx_n_u_error __pyx_mstate_global->__pyx_n_u_error
 #define __pyx_n_s_exist_ok __pyx_mstate_global->__pyx_n_s_exist_ok
 #define __pyx_n_s_exit __pyx_mstate_global->__pyx_n_s_exit
 #define __pyx_n_s_flags __pyx_mstate_global->__pyx_n_s_flags
@@ -5067,6 +5103,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_kp_u_futiax_videotomap __pyx_mstate_global->__pyx_kp_u_futiax_videotomap
 #define __pyx_kp_u_gc __pyx_mstate_global->__pyx_kp_u_gc
 #define __pyx_n_s_get __pyx_mstate_global->__pyx_n_s_get
+#define __pyx_n_s_getsize __pyx_mstate_global->__pyx_n_s_getsize
 #define __pyx_n_s_getstate __pyx_mstate_global->__pyx_n_s_getstate
 #define __pyx_kp_u_got __pyx_mstate_global->__pyx_kp_u_got
 #define __pyx_kp_u_got_differing_extents_in_dimensi __pyx_mstate_global->__pyx_kp_u_got_differing_extents_in_dimensi
@@ -5081,16 +5118,15 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_isOpened __pyx_mstate_global->__pyx_n_s_isOpened
 #define __pyx_n_s_is_coroutine __pyx_mstate_global->__pyx_n_s_is_coroutine
 #define __pyx_kp_u_isenabled __pyx_mstate_global->__pyx_kp_u_isenabled
+#define __pyx_n_s_isfile __pyx_mstate_global->__pyx_n_s_isfile
 #define __pyx_n_s_items __pyx_mstate_global->__pyx_n_s_items
 #define __pyx_n_s_itemsize __pyx_mstate_global->__pyx_n_s_itemsize
 #define __pyx_kp_s_itemsize_0_for_cython_array __pyx_mstate_global->__pyx_kp_s_itemsize_0_for_cython_array
 #define __pyx_n_s_iter_content __pyx_mstate_global->__pyx_n_s_iter_content
 #define __pyx_n_s_json __pyx_mstate_global->__pyx_n_s_json
 #define __pyx_n_u_length_in_seconds __pyx_mstate_global->__pyx_n_u_length_in_seconds
-#define __pyx_n_u_libvorbis __pyx_mstate_global->__pyx_n_u_libvorbis
 #define __pyx_n_s_load __pyx_mstate_global->__pyx_n_s_load
 #define __pyx_n_u_locked __pyx_mstate_global->__pyx_n_u_locked
-#define __pyx_n_s_loglevel __pyx_mstate_global->__pyx_n_s_loglevel
 #define __pyx_n_s_lstrip __pyx_mstate_global->__pyx_n_s_lstrip
 #define __pyx_n_s_main __pyx_mstate_global->__pyx_n_s_main
 #define __pyx_n_u_main __pyx_mstate_global->__pyx_n_u_main
@@ -5109,18 +5145,20 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_new __pyx_mstate_global->__pyx_n_s_new
 #define __pyx_n_s_new_2 __pyx_mstate_global->__pyx_n_s_new_2
 #define __pyx_kp_s_no_default___reduce___due_to_non __pyx_mstate_global->__pyx_kp_s_no_default___reduce___due_to_non
+#define __pyx_kp_u_nostdin_y_i __pyx_mstate_global->__pyx_kp_u_nostdin_y_i
 #define __pyx_n_s_np __pyx_mstate_global->__pyx_n_s_np
 #define __pyx_n_s_numpy __pyx_mstate_global->__pyx_n_s_numpy
 #define __pyx_kp_u_numpy__core_multiarray_failed_to __pyx_mstate_global->__pyx_kp_u_numpy__core_multiarray_failed_to
 #define __pyx_kp_u_numpy__core_umath_failed_to_impo __pyx_mstate_global->__pyx_kp_u_numpy__core_umath_failed_to_impo
 #define __pyx_n_s_obj __pyx_mstate_global->__pyx_n_s_obj
 #define __pyx_n_s_open __pyx_mstate_global->__pyx_n_s_open
+#define __pyx_n_s_options __pyx_mstate_global->__pyx_n_s_options
 #define __pyx_n_s_os __pyx_mstate_global->__pyx_n_s_os
-#define __pyx_n_s_output __pyx_mstate_global->__pyx_n_s_output
 #define __pyx_n_s_pack __pyx_mstate_global->__pyx_n_s_pack
 #define __pyx_n_s_palette __pyx_mstate_global->__pyx_n_s_palette
 #define __pyx_n_s_parent __pyx_mstate_global->__pyx_n_s_parent
 #define __pyx_n_s_parents __pyx_mstate_global->__pyx_n_s_parents
+#define __pyx_n_s_path __pyx_mstate_global->__pyx_n_s_path
 #define __pyx_n_s_pathlib __pyx_mstate_global->__pyx_n_s_pathlib
 #define __pyx_n_s_pickle __pyx_mstate_global->__pyx_n_s_pickle
 #define __pyx_n_s_print __pyx_mstate_global->__pyx_n_s_print
@@ -5180,13 +5218,11 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_version_info __pyx_mstate_global->__pyx_n_s_version_info
 #define __pyx_kp_u_video_mp4 __pyx_mstate_global->__pyx_kp_u_video_mp4
 #define __pyx_n_s_video_path __pyx_mstate_global->__pyx_n_s_video_path
-#define __pyx_n_s_vn __pyx_mstate_global->__pyx_n_s_vn
 #define __pyx_n_u_wb __pyx_mstate_global->__pyx_n_u_wb
 #define __pyx_n_s_width __pyx_mstate_global->__pyx_n_s_width
 #define __pyx_n_s_write __pyx_mstate_global->__pyx_n_s_write
 #define __pyx_n_s_write_file __pyx_mstate_global->__pyx_n_s_write_file
 #define __pyx_n_u_xCenter __pyx_mstate_global->__pyx_n_u_xCenter
-#define __pyx_n_s_y __pyx_mstate_global->__pyx_n_s_y
 #define __pyx_n_u_zCenter __pyx_mstate_global->__pyx_n_u_zCenter
 #define __pyx_int_0 __pyx_mstate_global->__pyx_int_0
 #define __pyx_int_1 __pyx_mstate_global->__pyx_int_1
@@ -5218,10 +5254,10 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_tuple__12 __pyx_mstate_global->__pyx_tuple__12
 #define __pyx_tuple__13 __pyx_mstate_global->__pyx_tuple__13
 #define __pyx_tuple__18 __pyx_mstate_global->__pyx_tuple__18
+#define __pyx_tuple__19 __pyx_mstate_global->__pyx_tuple__19
+#define __pyx_tuple__20 __pyx_mstate_global->__pyx_tuple__20
 #define __pyx_tuple__21 __pyx_mstate_global->__pyx_tuple__21
 #define __pyx_tuple__22 __pyx_mstate_global->__pyx_tuple__22
-#define __pyx_tuple__23 __pyx_mstate_global->__pyx_tuple__23
-#define __pyx_tuple__24 __pyx_mstate_global->__pyx_tuple__24
 #define __pyx_tuple__25 __pyx_mstate_global->__pyx_tuple__25
 #define __pyx_tuple__26 __pyx_mstate_global->__pyx_tuple__26
 #define __pyx_tuple__27 __pyx_mstate_global->__pyx_tuple__27
@@ -5237,10 +5273,14 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_tuple__37 __pyx_mstate_global->__pyx_tuple__37
 #define __pyx_tuple__38 __pyx_mstate_global->__pyx_tuple__38
 #define __pyx_tuple__39 __pyx_mstate_global->__pyx_tuple__39
+#define __pyx_tuple__40 __pyx_mstate_global->__pyx_tuple__40
 #define __pyx_tuple__41 __pyx_mstate_global->__pyx_tuple__41
-#define __pyx_codeobj__40 __pyx_mstate_global->__pyx_codeobj__40
-#define __pyx_codeobj__42 __pyx_mstate_global->__pyx_codeobj__42
-#define __pyx_codeobj__43 __pyx_mstate_global->__pyx_codeobj__43
+#define __pyx_tuple__42 __pyx_mstate_global->__pyx_tuple__42
+#define __pyx_tuple__43 __pyx_mstate_global->__pyx_tuple__43
+#define __pyx_tuple__45 __pyx_mstate_global->__pyx_tuple__45
+#define __pyx_codeobj__44 __pyx_mstate_global->__pyx_codeobj__44
+#define __pyx_codeobj__46 __pyx_mstate_global->__pyx_codeobj__46
+#define __pyx_codeobj__47 __pyx_mstate_global->__pyx_codeobj__47
 /* #### Code section: module_code ### */
 
 /* "View.MemoryView":131
@@ -22370,6 +22410,7 @@ static void __pyx_f_11MCMM_client_process_video(PyObject *__pyx_v_video_path, __
   PyObject *__pyx_v_capture = NULL;
   PyObject *__pyx_v_audio_json = NULL;
   PyObject *__pyx_v_ffmpeg = NULL;
+  PyObject *__pyx_v_e = NULL;
   double __pyx_v_current_pos;
   PyObject *__pyx_v_ret = NULL;
   PyObject *__pyx_v_elapsed = NULL;
@@ -22408,10 +22449,15 @@ static void __pyx_f_11MCMM_client_process_video(PyObject *__pyx_v_video_path, __
   int __pyx_t_27;
   PyObject *__pyx_t_28 = NULL;
   double __pyx_t_29;
-  PyObject *(*__pyx_t_30)(PyObject *);
-  PyArrayObject *__pyx_t_31 = NULL;
-  Py_UCS4 __pyx_t_32;
-  __Pyx_memviewslice __pyx_t_33 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  Py_UCS4 __pyx_t_30;
+  char const *__pyx_t_31;
+  PyObject *__pyx_t_32 = NULL;
+  PyObject *__pyx_t_33 = NULL;
+  PyObject *__pyx_t_34 = NULL;
+  PyObject *__pyx_t_35 = NULL;
+  PyObject *(*__pyx_t_36)(PyObject *);
+  PyArrayObject *__pyx_t_37 = NULL;
+  __Pyx_memviewslice __pyx_t_38 = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -23472,7 +23518,7 @@ static void __pyx_f_11MCMM_client_process_video(PyObject *__pyx_v_video_path, __
  *         audio_json["length_in_seconds"] = video_frame_nbr / video_fps
  *         f.seek(0); dump(audio_json, f, indent=4); f.truncate()             # <<<<<<<<<<<<<<
  * 
- *     ffmpeg = FFmpeg()
+ *     # Extraction et conversion audio
  */
           __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_f, __pyx_n_s_seek); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 187, __pyx_L26_error)
           __Pyx_GOTREF(__pyx_t_2);
@@ -23629,14 +23675,25 @@ static void __pyx_f_11MCMM_client_process_video(PyObject *__pyx_v_video_path, __
     __pyx_L35:;
   }
 
-  /* "MCMM_client.pyx":189
- *         f.seek(0); dump(audio_json, f, indent=4); f.truncate()
+  /* "MCMM_client.pyx":190
+ * 
+ *     # Extraction et conversion audio
+ *     print("Extraction de l'audio...")             # <<<<<<<<<<<<<<
+ * 
+ *     ffmpeg = FFmpeg()
+ */
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 190, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "MCMM_client.pyx":192
+ *     print("Extraction de l'audio...")
  * 
  *     ffmpeg = FFmpeg()             # <<<<<<<<<<<<<<
- *     #Exemple working ffmpeg.options(f"-nostdin -y -i {data.tmp_track} -c:a libvorbis{data.args} {data.out_track}")
- *     ffmpeg.input(video_path).output(str(rp_audio_path), acodec='libvorbis', vn=None, loglevel='error', y=None).run()
+ *     ffmpeg.options(f"-nostdin -y -i {video_path} -c:a libvorbis -q:a 6 {rp_audio_path}")
+ * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_FFmpeg); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 189, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_FFmpeg); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_20 = NULL;
   __pyx_t_5 = 0;
@@ -23656,76 +23713,59 @@ static void __pyx_f_11MCMM_client_process_video(PyObject *__pyx_v_video_path, __
     PyObject *__pyx_callargs[2] = {__pyx_t_20, NULL};
     __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_5, 0+__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_20); __pyx_t_20 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 189, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 192, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __pyx_v_ffmpeg = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "MCMM_client.pyx":191
- *     ffmpeg = FFmpeg()
- *     #Exemple working ffmpeg.options(f"-nostdin -y -i {data.tmp_track} -c:a libvorbis{data.args} {data.out_track}")
- *     ffmpeg.input(video_path).output(str(rp_audio_path), acodec='libvorbis', vn=None, loglevel='error', y=None).run()             # <<<<<<<<<<<<<<
- *     print("Audio extrait et converti en OGG.")
+  /* "MCMM_client.pyx":193
  * 
+ *     ffmpeg = FFmpeg()
+ *     ffmpeg.options(f"-nostdin -y -i {video_path} -c:a libvorbis -q:a 6 {rp_audio_path}")             # <<<<<<<<<<<<<<
+ * 
+ *     try:
  */
-  __pyx_t_20 = __Pyx_PyObject_GetAttrStr(__pyx_v_ffmpeg, __pyx_n_s_input); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 191, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_20);
-  __pyx_t_1 = NULL;
-  __pyx_t_5 = 0;
-  #if CYTHON_UNPACK_METHODS
-  if (likely(PyMethod_Check(__pyx_t_20))) {
-    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_20);
-    if (likely(__pyx_t_1)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_20);
-      __Pyx_INCREF(__pyx_t_1);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_20, function);
-      __pyx_t_5 = 1;
-    }
-  }
-  #endif
-  {
-    PyObject *__pyx_callargs[2] = {__pyx_t_1, __pyx_v_video_path};
-    __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_20, __pyx_callargs+1-__pyx_t_5, 1+__pyx_t_5);
-    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 191, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
-  }
-  __pyx_t_20 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_output); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 191, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_20);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Unicode(__pyx_v_rp_audio_path); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 191, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_ffmpeg, __pyx_n_s_options); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 193, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 191, __pyx_L1_error)
+  __pyx_t_20 = PyTuple_New(4); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 193, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_20);
+  __pyx_t_14 = 0;
+  __pyx_t_30 = 127;
+  __Pyx_INCREF(__pyx_kp_u_nostdin_y_i);
+  __pyx_t_14 += 15;
+  __Pyx_GIVEREF(__pyx_kp_u_nostdin_y_i);
+  PyTuple_SET_ITEM(__pyx_t_20, 0, __pyx_kp_u_nostdin_y_i);
+  __pyx_t_1 = __Pyx_PyUnicode_Unicode(__pyx_v_video_path); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 193, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GIVEREF(__pyx_t_3);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_3)) __PYX_ERR(0, 191, __pyx_L1_error);
-  __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 191, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_acodec, __pyx_n_u_libvorbis) < 0) __PYX_ERR(0, 191, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_vn, Py_None) < 0) __PYX_ERR(0, 191, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_loglevel, __pyx_n_u_error) < 0) __PYX_ERR(0, 191, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_y, Py_None) < 0) __PYX_ERR(0, 191, __pyx_L1_error)
-  __pyx_t_28 = __Pyx_PyObject_Call(__pyx_t_20, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_28)) __PYX_ERR(0, 191, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_28);
+  __pyx_t_30 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) > __pyx_t_30) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) : __pyx_t_30;
+  __pyx_t_14 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_20, 1, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __Pyx_INCREF(__pyx_kp_u_c_a_libvorbis_q_a_6);
+  __pyx_t_14 += 23;
+  __Pyx_GIVEREF(__pyx_kp_u_c_a_libvorbis_q_a_6);
+  PyTuple_SET_ITEM(__pyx_t_20, 2, __pyx_kp_u_c_a_libvorbis_q_a_6);
+  __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_v_rp_audio_path, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 193, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_30 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) > __pyx_t_30) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) : __pyx_t_30;
+  __pyx_t_14 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_20, 3, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyUnicode_Join(__pyx_t_20, 4, __pyx_t_14, __pyx_t_30); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 193, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_28, __pyx_n_s_run); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 191, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
-  __pyx_t_28 = NULL;
+  __pyx_t_20 = NULL;
   __pyx_t_5 = 0;
   #if CYTHON_UNPACK_METHODS
   if (likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_28)) {
+    __pyx_t_20 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_20)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_28);
+      __Pyx_INCREF(__pyx_t_20);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_3, function);
       __pyx_t_5 = 1;
@@ -23733,58 +23773,376 @@ static void __pyx_f_11MCMM_client_process_video(PyObject *__pyx_v_video_path, __
   }
   #endif
   {
-    PyObject *__pyx_callargs[2] = {__pyx_t_28, NULL};
-    __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_5, 0+__pyx_t_5);
-    __Pyx_XDECREF(__pyx_t_28); __pyx_t_28 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 191, __pyx_L1_error)
+    PyObject *__pyx_callargs[2] = {__pyx_t_20, __pyx_t_1};
+    __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_5, 1+__pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_20); __pyx_t_20 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 193, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "MCMM_client.pyx":192
- *     #Exemple working ffmpeg.options(f"-nostdin -y -i {data.tmp_track} -c:a libvorbis{data.args} {data.out_track}")
- *     ffmpeg.input(video_path).output(str(rp_audio_path), acodec='libvorbis', vn=None, loglevel='error', y=None).run()
- *     print("Audio extrait et converti en OGG.")             # <<<<<<<<<<<<<<
+  /* "MCMM_client.pyx":195
+ *     ffmpeg.options(f"-nostdin -y -i {video_path} -c:a libvorbis -q:a 6 {rp_audio_path}")
+ * 
+ *     try:             # <<<<<<<<<<<<<<
+ *         ffmpeg.run()
+ *     except Exception as e:
+ */
+  {
+    __Pyx_PyThreadState_declare
+    __Pyx_PyThreadState_assign
+    __Pyx_ExceptionSave(&__pyx_t_6, &__pyx_t_7, &__pyx_t_8);
+    __Pyx_XGOTREF(__pyx_t_6);
+    __Pyx_XGOTREF(__pyx_t_7);
+    __Pyx_XGOTREF(__pyx_t_8);
+    /*try:*/ {
+
+      /* "MCMM_client.pyx":196
+ * 
+ *     try:
+ *         ffmpeg.run()             # <<<<<<<<<<<<<<
+ *     except Exception as e:
+ *         print(f"Erreur lors de la conversion audio: {e}")
+ */
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_ffmpeg, __pyx_n_s_run); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 196, __pyx_L36_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_1 = NULL;
+      __pyx_t_5 = 0;
+      #if CYTHON_UNPACK_METHODS
+      if (likely(PyMethod_Check(__pyx_t_3))) {
+        __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_3);
+        if (likely(__pyx_t_1)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+          __Pyx_INCREF(__pyx_t_1);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_3, function);
+          __pyx_t_5 = 1;
+        }
+      }
+      #endif
+      {
+        PyObject *__pyx_callargs[2] = {__pyx_t_1, NULL};
+        __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_5, 0+__pyx_t_5);
+        __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 196, __pyx_L36_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      }
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+      /* "MCMM_client.pyx":195
+ *     ffmpeg.options(f"-nostdin -y -i {video_path} -c:a libvorbis -q:a 6 {rp_audio_path}")
+ * 
+ *     try:             # <<<<<<<<<<<<<<
+ *         ffmpeg.run()
+ *     except Exception as e:
+ */
+    }
+    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+    goto __pyx_L41_try_end;
+    __pyx_L36_error:;
+    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_XDECREF(__pyx_t_20); __pyx_t_20 = 0;
+    __Pyx_XDECREF(__pyx_t_22); __pyx_t_22 = 0;
+    __Pyx_XDECREF(__pyx_t_23); __pyx_t_23 = 0;
+    __Pyx_XDECREF(__pyx_t_28); __pyx_t_28 = 0;
+    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+    /* "MCMM_client.pyx":197
+ *     try:
+ *         ffmpeg.run()
+ *     except Exception as e:             # <<<<<<<<<<<<<<
+ *         print(f"Erreur lors de la conversion audio: {e}")
+ *         raise Exception("chec de la conversion FFmpeg")
+ */
+    __pyx_t_15 = __Pyx_PyErr_ExceptionMatches(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])));
+    if (__pyx_t_15) {
+      __Pyx_AddTraceback("MCMM_client.process_video", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_3, &__pyx_t_1) < 0) __PYX_ERR(0, 197, __pyx_L38_except_error)
+      __Pyx_XGOTREF(__pyx_t_2);
+      __Pyx_XGOTREF(__pyx_t_3);
+      __Pyx_XGOTREF(__pyx_t_1);
+      __Pyx_INCREF(__pyx_t_3);
+      __pyx_v_e = __pyx_t_3;
+      /*try:*/ {
+
+        /* "MCMM_client.pyx":198
+ *         ffmpeg.run()
+ *     except Exception as e:
+ *         print(f"Erreur lors de la conversion audio: {e}")             # <<<<<<<<<<<<<<
+ *         raise Exception("chec de la conversion FFmpeg")
+ * 
+ */
+        __pyx_t_20 = __Pyx_PyObject_FormatSimple(__pyx_v_e, __pyx_empty_unicode); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 198, __pyx_L47_error)
+        __Pyx_GOTREF(__pyx_t_20);
+        __pyx_t_28 = __Pyx_PyUnicode_Concat(__pyx_kp_u_Erreur_lors_de_la_conversion_aud, __pyx_t_20); if (unlikely(!__pyx_t_28)) __PYX_ERR(0, 198, __pyx_L47_error)
+        __Pyx_GOTREF(__pyx_t_28);
+        __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
+        __pyx_t_20 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_28); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 198, __pyx_L47_error)
+        __Pyx_GOTREF(__pyx_t_20);
+        __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
+        __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
+
+        /* "MCMM_client.pyx":199
+ *     except Exception as e:
+ *         print(f"Erreur lors de la conversion audio: {e}")
+ *         raise Exception("chec de la conversion FFmpeg")             # <<<<<<<<<<<<<<
+ * 
+ *     # Validation du fichier de sortie
+ */
+        __pyx_t_20 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 199, __pyx_L47_error)
+        __Pyx_GOTREF(__pyx_t_20);
+        __Pyx_Raise(__pyx_t_20, 0, 0, 0);
+        __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
+        __PYX_ERR(0, 199, __pyx_L47_error)
+      }
+
+      /* "MCMM_client.pyx":197
+ *     try:
+ *         ffmpeg.run()
+ *     except Exception as e:             # <<<<<<<<<<<<<<
+ *         print(f"Erreur lors de la conversion audio: {e}")
+ *         raise Exception("chec de la conversion FFmpeg")
+ */
+      /*finally:*/ {
+        __pyx_L47_error:;
+        /*exception exit:*/{
+          __Pyx_PyThreadState_declare
+          __Pyx_PyThreadState_assign
+          __pyx_t_9 = 0; __pyx_t_10 = 0; __pyx_t_32 = 0; __pyx_t_33 = 0; __pyx_t_34 = 0; __pyx_t_35 = 0;
+          __Pyx_XDECREF(__pyx_t_20); __pyx_t_20 = 0;
+          __Pyx_XDECREF(__pyx_t_22); __pyx_t_22 = 0;
+          __Pyx_XDECREF(__pyx_t_23); __pyx_t_23 = 0;
+          __Pyx_XDECREF(__pyx_t_28); __pyx_t_28 = 0;
+          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+          if (PY_MAJOR_VERSION >= 3) __Pyx_ExceptionSwap(&__pyx_t_33, &__pyx_t_34, &__pyx_t_35);
+          if ((PY_MAJOR_VERSION < 3) || unlikely(__Pyx_GetException(&__pyx_t_9, &__pyx_t_10, &__pyx_t_32) < 0)) __Pyx_ErrFetch(&__pyx_t_9, &__pyx_t_10, &__pyx_t_32);
+          __Pyx_XGOTREF(__pyx_t_9);
+          __Pyx_XGOTREF(__pyx_t_10);
+          __Pyx_XGOTREF(__pyx_t_32);
+          __Pyx_XGOTREF(__pyx_t_33);
+          __Pyx_XGOTREF(__pyx_t_34);
+          __Pyx_XGOTREF(__pyx_t_35);
+          __pyx_t_15 = __pyx_lineno; __pyx_t_18 = __pyx_clineno; __pyx_t_31 = __pyx_filename;
+          {
+            __Pyx_DECREF(__pyx_v_e); __pyx_v_e = 0;
+          }
+          if (PY_MAJOR_VERSION >= 3) {
+            __Pyx_XGIVEREF(__pyx_t_33);
+            __Pyx_XGIVEREF(__pyx_t_34);
+            __Pyx_XGIVEREF(__pyx_t_35);
+            __Pyx_ExceptionReset(__pyx_t_33, __pyx_t_34, __pyx_t_35);
+          }
+          __Pyx_XGIVEREF(__pyx_t_9);
+          __Pyx_XGIVEREF(__pyx_t_10);
+          __Pyx_XGIVEREF(__pyx_t_32);
+          __Pyx_ErrRestore(__pyx_t_9, __pyx_t_10, __pyx_t_32);
+          __pyx_t_9 = 0; __pyx_t_10 = 0; __pyx_t_32 = 0; __pyx_t_33 = 0; __pyx_t_34 = 0; __pyx_t_35 = 0;
+          __pyx_lineno = __pyx_t_15; __pyx_clineno = __pyx_t_18; __pyx_filename = __pyx_t_31;
+          goto __pyx_L38_except_error;
+        }
+      }
+    }
+    goto __pyx_L38_except_error;
+
+    /* "MCMM_client.pyx":195
+ *     ffmpeg.options(f"-nostdin -y -i {video_path} -c:a libvorbis -q:a 6 {rp_audio_path}")
+ * 
+ *     try:             # <<<<<<<<<<<<<<
+ *         ffmpeg.run()
+ *     except Exception as e:
+ */
+    __pyx_L38_except_error:;
+    __Pyx_XGIVEREF(__pyx_t_6);
+    __Pyx_XGIVEREF(__pyx_t_7);
+    __Pyx_XGIVEREF(__pyx_t_8);
+    __Pyx_ExceptionReset(__pyx_t_6, __pyx_t_7, __pyx_t_8);
+    goto __pyx_L1_error;
+    __pyx_L41_try_end:;
+  }
+
+  /* "MCMM_client.pyx":202
+ * 
+ *     # Validation du fichier de sortie
+ *     if not os.path.isfile(str(rp_audio_path)):             # <<<<<<<<<<<<<<
+ *         raise Exception("Fichier audio de sortie manquant")
+ * 
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_os); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 202, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_path); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 202, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_isfile); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 202, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyObject_Unicode(__pyx_v_rp_audio_path); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 202, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_20 = NULL;
+  __pyx_t_5 = 0;
+  #if CYTHON_UNPACK_METHODS
+  if (likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_20 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_20)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_20);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+      __pyx_t_5 = 1;
+    }
+  }
+  #endif
+  {
+    PyObject *__pyx_callargs[2] = {__pyx_t_20, __pyx_t_2};
+    __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_5, 1+__pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_20); __pyx_t_20 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  }
+  __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_11 < 0))) __PYX_ERR(0, 202, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_12 = (!__pyx_t_11);
+  if (unlikely(__pyx_t_12)) {
+
+    /* "MCMM_client.pyx":203
+ *     # Validation du fichier de sortie
+ *     if not os.path.isfile(str(rp_audio_path)):
+ *         raise Exception("Fichier audio de sortie manquant")             # <<<<<<<<<<<<<<
+ * 
+ *     if os.path.getsize(str(rp_audio_path)) == 0:
+ */
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 203, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __PYX_ERR(0, 203, __pyx_L1_error)
+
+    /* "MCMM_client.pyx":202
+ * 
+ *     # Validation du fichier de sortie
+ *     if not os.path.isfile(str(rp_audio_path)):             # <<<<<<<<<<<<<<
+ *         raise Exception("Fichier audio de sortie manquant")
+ * 
+ */
+  }
+
+  /* "MCMM_client.pyx":205
+ *         raise Exception("Fichier audio de sortie manquant")
+ * 
+ *     if os.path.getsize(str(rp_audio_path)) == 0:             # <<<<<<<<<<<<<<
+ *         raise Exception("Fichier audio vide")
+ * 
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_os); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 205, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_path); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 205, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_getsize); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 205, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyObject_Unicode(__pyx_v_rp_audio_path); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 205, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_20 = NULL;
+  __pyx_t_5 = 0;
+  #if CYTHON_UNPACK_METHODS
+  if (likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_20 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_20)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_20);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+      __pyx_t_5 = 1;
+    }
+  }
+  #endif
+  {
+    PyObject *__pyx_callargs[2] = {__pyx_t_20, __pyx_t_2};
+    __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_5, 1+__pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_20); __pyx_t_20 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 205, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  }
+  __pyx_t_12 = (__Pyx_PyInt_BoolEqObjC(__pyx_t_1, __pyx_int_0, 0, 0)); if (unlikely((__pyx_t_12 < 0))) __PYX_ERR(0, 205, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (unlikely(__pyx_t_12)) {
+
+    /* "MCMM_client.pyx":206
+ * 
+ *     if os.path.getsize(str(rp_audio_path)) == 0:
+ *         raise Exception("Fichier audio vide")             # <<<<<<<<<<<<<<
+ * 
+ *     print(" Audio extrait et converti en OGG")
+ */
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 206, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __PYX_ERR(0, 206, __pyx_L1_error)
+
+    /* "MCMM_client.pyx":205
+ *         raise Exception("Fichier audio de sortie manquant")
+ * 
+ *     if os.path.getsize(str(rp_audio_path)) == 0:             # <<<<<<<<<<<<<<
+ *         raise Exception("Fichier audio vide")
+ * 
+ */
+  }
+
+  /* "MCMM_client.pyx":208
+ *         raise Exception("Fichier audio vide")
+ * 
+ *     print(" Audio extrait et converti en OGG")             # <<<<<<<<<<<<<<
  * 
  *     frame_skip = video_fps / framerate if framerate > 0 else 1
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 192, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 208, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "MCMM_client.pyx":194
- *     print("Audio extrait et converti en OGG.")
+  /* "MCMM_client.pyx":210
+ *     print(" Audio extrait et converti en OGG")
  * 
  *     frame_skip = video_fps / framerate if framerate > 0 else 1             # <<<<<<<<<<<<<<
  *     start_time = time()
  * 
  */
-  __pyx_t_11 = (__pyx_v_framerate > 0);
-  if (__pyx_t_11) {
+  __pyx_t_12 = (__pyx_v_framerate > 0);
+  if (__pyx_t_12) {
     __pyx_t_29 = (__pyx_v_video_fps / ((double)__pyx_v_framerate));
   } else {
     __pyx_t_29 = 1.0;
   }
   __pyx_v_frame_skip = __pyx_t_29;
 
-  /* "MCMM_client.pyx":195
+  /* "MCMM_client.pyx":211
  * 
  *     frame_skip = video_fps / framerate if framerate > 0 else 1
  *     start_time = time()             # <<<<<<<<<<<<<<
  * 
  *     cdef double current_pos
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 195, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 211, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_28 = NULL;
+  __pyx_t_2 = NULL;
   __pyx_t_5 = 0;
   #if CYTHON_UNPACK_METHODS
   if (unlikely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_28)) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_2)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_28);
+      __Pyx_INCREF(__pyx_t_2);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_3, function);
       __pyx_t_5 = 1;
@@ -23792,18 +24150,18 @@ static void __pyx_f_11MCMM_client_process_video(PyObject *__pyx_v_video_path, __
   }
   #endif
   {
-    PyObject *__pyx_callargs[2] = {__pyx_t_28, NULL};
-    __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_5, 0+__pyx_t_5);
-    __Pyx_XDECREF(__pyx_t_28); __pyx_t_28 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 195, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
+    PyObject *__pyx_callargs[2] = {__pyx_t_2, NULL};
+    __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_5, 0+__pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 211, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
-  __pyx_t_29 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_29 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 195, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_29 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_29 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 211, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_start_time = __pyx_t_29;
 
-  /* "MCMM_client.pyx":199
+  /* "MCMM_client.pyx":215
  *     cdef double current_pos
  * 
  *     while capture.isOpened():             # <<<<<<<<<<<<<<
@@ -23811,16 +24169,16 @@ static void __pyx_f_11MCMM_client_process_video(PyObject *__pyx_v_video_path, __
  *         if not ret:
  */
   while (1) {
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_capture, __pyx_n_s_isOpened); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 199, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_capture, __pyx_n_s_isOpened); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 215, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_28 = NULL;
+    __pyx_t_2 = NULL;
     __pyx_t_5 = 0;
     #if CYTHON_UNPACK_METHODS
     if (likely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_3);
-      if (likely(__pyx_t_28)) {
+      __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_2)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_28);
+        __Pyx_INCREF(__pyx_t_2);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_3, function);
         __pyx_t_5 = 1;
@@ -23828,34 +24186,34 @@ static void __pyx_f_11MCMM_client_process_video(PyObject *__pyx_v_video_path, __
     }
     #endif
     {
-      PyObject *__pyx_callargs[2] = {__pyx_t_28, NULL};
-      __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_5, 0+__pyx_t_5);
-      __Pyx_XDECREF(__pyx_t_28); __pyx_t_28 = 0;
-      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 199, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
+      PyObject *__pyx_callargs[2] = {__pyx_t_2, NULL};
+      __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_5, 0+__pyx_t_5);
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 215, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
-    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_11 < 0))) __PYX_ERR(0, 199, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (!__pyx_t_11) break;
+    __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_12 < 0))) __PYX_ERR(0, 215, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (!__pyx_t_12) break;
 
-    /* "MCMM_client.pyx":200
+    /* "MCMM_client.pyx":216
  * 
  *     while capture.isOpened():
  *         ret, frame = capture.read()             # <<<<<<<<<<<<<<
  *         if not ret:
  *             break
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_capture, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 200, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_capture, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 216, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_28 = NULL;
+    __pyx_t_2 = NULL;
     __pyx_t_5 = 0;
     #if CYTHON_UNPACK_METHODS
     if (likely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_3);
-      if (likely(__pyx_t_28)) {
+      __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_2)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_28);
+        __Pyx_INCREF(__pyx_t_2);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_3, function);
         __pyx_t_5 = 1;
@@ -23863,105 +24221,105 @@ static void __pyx_f_11MCMM_client_process_video(PyObject *__pyx_v_video_path, __
     }
     #endif
     {
-      PyObject *__pyx_callargs[2] = {__pyx_t_28, NULL};
-      __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_5, 0+__pyx_t_5);
-      __Pyx_XDECREF(__pyx_t_28); __pyx_t_28 = 0;
-      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 200, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
+      PyObject *__pyx_callargs[2] = {__pyx_t_2, NULL};
+      __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_5, 0+__pyx_t_5);
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 216, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
-    if ((likely(PyTuple_CheckExact(__pyx_t_2))) || (PyList_CheckExact(__pyx_t_2))) {
-      PyObject* sequence = __pyx_t_2;
+    if ((likely(PyTuple_CheckExact(__pyx_t_1))) || (PyList_CheckExact(__pyx_t_1))) {
+      PyObject* sequence = __pyx_t_1;
       Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 200, __pyx_L1_error)
+        __PYX_ERR(0, 216, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
         __pyx_t_3 = PyTuple_GET_ITEM(sequence, 0); 
-        __pyx_t_28 = PyTuple_GET_ITEM(sequence, 1); 
+        __pyx_t_2 = PyTuple_GET_ITEM(sequence, 1); 
       } else {
         __pyx_t_3 = PyList_GET_ITEM(sequence, 0); 
-        __pyx_t_28 = PyList_GET_ITEM(sequence, 1); 
+        __pyx_t_2 = PyList_GET_ITEM(sequence, 1); 
       }
       __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_28);
+      __Pyx_INCREF(__pyx_t_2);
       #else
-      __pyx_t_3 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 200, __pyx_L1_error)
+      __pyx_t_3 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 216, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_28 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_28)) __PYX_ERR(0, 200, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_28);
+      __pyx_t_2 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 216, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
       #endif
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 200, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_30 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_1);
-      index = 0; __pyx_t_3 = __pyx_t_30(__pyx_t_1); if (unlikely(!__pyx_t_3)) goto __pyx_L38_unpacking_failed;
+      __pyx_t_20 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 216, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_20);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_36 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_20);
+      index = 0; __pyx_t_3 = __pyx_t_36(__pyx_t_20); if (unlikely(!__pyx_t_3)) goto __pyx_L57_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_3);
-      index = 1; __pyx_t_28 = __pyx_t_30(__pyx_t_1); if (unlikely(!__pyx_t_28)) goto __pyx_L38_unpacking_failed;
-      __Pyx_GOTREF(__pyx_t_28);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_30(__pyx_t_1), 2) < 0) __PYX_ERR(0, 200, __pyx_L1_error)
-      __pyx_t_30 = NULL;
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      goto __pyx_L39_unpacking_done;
-      __pyx_L38_unpacking_failed:;
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_30 = NULL;
+      index = 1; __pyx_t_2 = __pyx_t_36(__pyx_t_20); if (unlikely(!__pyx_t_2)) goto __pyx_L57_unpacking_failed;
+      __Pyx_GOTREF(__pyx_t_2);
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_36(__pyx_t_20), 2) < 0) __PYX_ERR(0, 216, __pyx_L1_error)
+      __pyx_t_36 = NULL;
+      __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
+      goto __pyx_L58_unpacking_done;
+      __pyx_L57_unpacking_failed:;
+      __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
+      __pyx_t_36 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 200, __pyx_L1_error)
-      __pyx_L39_unpacking_done:;
+      __PYX_ERR(0, 216, __pyx_L1_error)
+      __pyx_L58_unpacking_done:;
     }
-    if (!(likely(((__pyx_t_28) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_28, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 200, __pyx_L1_error)
+    if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 216, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_ret, __pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_31 = ((PyArrayObject *)__pyx_t_28);
+    __pyx_t_37 = ((PyArrayObject *)__pyx_t_2);
     {
       __Pyx_BufFmt_StackElem __pyx_stack[1];
       __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_frame.rcbuffer->pybuffer);
-      __pyx_t_15 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_frame.rcbuffer->pybuffer, (PyObject*)__pyx_t_31, &__Pyx_TypeInfo_nn___pyx_t_11MCMM_client_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 3, 0, __pyx_stack);
-      if (unlikely(__pyx_t_15 < 0)) {
-        PyErr_Fetch(&__pyx_t_6, &__pyx_t_7, &__pyx_t_8);
+      __pyx_t_18 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_frame.rcbuffer->pybuffer, (PyObject*)__pyx_t_37, &__Pyx_TypeInfo_nn___pyx_t_11MCMM_client_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 3, 0, __pyx_stack);
+      if (unlikely(__pyx_t_18 < 0)) {
+        PyErr_Fetch(&__pyx_t_8, &__pyx_t_7, &__pyx_t_6);
         if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_frame.rcbuffer->pybuffer, (PyObject*)__pyx_v_frame, &__Pyx_TypeInfo_nn___pyx_t_11MCMM_client_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 3, 0, __pyx_stack) == -1)) {
-          Py_XDECREF(__pyx_t_6); Py_XDECREF(__pyx_t_7); Py_XDECREF(__pyx_t_8);
+          Py_XDECREF(__pyx_t_8); Py_XDECREF(__pyx_t_7); Py_XDECREF(__pyx_t_6);
           __Pyx_RaiseBufferFallbackError();
         } else {
-          PyErr_Restore(__pyx_t_6, __pyx_t_7, __pyx_t_8);
+          PyErr_Restore(__pyx_t_8, __pyx_t_7, __pyx_t_6);
         }
-        __pyx_t_6 = __pyx_t_7 = __pyx_t_8 = 0;
+        __pyx_t_8 = __pyx_t_7 = __pyx_t_6 = 0;
       }
       __pyx_pybuffernd_frame.diminfo[0].strides = __pyx_pybuffernd_frame.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_frame.diminfo[0].shape = __pyx_pybuffernd_frame.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_frame.diminfo[1].strides = __pyx_pybuffernd_frame.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_frame.diminfo[1].shape = __pyx_pybuffernd_frame.rcbuffer->pybuffer.shape[1]; __pyx_pybuffernd_frame.diminfo[2].strides = __pyx_pybuffernd_frame.rcbuffer->pybuffer.strides[2]; __pyx_pybuffernd_frame.diminfo[2].shape = __pyx_pybuffernd_frame.rcbuffer->pybuffer.shape[2];
-      if (unlikely((__pyx_t_15 < 0))) __PYX_ERR(0, 200, __pyx_L1_error)
+      if (unlikely((__pyx_t_18 < 0))) __PYX_ERR(0, 216, __pyx_L1_error)
     }
-    __pyx_t_31 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_frame, ((PyArrayObject *)__pyx_t_28));
-    __pyx_t_28 = 0;
+    __pyx_t_37 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_frame, ((PyArrayObject *)__pyx_t_2));
+    __pyx_t_2 = 0;
 
-    /* "MCMM_client.pyx":201
+    /* "MCMM_client.pyx":217
  *     while capture.isOpened():
  *         ret, frame = capture.read()
  *         if not ret:             # <<<<<<<<<<<<<<
  *             break
  * 
  */
-    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_v_ret); if (unlikely((__pyx_t_11 < 0))) __PYX_ERR(0, 201, __pyx_L1_error)
-    __pyx_t_12 = (!__pyx_t_11);
-    if (__pyx_t_12) {
+    __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_v_ret); if (unlikely((__pyx_t_12 < 0))) __PYX_ERR(0, 217, __pyx_L1_error)
+    __pyx_t_11 = (!__pyx_t_12);
+    if (__pyx_t_11) {
 
-      /* "MCMM_client.pyx":202
+      /* "MCMM_client.pyx":218
  *         ret, frame = capture.read()
  *         if not ret:
  *             break             # <<<<<<<<<<<<<<
  * 
  *         current_pos = capture.get(cv2.CAP_PROP_POS_FRAMES)
  */
-      goto __pyx_L37_break;
+      goto __pyx_L56_break;
 
-      /* "MCMM_client.pyx":201
+      /* "MCMM_client.pyx":217
  *     while capture.isOpened():
  *         ret, frame = capture.read()
  *         if not ret:             # <<<<<<<<<<<<<<
@@ -23970,73 +24328,73 @@ static void __pyx_f_11MCMM_client_process_video(PyObject *__pyx_v_video_path, __
  */
     }
 
-    /* "MCMM_client.pyx":204
+    /* "MCMM_client.pyx":220
  *             break
  * 
  *         current_pos = capture.get(cv2.CAP_PROP_POS_FRAMES)             # <<<<<<<<<<<<<<
  *         if round(current_pos % frame_skip) != 0:
  *             continue
  */
-    __pyx_t_28 = __Pyx_PyObject_GetAttrStr(__pyx_v_capture, __pyx_n_s_get); if (unlikely(!__pyx_t_28)) __PYX_ERR(0, 204, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_28);
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_cv2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 204, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_capture, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 220, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_cv2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 220, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_CAP_PROP_POS_FRAMES); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_20 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_CAP_PROP_POS_FRAMES); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 220, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_20);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_3 = NULL;
     __pyx_t_5 = 0;
     #if CYTHON_UNPACK_METHODS
-    if (likely(PyMethod_Check(__pyx_t_28))) {
-      __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_28);
+    if (likely(PyMethod_Check(__pyx_t_2))) {
+      __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
       if (likely(__pyx_t_3)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_28);
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
         __Pyx_INCREF(__pyx_t_3);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_28, function);
+        __Pyx_DECREF_SET(__pyx_t_2, function);
         __pyx_t_5 = 1;
       }
     }
     #endif
     {
-      PyObject *__pyx_callargs[2] = {__pyx_t_3, __pyx_t_1};
-      __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_28, __pyx_callargs+1-__pyx_t_5, 1+__pyx_t_5);
+      PyObject *__pyx_callargs[2] = {__pyx_t_3, __pyx_t_20};
+      __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_5, 1+__pyx_t_5);
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 204, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
+      __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 220, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
-    __pyx_t_29 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_29 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 204, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_29 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_29 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 220, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_current_pos = __pyx_t_29;
 
-    /* "MCMM_client.pyx":205
+    /* "MCMM_client.pyx":221
  * 
  *         current_pos = capture.get(cv2.CAP_PROP_POS_FRAMES)
  *         if round(current_pos % frame_skip) != 0:             # <<<<<<<<<<<<<<
  *             continue
  * 
  */
-    __pyx_t_2 = PyFloat_FromDouble(fmod(__pyx_v_current_pos, __pyx_v_frame_skip)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 205, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble(fmod(__pyx_v_current_pos, __pyx_v_frame_skip)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 221, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_round, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 221, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_28 = __Pyx_PyObject_CallOneArg(__pyx_builtin_round, __pyx_t_2); if (unlikely(!__pyx_t_28)) __PYX_ERR(0, 205, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_28);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_11 = (__Pyx_PyInt_BoolNeObjC(__pyx_t_2, __pyx_int_0, 0, 0)); if (unlikely((__pyx_t_11 < 0))) __PYX_ERR(0, 221, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_12 = (__Pyx_PyInt_BoolNeObjC(__pyx_t_28, __pyx_int_0, 0, 0)); if (unlikely((__pyx_t_12 < 0))) __PYX_ERR(0, 205, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
-    if (__pyx_t_12) {
+    if (__pyx_t_11) {
 
-      /* "MCMM_client.pyx":206
+      /* "MCMM_client.pyx":222
  *         current_pos = capture.get(cv2.CAP_PROP_POS_FRAMES)
  *         if round(current_pos % frame_skip) != 0:
  *             continue             # <<<<<<<<<<<<<<
  * 
  *         frame_count += 1
  */
-      goto __pyx_L36_continue;
+      goto __pyx_L55_continue;
 
-      /* "MCMM_client.pyx":205
+      /* "MCMM_client.pyx":221
  * 
  *         current_pos = capture.get(cv2.CAP_PROP_POS_FRAMES)
  *         if round(current_pos % frame_skip) != 0:             # <<<<<<<<<<<<<<
@@ -24045,7 +24403,7 @@ static void __pyx_f_11MCMM_client_process_video(PyObject *__pyx_v_video_path, __
  */
     }
 
-    /* "MCMM_client.pyx":208
+    /* "MCMM_client.pyx":224
  *             continue
  * 
  *         frame_count += 1             # <<<<<<<<<<<<<<
@@ -24054,165 +24412,165 @@ static void __pyx_f_11MCMM_client_process_video(PyObject *__pyx_v_video_path, __
  */
     __pyx_v_frame_count = (__pyx_v_frame_count + 1);
 
-    /* "MCMM_client.pyx":210
+    /* "MCMM_client.pyx":226
  *         frame_count += 1
  * 
  *         if frame_count % 10 == 0:             # <<<<<<<<<<<<<<
  *             elapsed = time() - start_time
  *             remaining = (elapsed / frame_count) * (video_frame_nbr / frame_skip - frame_count)
  */
-    __pyx_t_12 = ((__pyx_v_frame_count % 10) == 0);
-    if (__pyx_t_12) {
+    __pyx_t_11 = ((__pyx_v_frame_count % 10) == 0);
+    if (__pyx_t_11) {
 
-      /* "MCMM_client.pyx":211
+      /* "MCMM_client.pyx":227
  * 
  *         if frame_count % 10 == 0:
  *             elapsed = time() - start_time             # <<<<<<<<<<<<<<
  *             remaining = (elapsed / frame_count) * (video_frame_nbr / frame_skip - frame_count)
  *             print(f'Frame: {frame_count}/{int(video_frame_nbr / frame_skip)} | Restant: {remaining:.1f}s | {elapsed/frame_count*1000:.1f}ms/frame    ', end='\r')
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 211, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = NULL;
+      __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 227, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_20 = NULL;
       __pyx_t_5 = 0;
       #if CYTHON_UNPACK_METHODS
-      if (unlikely(PyMethod_Check(__pyx_t_2))) {
-        __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_2);
-        if (likely(__pyx_t_1)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-          __Pyx_INCREF(__pyx_t_1);
+      if (unlikely(PyMethod_Check(__pyx_t_1))) {
+        __pyx_t_20 = PyMethod_GET_SELF(__pyx_t_1);
+        if (likely(__pyx_t_20)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
+          __Pyx_INCREF(__pyx_t_20);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_2, function);
+          __Pyx_DECREF_SET(__pyx_t_1, function);
           __pyx_t_5 = 1;
         }
       }
       #endif
       {
-        PyObject *__pyx_callargs[2] = {__pyx_t_1, NULL};
-        __pyx_t_28 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_5, 0+__pyx_t_5);
-        __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-        if (unlikely(!__pyx_t_28)) __PYX_ERR(0, 211, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_28);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        PyObject *__pyx_callargs[2] = {__pyx_t_20, NULL};
+        __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_5, 0+__pyx_t_5);
+        __Pyx_XDECREF(__pyx_t_20); __pyx_t_20 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 227, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       }
-      __pyx_t_2 = PyFloat_FromDouble(__pyx_v_start_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 211, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = PyNumber_Subtract(__pyx_t_28, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 211, __pyx_L1_error)
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_start_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 227, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
+      __pyx_t_20 = PyNumber_Subtract(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 227, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_20);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_elapsed, __pyx_t_1);
-      __pyx_t_1 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_elapsed, __pyx_t_20);
+      __pyx_t_20 = 0;
 
-      /* "MCMM_client.pyx":212
+      /* "MCMM_client.pyx":228
  *         if frame_count % 10 == 0:
  *             elapsed = time() - start_time
  *             remaining = (elapsed / frame_count) * (video_frame_nbr / frame_skip - frame_count)             # <<<<<<<<<<<<<<
  *             print(f'Frame: {frame_count}/{int(video_frame_nbr / frame_skip)} | Restant: {remaining:.1f}s | {elapsed/frame_count*1000:.1f}ms/frame    ', end='\r')
  * 
  */
-      __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_frame_count); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 212, __pyx_L1_error)
+      __pyx_t_20 = __Pyx_PyInt_From_int(__pyx_v_frame_count); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 228, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_20);
+      __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_v_elapsed, __pyx_t_20); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 228, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_v_elapsed, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 212, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
+      __pyx_t_20 = PyFloat_FromDouble(((__pyx_v_video_frame_nbr / __pyx_v_frame_skip) - __pyx_v_frame_count)); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 228, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_20);
+      __pyx_t_2 = PyNumber_Multiply(__pyx_t_1, __pyx_t_20); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 228, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = PyFloat_FromDouble(((__pyx_v_video_frame_nbr / __pyx_v_frame_skip) - __pyx_v_frame_count)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 212, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_28 = PyNumber_Multiply(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_28)) __PYX_ERR(0, 212, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_28);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_remaining, __pyx_t_28);
-      __pyx_t_28 = 0;
+      __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_remaining, __pyx_t_2);
+      __pyx_t_2 = 0;
 
-      /* "MCMM_client.pyx":213
+      /* "MCMM_client.pyx":229
  *             elapsed = time() - start_time
  *             remaining = (elapsed / frame_count) * (video_frame_nbr / frame_skip - frame_count)
  *             print(f'Frame: {frame_count}/{int(video_frame_nbr / frame_skip)} | Restant: {remaining:.1f}s | {elapsed/frame_count*1000:.1f}ms/frame    ', end='\r')             # <<<<<<<<<<<<<<
  * 
  *         frame_processed = process_frame(frame, (0, 0, 0), width, height, palette)
  */
-      __pyx_t_28 = PyTuple_New(9); if (unlikely(!__pyx_t_28)) __PYX_ERR(0, 213, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_28);
+      __pyx_t_2 = PyTuple_New(9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 229, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
       __pyx_t_14 = 0;
-      __pyx_t_32 = 127;
+      __pyx_t_30 = 127;
       __Pyx_INCREF(__pyx_kp_u_Frame);
       __pyx_t_14 += 7;
       __Pyx_GIVEREF(__pyx_kp_u_Frame);
-      PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_kp_u_Frame);
-      __pyx_t_1 = __Pyx_PyUnicode_From_int(__pyx_v_frame_count, 0, ' ', 'd'); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 213, __pyx_L1_error)
+      PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Frame);
+      __pyx_t_20 = __Pyx_PyUnicode_From_int(__pyx_v_frame_count, 0, ' ', 'd'); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 229, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_20);
+      __pyx_t_14 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_20);
+      __Pyx_GIVEREF(__pyx_t_20);
+      PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_20);
+      __pyx_t_20 = 0;
+      __Pyx_INCREF(__pyx_kp_u__23);
+      __pyx_t_14 += 1;
+      __Pyx_GIVEREF(__pyx_kp_u__23);
+      PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_kp_u__23);
+      __pyx_t_20 = __Pyx_PyInt_FromDouble((__pyx_v_video_frame_nbr / __pyx_v_frame_skip)); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 229, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_20);
+      __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_t_20, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 229, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
+      __pyx_t_30 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) > __pyx_t_30) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) : __pyx_t_30;
       __pyx_t_14 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_1);
       __Pyx_GIVEREF(__pyx_t_1);
-      PyTuple_SET_ITEM(__pyx_t_28, 1, __pyx_t_1);
+      PyTuple_SET_ITEM(__pyx_t_2, 3, __pyx_t_1);
       __pyx_t_1 = 0;
-      __Pyx_INCREF(__pyx_kp_u__19);
-      __pyx_t_14 += 1;
-      __Pyx_GIVEREF(__pyx_kp_u__19);
-      PyTuple_SET_ITEM(__pyx_t_28, 2, __pyx_kp_u__19);
-      __pyx_t_1 = __Pyx_PyInt_FromDouble((__pyx_v_video_frame_nbr / __pyx_v_frame_skip)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 213, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_2 = __Pyx_PyObject_FormatSimple(__pyx_t_1, __pyx_empty_unicode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 213, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_32 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_2) > __pyx_t_32) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_2) : __pyx_t_32;
-      __pyx_t_14 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_2);
-      __Pyx_GIVEREF(__pyx_t_2);
-      PyTuple_SET_ITEM(__pyx_t_28, 3, __pyx_t_2);
-      __pyx_t_2 = 0;
       __Pyx_INCREF(__pyx_kp_u_Restant);
       __pyx_t_14 += 12;
       __Pyx_GIVEREF(__pyx_kp_u_Restant);
-      PyTuple_SET_ITEM(__pyx_t_28, 4, __pyx_kp_u_Restant);
-      __pyx_t_2 = __Pyx_PyObject_Format(__pyx_v_remaining, __pyx_kp_u_1f); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 213, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_32 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_2) > __pyx_t_32) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_2) : __pyx_t_32;
-      __pyx_t_14 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_2);
-      __Pyx_GIVEREF(__pyx_t_2);
-      PyTuple_SET_ITEM(__pyx_t_28, 5, __pyx_t_2);
-      __pyx_t_2 = 0;
+      PyTuple_SET_ITEM(__pyx_t_2, 4, __pyx_kp_u_Restant);
+      __pyx_t_1 = __Pyx_PyObject_Format(__pyx_v_remaining, __pyx_kp_u_1f); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 229, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_30 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) > __pyx_t_30) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) : __pyx_t_30;
+      __pyx_t_14 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_1);
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyTuple_SET_ITEM(__pyx_t_2, 5, __pyx_t_1);
+      __pyx_t_1 = 0;
       __Pyx_INCREF(__pyx_kp_u_s);
       __pyx_t_14 += 4;
       __Pyx_GIVEREF(__pyx_kp_u_s);
-      PyTuple_SET_ITEM(__pyx_t_28, 6, __pyx_kp_u_s);
-      __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_frame_count); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 213, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_v_elapsed, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 213, __pyx_L1_error)
+      PyTuple_SET_ITEM(__pyx_t_2, 6, __pyx_kp_u_s);
+      __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_frame_count); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 229, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyInt_MultiplyObjC(__pyx_t_1, __pyx_int_1000, 0x3E8, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 213, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_20 = __Pyx_PyNumber_Divide(__pyx_v_elapsed, __pyx_t_1); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 229, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_20);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Format(__pyx_t_2, __pyx_kp_u_1f); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 213, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyInt_MultiplyObjC(__pyx_t_20, __pyx_int_1000, 0x3E8, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 229, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_32 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) > __pyx_t_32) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) : __pyx_t_32;
-      __pyx_t_14 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_1);
-      __Pyx_GIVEREF(__pyx_t_1);
-      PyTuple_SET_ITEM(__pyx_t_28, 7, __pyx_t_1);
-      __pyx_t_1 = 0;
+      __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
+      __pyx_t_20 = __Pyx_PyObject_Format(__pyx_t_1, __pyx_kp_u_1f); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 229, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_20);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_30 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_20) > __pyx_t_30) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_20) : __pyx_t_30;
+      __pyx_t_14 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_20);
+      __Pyx_GIVEREF(__pyx_t_20);
+      PyTuple_SET_ITEM(__pyx_t_2, 7, __pyx_t_20);
+      __pyx_t_20 = 0;
       __Pyx_INCREF(__pyx_kp_u_ms_frame);
       __pyx_t_14 += 12;
       __Pyx_GIVEREF(__pyx_kp_u_ms_frame);
-      PyTuple_SET_ITEM(__pyx_t_28, 8, __pyx_kp_u_ms_frame);
-      __pyx_t_1 = __Pyx_PyUnicode_Join(__pyx_t_28, 9, __pyx_t_14, __pyx_t_32); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 213, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
-      __pyx_t_28 = PyTuple_New(1); if (unlikely(!__pyx_t_28)) __PYX_ERR(0, 213, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_28);
-      __Pyx_GIVEREF(__pyx_t_1);
-      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_1)) __PYX_ERR(0, 213, __pyx_L1_error);
-      __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 213, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__20) < 0) __PYX_ERR(0, 213, __pyx_L1_error)
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_28, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 213, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      PyTuple_SET_ITEM(__pyx_t_2, 8, __pyx_kp_u_ms_frame);
+      __pyx_t_20 = __Pyx_PyUnicode_Join(__pyx_t_2, 9, __pyx_t_14, __pyx_t_30); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 229, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_20);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 229, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_GIVEREF(__pyx_t_20);
+      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_20)) __PYX_ERR(0, 229, __pyx_L1_error);
+      __pyx_t_20 = 0;
+      __pyx_t_20 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 229, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_20);
+      if (PyDict_SetItem(__pyx_t_20, __pyx_n_s_end, __pyx_kp_u__24) < 0) __PYX_ERR(0, 229, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, __pyx_t_20); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 229, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "MCMM_client.pyx":210
+      /* "MCMM_client.pyx":226
  *         frame_count += 1
  * 
  *         if frame_count % 10 == 0:             # <<<<<<<<<<<<<<
@@ -24221,49 +24579,49 @@ static void __pyx_f_11MCMM_client_process_video(PyObject *__pyx_v_video_path, __
  */
     }
 
-    /* "MCMM_client.pyx":215
+    /* "MCMM_client.pyx":231
  *             print(f'Frame: {frame_count}/{int(video_frame_nbr / frame_skip)} | Restant: {remaining:.1f}s | {elapsed/frame_count*1000:.1f}ms/frame    ', end='\r')
  * 
  *         frame_processed = process_frame(frame, (0, 0, 0), width, height, palette)             # <<<<<<<<<<<<<<
  *         frame_view = frame_processed
  * 
  */
-    __pyx_t_2 = ((PyObject *)__pyx_f_11MCMM_client_process_frame(((PyArrayObject *)__pyx_v_frame), __pyx_tuple__21, __pyx_v_width, __pyx_v_height, __pyx_v_palette)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 215, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_1 = ((PyObject *)__pyx_f_11MCMM_client_process_frame(((PyArrayObject *)__pyx_v_frame), __pyx_tuple__25, __pyx_v_width, __pyx_v_height, __pyx_v_palette)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 231, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
     {
       __Pyx_BufFmt_StackElem __pyx_stack[1];
       __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_frame_processed.rcbuffer->pybuffer);
-      __pyx_t_15 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_frame_processed.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_2), &__Pyx_TypeInfo_nn___pyx_t_11MCMM_client_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 3, 0, __pyx_stack);
-      if (unlikely(__pyx_t_15 < 0)) {
-        PyErr_Fetch(&__pyx_t_8, &__pyx_t_7, &__pyx_t_6);
+      __pyx_t_18 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_frame_processed.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_1), &__Pyx_TypeInfo_nn___pyx_t_11MCMM_client_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 3, 0, __pyx_stack);
+      if (unlikely(__pyx_t_18 < 0)) {
+        PyErr_Fetch(&__pyx_t_6, &__pyx_t_7, &__pyx_t_8);
         if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_frame_processed.rcbuffer->pybuffer, (PyObject*)__pyx_v_frame_processed, &__Pyx_TypeInfo_nn___pyx_t_11MCMM_client_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 3, 0, __pyx_stack) == -1)) {
-          Py_XDECREF(__pyx_t_8); Py_XDECREF(__pyx_t_7); Py_XDECREF(__pyx_t_6);
+          Py_XDECREF(__pyx_t_6); Py_XDECREF(__pyx_t_7); Py_XDECREF(__pyx_t_8);
           __Pyx_RaiseBufferFallbackError();
         } else {
-          PyErr_Restore(__pyx_t_8, __pyx_t_7, __pyx_t_6);
+          PyErr_Restore(__pyx_t_6, __pyx_t_7, __pyx_t_8);
         }
-        __pyx_t_8 = __pyx_t_7 = __pyx_t_6 = 0;
+        __pyx_t_6 = __pyx_t_7 = __pyx_t_8 = 0;
       }
       __pyx_pybuffernd_frame_processed.diminfo[0].strides = __pyx_pybuffernd_frame_processed.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_frame_processed.diminfo[0].shape = __pyx_pybuffernd_frame_processed.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_frame_processed.diminfo[1].strides = __pyx_pybuffernd_frame_processed.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_frame_processed.diminfo[1].shape = __pyx_pybuffernd_frame_processed.rcbuffer->pybuffer.shape[1]; __pyx_pybuffernd_frame_processed.diminfo[2].strides = __pyx_pybuffernd_frame_processed.rcbuffer->pybuffer.strides[2]; __pyx_pybuffernd_frame_processed.diminfo[2].shape = __pyx_pybuffernd_frame_processed.rcbuffer->pybuffer.shape[2];
-      if (unlikely((__pyx_t_15 < 0))) __PYX_ERR(0, 215, __pyx_L1_error)
+      if (unlikely((__pyx_t_18 < 0))) __PYX_ERR(0, 231, __pyx_L1_error)
     }
-    __Pyx_XDECREF_SET(__pyx_v_frame_processed, ((PyArrayObject *)__pyx_t_2));
-    __pyx_t_2 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_frame_processed, ((PyArrayObject *)__pyx_t_1));
+    __pyx_t_1 = 0;
 
-    /* "MCMM_client.pyx":216
+    /* "MCMM_client.pyx":232
  * 
  *         frame_processed = process_frame(frame, (0, 0, 0), width, height, palette)
  *         frame_view = frame_processed             # <<<<<<<<<<<<<<
  * 
  *         imgtodat(frame_view, num, height, width, output_dir_str)
  */
-    __pyx_t_33 = __Pyx_PyObject_to_MemoryviewSlice_dsdsds_unsigned_char(((PyObject *)__pyx_v_frame_processed), PyBUF_WRITABLE); if (unlikely(!__pyx_t_33.memview)) __PYX_ERR(0, 216, __pyx_L1_error)
+    __pyx_t_38 = __Pyx_PyObject_to_MemoryviewSlice_dsdsds_unsigned_char(((PyObject *)__pyx_v_frame_processed), PyBUF_WRITABLE); if (unlikely(!__pyx_t_38.memview)) __PYX_ERR(0, 232, __pyx_L1_error)
     __PYX_XCLEAR_MEMVIEW(&__pyx_v_frame_view, 1);
-    __pyx_v_frame_view = __pyx_t_33;
-    __pyx_t_33.memview = NULL;
-    __pyx_t_33.data = NULL;
+    __pyx_v_frame_view = __pyx_t_38;
+    __pyx_t_38.memview = NULL;
+    __pyx_t_38.data = NULL;
 
-    /* "MCMM_client.pyx":218
+    /* "MCMM_client.pyx":234
  *         frame_view = frame_processed
  * 
  *         imgtodat(frame_view, num, height, width, output_dir_str)             # <<<<<<<<<<<<<<
@@ -24272,7 +24630,7 @@ static void __pyx_f_11MCMM_client_process_video(PyObject *__pyx_v_video_path, __
  */
     __pyx_f_11MCMM_client_imgtodat(__pyx_v_frame_view, __pyx_v_num, __pyx_v_height, __pyx_v_width, __pyx_v_output_dir_str);
 
-    /* "MCMM_client.pyx":220
+    /* "MCMM_client.pyx":236
  *         imgtodat(frame_view, num, height, width, output_dir_str)
  * 
  *         num += width * height             # <<<<<<<<<<<<<<
@@ -24280,53 +24638,53 @@ static void __pyx_f_11MCMM_client_process_video(PyObject *__pyx_v_video_path, __
  *     capture.release()
  */
     __pyx_v_num = (__pyx_v_num + (__pyx_v_width * __pyx_v_height));
-    __pyx_L36_continue:;
+    __pyx_L55_continue:;
   }
-  __pyx_L37_break:;
+  __pyx_L56_break:;
 
-  /* "MCMM_client.pyx":222
+  /* "MCMM_client.pyx":238
  *         num += width * height
  * 
  *     capture.release()             # <<<<<<<<<<<<<<
  *     print("\n Conversion termine!")
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_capture, __pyx_n_s_release); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 222, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_28 = NULL;
+  __pyx_t_20 = __Pyx_PyObject_GetAttrStr(__pyx_v_capture, __pyx_n_s_release); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 238, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_20);
+  __pyx_t_2 = NULL;
   __pyx_t_5 = 0;
   #if CYTHON_UNPACK_METHODS
-  if (likely(PyMethod_Check(__pyx_t_1))) {
-    __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_1);
-    if (likely(__pyx_t_28)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-      __Pyx_INCREF(__pyx_t_28);
+  if (likely(PyMethod_Check(__pyx_t_20))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_20);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_20);
+      __Pyx_INCREF(__pyx_t_2);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_1, function);
+      __Pyx_DECREF_SET(__pyx_t_20, function);
       __pyx_t_5 = 1;
     }
   }
   #endif
   {
-    PyObject *__pyx_callargs[2] = {__pyx_t_28, NULL};
-    __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_5, 0+__pyx_t_5);
-    __Pyx_XDECREF(__pyx_t_28); __pyx_t_28 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 222, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    PyObject *__pyx_callargs[2] = {__pyx_t_2, NULL};
+    __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_20, __pyx_callargs+1-__pyx_t_5, 0+__pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 238, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
   }
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "MCMM_client.pyx":223
+  /* "MCMM_client.pyx":239
  * 
  *     capture.release()
  *     print("\n Conversion termine!")             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 223, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__26, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MCMM_client.pyx":136
  * 
@@ -24347,7 +24705,7 @@ static void __pyx_f_11MCMM_client_process_video(PyObject *__pyx_v_video_path, __
   __Pyx_XDECREF(__pyx_t_22);
   __Pyx_XDECREF(__pyx_t_23);
   __Pyx_XDECREF(__pyx_t_28);
-  __PYX_XCLEAR_MEMVIEW(&__pyx_t_33, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_t_38, 1);
   { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
     __Pyx_PyThreadState_declare
     __Pyx_PyThreadState_assign
@@ -24383,6 +24741,7 @@ static void __pyx_f_11MCMM_client_process_video(PyObject *__pyx_v_video_path, __
   __Pyx_XDECREF(__pyx_v_capture);
   __Pyx_XDECREF(__pyx_v_audio_json);
   __Pyx_XDECREF(__pyx_v_ffmpeg);
+  __Pyx_XDECREF(__pyx_v_e);
   __Pyx_XDECREF(__pyx_v_ret);
   __Pyx_XDECREF(__pyx_v_elapsed);
   __Pyx_XDECREF(__pyx_v_remaining);
@@ -24563,7 +24922,7 @@ static PyObject *__pyx_pf_11MCMM_client_process_video(CYTHON_UNUSED PyObject *__
   return __pyx_r;
 }
 
-/* "MCMM_client.pyx":226
+/* "MCMM_client.pyx":242
  * 
  * 
  * cpdef void main():             # <<<<<<<<<<<<<<
@@ -24611,16 +24970,16 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("main", 1);
 
-  /* "MCMM_client.pyx":228
+  /* "MCMM_client.pyx":244
  * cpdef void main():
  *     """Point d'entre principal - gre le tlchargement et le traitement de la vido"""
  *     np.import_array()             # <<<<<<<<<<<<<<
  *     cdef str video_path = "video.mp4", url
  *     cdef INTP_t framerate, width, height
  */
-  __pyx_t_1 = __pyx_f_5numpy_import_array(); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(0, 228, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5numpy_import_array(); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(0, 244, __pyx_L1_error)
 
-  /* "MCMM_client.pyx":229
+  /* "MCMM_client.pyx":245
  *     """Point d'entre principal - gre le tlchargement et le traitement de la vido"""
  *     np.import_array()
  *     cdef str video_path = "video.mp4", url             # <<<<<<<<<<<<<<
@@ -24630,7 +24989,7 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
   __Pyx_INCREF(__pyx_kp_u_video_mp4);
   __pyx_v_video_path = __pyx_kp_u_video_mp4;
 
-  /* "MCMM_client.pyx":232
+  /* "MCMM_client.pyx":248
  *     cdef INTP_t framerate, width, height
  * 
  *     while True:             # <<<<<<<<<<<<<<
@@ -24639,7 +24998,7 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
  */
   while (1) {
 
-    /* "MCMM_client.pyx":233
+    /* "MCMM_client.pyx":249
  * 
  *     while True:
  *         try:             # <<<<<<<<<<<<<<
@@ -24655,68 +25014,68 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
       __Pyx_XGOTREF(__pyx_t_4);
       /*try:*/ {
 
-        /* "MCMM_client.pyx":234
+        /* "MCMM_client.pyx":250
  *     while True:
  *         try:
  *             url = input("Entrez l'URL de la vido : ")             # <<<<<<<<<<<<<<
  *             framerate = int(input("Entrez le framerate dsir [1-20] : "))
  *             width = int(input("Entrez la largeur en nombre de cartes : "))
  */
-        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_input, __pyx_tuple__23, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 234, __pyx_L5_error)
+        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_input, __pyx_tuple__27, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 250, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_5);
-        if (!(likely(PyUnicode_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None) || __Pyx_RaiseUnexpectedTypeError("unicode", __pyx_t_5))) __PYX_ERR(0, 234, __pyx_L5_error)
+        if (!(likely(PyUnicode_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None) || __Pyx_RaiseUnexpectedTypeError("unicode", __pyx_t_5))) __PYX_ERR(0, 250, __pyx_L5_error)
         __Pyx_XDECREF_SET(__pyx_v_url, ((PyObject*)__pyx_t_5));
         __pyx_t_5 = 0;
 
-        /* "MCMM_client.pyx":235
+        /* "MCMM_client.pyx":251
  *         try:
  *             url = input("Entrez l'URL de la vido : ")
  *             framerate = int(input("Entrez le framerate dsir [1-20] : "))             # <<<<<<<<<<<<<<
  *             width = int(input("Entrez la largeur en nombre de cartes : "))
  *             height = int(input("Entrez la hauteur en nombre de cartes : "))
  */
-        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_input, __pyx_tuple__24, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 235, __pyx_L5_error)
+        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_input, __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 251, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_6 = __Pyx_PyNumber_Int(__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 235, __pyx_L5_error)
+        __pyx_t_6 = __Pyx_PyNumber_Int(__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 251, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_7 = __Pyx_PyInt_As_npy_intp(__pyx_t_6); if (unlikely((__pyx_t_7 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 235, __pyx_L5_error)
+        __pyx_t_7 = __Pyx_PyInt_As_npy_intp(__pyx_t_6); if (unlikely((__pyx_t_7 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 251, __pyx_L5_error)
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __pyx_v_framerate = __pyx_t_7;
 
-        /* "MCMM_client.pyx":236
+        /* "MCMM_client.pyx":252
  *             url = input("Entrez l'URL de la vido : ")
  *             framerate = int(input("Entrez le framerate dsir [1-20] : "))
  *             width = int(input("Entrez la largeur en nombre de cartes : "))             # <<<<<<<<<<<<<<
  *             height = int(input("Entrez la hauteur en nombre de cartes : "))
  * 
  */
-        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_input, __pyx_tuple__25, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 236, __pyx_L5_error)
+        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_input, __pyx_tuple__29, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 252, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_5 = __Pyx_PyNumber_Int(__pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 236, __pyx_L5_error)
+        __pyx_t_5 = __Pyx_PyNumber_Int(__pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 252, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_7 = __Pyx_PyInt_As_npy_intp(__pyx_t_5); if (unlikely((__pyx_t_7 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 236, __pyx_L5_error)
+        __pyx_t_7 = __Pyx_PyInt_As_npy_intp(__pyx_t_5); if (unlikely((__pyx_t_7 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 252, __pyx_L5_error)
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __pyx_v_width = __pyx_t_7;
 
-        /* "MCMM_client.pyx":237
+        /* "MCMM_client.pyx":253
  *             framerate = int(input("Entrez le framerate dsir [1-20] : "))
  *             width = int(input("Entrez la largeur en nombre de cartes : "))
  *             height = int(input("Entrez la hauteur en nombre de cartes : "))             # <<<<<<<<<<<<<<
  * 
  *             if not (1 <= framerate <= 20 and width > 0 and height > 0):
  */
-        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_input, __pyx_tuple__26, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 237, __pyx_L5_error)
+        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_input, __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 253, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_6 = __Pyx_PyNumber_Int(__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 237, __pyx_L5_error)
+        __pyx_t_6 = __Pyx_PyNumber_Int(__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 253, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_7 = __Pyx_PyInt_As_npy_intp(__pyx_t_6); if (unlikely((__pyx_t_7 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 237, __pyx_L5_error)
+        __pyx_t_7 = __Pyx_PyInt_As_npy_intp(__pyx_t_6); if (unlikely((__pyx_t_7 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 253, __pyx_L5_error)
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __pyx_v_height = __pyx_t_7;
 
-        /* "MCMM_client.pyx":239
+        /* "MCMM_client.pyx":255
  *             height = int(input("Entrez la hauteur en nombre de cartes : "))
  * 
  *             if not (1 <= framerate <= 20 and width > 0 and height > 0):             # <<<<<<<<<<<<<<
@@ -24744,19 +25103,19 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
         __pyx_t_9 = (!__pyx_t_8);
         if (__pyx_t_9) {
 
-          /* "MCMM_client.pyx":240
+          /* "MCMM_client.pyx":256
  * 
  *             if not (1 <= framerate <= 20 and width > 0 and height > 0):
  *                 print("Valeurs invalides!"); continue             # <<<<<<<<<<<<<<
  * 
  *             print("Tlchargement...")
  */
-          __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__27, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 240, __pyx_L5_error)
+          __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__31, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 256, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_6);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           goto __pyx_L11_try_continue;
 
-          /* "MCMM_client.pyx":239
+          /* "MCMM_client.pyx":255
  *             height = int(input("Entrez la hauteur en nombre de cartes : "))
  * 
  *             if not (1 <= framerate <= 20 and width > 0 and height > 0):             # <<<<<<<<<<<<<<
@@ -24765,42 +25124,42 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
  */
         }
 
-        /* "MCMM_client.pyx":242
+        /* "MCMM_client.pyx":258
  *                 print("Valeurs invalides!"); continue
  * 
  *             print("Tlchargement...")             # <<<<<<<<<<<<<<
  *             r = get(url, stream=True); r.raise_for_status()
  *             with open(video_path, 'wb') as f:
  */
-        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 242, __pyx_L5_error)
+        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__32, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 258, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "MCMM_client.pyx":243
+        /* "MCMM_client.pyx":259
  * 
  *             print("Tlchargement...")
  *             r = get(url, stream=True); r.raise_for_status()             # <<<<<<<<<<<<<<
  *             with open(video_path, 'wb') as f:
  *                 for chunk in r.iter_content(chunk_size=8192):
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_get); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 243, __pyx_L5_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_get); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 259, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 243, __pyx_L5_error)
+        __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 259, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_INCREF(__pyx_v_url);
         __Pyx_GIVEREF(__pyx_v_url);
-        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_url)) __PYX_ERR(0, 243, __pyx_L5_error);
-        __pyx_t_10 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 243, __pyx_L5_error)
+        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_url)) __PYX_ERR(0, 259, __pyx_L5_error);
+        __pyx_t_10 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 259, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_10);
-        if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_stream, Py_True) < 0) __PYX_ERR(0, 243, __pyx_L5_error)
-        __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 243, __pyx_L5_error)
+        if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_stream, Py_True) < 0) __PYX_ERR(0, 259, __pyx_L5_error)
+        __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 259, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_11);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         __Pyx_XDECREF_SET(__pyx_v_r, __pyx_t_11);
         __pyx_t_11 = 0;
-        __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_r, __pyx_n_s_raise_for_status); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 243, __pyx_L5_error)
+        __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_r, __pyx_n_s_raise_for_status); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 259, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_10);
         __pyx_t_5 = NULL;
         __pyx_t_12 = 0;
@@ -24820,13 +25179,13 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
           PyObject *__pyx_callargs[2] = {__pyx_t_5, NULL};
           __pyx_t_11 = __Pyx_PyObject_FastCall(__pyx_t_10, __pyx_callargs+1-__pyx_t_12, 0+__pyx_t_12);
           __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-          if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 243, __pyx_L5_error)
+          if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 259, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_11);
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         }
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-        /* "MCMM_client.pyx":244
+        /* "MCMM_client.pyx":260
  *             print("Tlchargement...")
  *             r = get(url, stream=True); r.raise_for_status()
  *             with open(video_path, 'wb') as f:             # <<<<<<<<<<<<<<
@@ -24834,20 +25193,20 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
  *                     f.write(chunk)
  */
         /*with:*/ {
-          __pyx_t_11 = PyTuple_New(2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 244, __pyx_L5_error)
+          __pyx_t_11 = PyTuple_New(2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 260, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_11);
           __Pyx_INCREF(__pyx_v_video_path);
           __Pyx_GIVEREF(__pyx_v_video_path);
-          if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_v_video_path)) __PYX_ERR(0, 244, __pyx_L5_error);
+          if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_v_video_path)) __PYX_ERR(0, 260, __pyx_L5_error);
           __Pyx_INCREF(__pyx_n_u_wb);
           __Pyx_GIVEREF(__pyx_n_u_wb);
-          if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 1, __pyx_n_u_wb)) __PYX_ERR(0, 244, __pyx_L5_error);
-          __pyx_t_10 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_t_11, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 244, __pyx_L5_error)
+          if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 1, __pyx_n_u_wb)) __PYX_ERR(0, 260, __pyx_L5_error);
+          __pyx_t_10 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_t_11, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 260, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-          __pyx_t_13 = __Pyx_PyObject_LookupSpecial(__pyx_t_10, __pyx_n_s_exit); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 244, __pyx_L5_error)
+          __pyx_t_13 = __Pyx_PyObject_LookupSpecial(__pyx_t_10, __pyx_n_s_exit); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 260, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_13);
-          __pyx_t_5 = __Pyx_PyObject_LookupSpecial(__pyx_t_10, __pyx_n_s_enter); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 244, __pyx_L17_error)
+          __pyx_t_5 = __Pyx_PyObject_LookupSpecial(__pyx_t_10, __pyx_n_s_enter); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 260, __pyx_L17_error)
           __Pyx_GOTREF(__pyx_t_5);
           __pyx_t_6 = NULL;
           __pyx_t_12 = 0;
@@ -24867,7 +25226,7 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
             PyObject *__pyx_callargs[2] = {__pyx_t_6, NULL};
             __pyx_t_11 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_12, 0+__pyx_t_12);
             __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-            if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 244, __pyx_L17_error)
+            if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 260, __pyx_L17_error)
             __Pyx_GOTREF(__pyx_t_11);
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           }
@@ -24886,19 +25245,19 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
                 __Pyx_XDECREF_SET(__pyx_v_f, __pyx_t_5);
                 __pyx_t_5 = 0;
 
-                /* "MCMM_client.pyx":245
+                /* "MCMM_client.pyx":261
  *             r = get(url, stream=True); r.raise_for_status()
  *             with open(video_path, 'wb') as f:
  *                 for chunk in r.iter_content(chunk_size=8192):             # <<<<<<<<<<<<<<
  *                     f.write(chunk)
  * 
  */
-                __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_r, __pyx_n_s_iter_content); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 245, __pyx_L23_error)
+                __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_r, __pyx_n_s_iter_content); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 261, __pyx_L23_error)
                 __Pyx_GOTREF(__pyx_t_5);
-                __pyx_t_10 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 245, __pyx_L23_error)
+                __pyx_t_10 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 261, __pyx_L23_error)
                 __Pyx_GOTREF(__pyx_t_10);
-                if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_chunk_size, __pyx_int_8192) < 0) __PYX_ERR(0, 245, __pyx_L23_error)
-                __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_empty_tuple, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 245, __pyx_L23_error)
+                if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_chunk_size, __pyx_int_8192) < 0) __PYX_ERR(0, 261, __pyx_L23_error)
+                __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_empty_tuple, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 261, __pyx_L23_error)
                 __Pyx_GOTREF(__pyx_t_11);
                 __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
                 __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -24907,9 +25266,9 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
                   __pyx_t_17 = 0;
                   __pyx_t_18 = NULL;
                 } else {
-                  __pyx_t_17 = -1; __pyx_t_10 = PyObject_GetIter(__pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 245, __pyx_L23_error)
+                  __pyx_t_17 = -1; __pyx_t_10 = PyObject_GetIter(__pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 261, __pyx_L23_error)
                   __Pyx_GOTREF(__pyx_t_10);
-                  __pyx_t_18 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_10); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 245, __pyx_L23_error)
+                  __pyx_t_18 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_10); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 261, __pyx_L23_error)
                 }
                 __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
                 for (;;) {
@@ -24918,28 +25277,28 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
                       {
                         Py_ssize_t __pyx_temp = __Pyx_PyList_GET_SIZE(__pyx_t_10);
                         #if !CYTHON_ASSUME_SAFE_MACROS
-                        if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 245, __pyx_L23_error)
+                        if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 261, __pyx_L23_error)
                         #endif
                         if (__pyx_t_17 >= __pyx_temp) break;
                       }
                       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-                      __pyx_t_11 = PyList_GET_ITEM(__pyx_t_10, __pyx_t_17); __Pyx_INCREF(__pyx_t_11); __pyx_t_17++; if (unlikely((0 < 0))) __PYX_ERR(0, 245, __pyx_L23_error)
+                      __pyx_t_11 = PyList_GET_ITEM(__pyx_t_10, __pyx_t_17); __Pyx_INCREF(__pyx_t_11); __pyx_t_17++; if (unlikely((0 < 0))) __PYX_ERR(0, 261, __pyx_L23_error)
                       #else
-                      __pyx_t_11 = __Pyx_PySequence_ITEM(__pyx_t_10, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 245, __pyx_L23_error)
+                      __pyx_t_11 = __Pyx_PySequence_ITEM(__pyx_t_10, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 261, __pyx_L23_error)
                       __Pyx_GOTREF(__pyx_t_11);
                       #endif
                     } else {
                       {
                         Py_ssize_t __pyx_temp = __Pyx_PyTuple_GET_SIZE(__pyx_t_10);
                         #if !CYTHON_ASSUME_SAFE_MACROS
-                        if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 245, __pyx_L23_error)
+                        if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 261, __pyx_L23_error)
                         #endif
                         if (__pyx_t_17 >= __pyx_temp) break;
                       }
                       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-                      __pyx_t_11 = PyTuple_GET_ITEM(__pyx_t_10, __pyx_t_17); __Pyx_INCREF(__pyx_t_11); __pyx_t_17++; if (unlikely((0 < 0))) __PYX_ERR(0, 245, __pyx_L23_error)
+                      __pyx_t_11 = PyTuple_GET_ITEM(__pyx_t_10, __pyx_t_17); __Pyx_INCREF(__pyx_t_11); __pyx_t_17++; if (unlikely((0 < 0))) __PYX_ERR(0, 261, __pyx_L23_error)
                       #else
-                      __pyx_t_11 = __Pyx_PySequence_ITEM(__pyx_t_10, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 245, __pyx_L23_error)
+                      __pyx_t_11 = __Pyx_PySequence_ITEM(__pyx_t_10, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 261, __pyx_L23_error)
                       __Pyx_GOTREF(__pyx_t_11);
                       #endif
                     }
@@ -24949,7 +25308,7 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
                       PyObject* exc_type = PyErr_Occurred();
                       if (exc_type) {
                         if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-                        else __PYX_ERR(0, 245, __pyx_L23_error)
+                        else __PYX_ERR(0, 261, __pyx_L23_error)
                       }
                       break;
                     }
@@ -24958,14 +25317,14 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
                   __Pyx_XDECREF_SET(__pyx_v_chunk, __pyx_t_11);
                   __pyx_t_11 = 0;
 
-                  /* "MCMM_client.pyx":246
+                  /* "MCMM_client.pyx":262
  *             with open(video_path, 'wb') as f:
  *                 for chunk in r.iter_content(chunk_size=8192):
  *                     f.write(chunk)             # <<<<<<<<<<<<<<
  * 
  *             process_video(video_path, width, height, framerate)
  */
-                  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_f, __pyx_n_s_write); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 246, __pyx_L23_error)
+                  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_f, __pyx_n_s_write); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 262, __pyx_L23_error)
                   __Pyx_GOTREF(__pyx_t_5);
                   __pyx_t_6 = NULL;
                   __pyx_t_12 = 0;
@@ -24985,13 +25344,13 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
                     PyObject *__pyx_callargs[2] = {__pyx_t_6, __pyx_v_chunk};
                     __pyx_t_11 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_12, 1+__pyx_t_12);
                     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-                    if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 246, __pyx_L23_error)
+                    if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 262, __pyx_L23_error)
                     __Pyx_GOTREF(__pyx_t_11);
                     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
                   }
                   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-                  /* "MCMM_client.pyx":245
+                  /* "MCMM_client.pyx":261
  *             r = get(url, stream=True); r.raise_for_status()
  *             with open(video_path, 'wb') as f:
  *                 for chunk in r.iter_content(chunk_size=8192):             # <<<<<<<<<<<<<<
@@ -25001,7 +25360,7 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
                 }
                 __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-                /* "MCMM_client.pyx":244
+                /* "MCMM_client.pyx":260
  *             print("Tlchargement...")
  *             r = get(url, stream=True); r.raise_for_status()
  *             with open(video_path, 'wb') as f:             # <<<<<<<<<<<<<<
@@ -25020,20 +25379,20 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
               __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
               /*except:*/ {
                 __Pyx_AddTraceback("MCMM_client.main", __pyx_clineno, __pyx_lineno, __pyx_filename);
-                if (__Pyx_GetException(&__pyx_t_10, &__pyx_t_11, &__pyx_t_5) < 0) __PYX_ERR(0, 244, __pyx_L25_except_error)
+                if (__Pyx_GetException(&__pyx_t_10, &__pyx_t_11, &__pyx_t_5) < 0) __PYX_ERR(0, 260, __pyx_L25_except_error)
                 __Pyx_XGOTREF(__pyx_t_10);
                 __Pyx_XGOTREF(__pyx_t_11);
                 __Pyx_XGOTREF(__pyx_t_5);
-                __pyx_t_6 = PyTuple_Pack(3, __pyx_t_10, __pyx_t_11, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 244, __pyx_L25_except_error)
+                __pyx_t_6 = PyTuple_Pack(3, __pyx_t_10, __pyx_t_11, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 260, __pyx_L25_except_error)
                 __Pyx_GOTREF(__pyx_t_6);
                 __pyx_t_19 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_t_6, NULL);
                 __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
                 __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-                if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 244, __pyx_L25_except_error)
+                if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 260, __pyx_L25_except_error)
                 __Pyx_GOTREF(__pyx_t_19);
                 __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_19);
                 __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
-                if (__pyx_t_9 < 0) __PYX_ERR(0, 244, __pyx_L25_except_error)
+                if (__pyx_t_9 < 0) __PYX_ERR(0, 260, __pyx_L25_except_error)
                 __pyx_t_8 = (!__pyx_t_9);
                 if (unlikely(__pyx_t_8)) {
                   __Pyx_GIVEREF(__pyx_t_10);
@@ -25041,7 +25400,7 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
                   __Pyx_XGIVEREF(__pyx_t_5);
                   __Pyx_ErrRestoreWithState(__pyx_t_10, __pyx_t_11, __pyx_t_5);
                   __pyx_t_10 = 0; __pyx_t_11 = 0; __pyx_t_5 = 0; 
-                  __PYX_ERR(0, 244, __pyx_L25_except_error)
+                  __PYX_ERR(0, 260, __pyx_L25_except_error)
                 }
                 __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
                 __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
@@ -25067,7 +25426,7 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
               if (__pyx_t_13) {
                 __pyx_t_16 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_tuple__13, NULL);
                 __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-                if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 244, __pyx_L5_error)
+                if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 260, __pyx_L5_error)
                 __Pyx_GOTREF(__pyx_t_16);
                 __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
               }
@@ -25082,16 +25441,16 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
           __pyx_L37:;
         }
 
-        /* "MCMM_client.pyx":248
+        /* "MCMM_client.pyx":264
  *                     f.write(chunk)
  * 
  *             process_video(video_path, width, height, framerate)             # <<<<<<<<<<<<<<
  * 
  *         except KeyboardInterrupt:
  */
-        __pyx_f_11MCMM_client_process_video(__pyx_v_video_path, __pyx_v_width, __pyx_v_height, __pyx_v_framerate, 0); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 248, __pyx_L5_error)
+        __pyx_f_11MCMM_client_process_video(__pyx_v_video_path, __pyx_v_width, __pyx_v_height, __pyx_v_framerate, 0); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 264, __pyx_L5_error)
 
-        /* "MCMM_client.pyx":233
+        /* "MCMM_client.pyx":249
  * 
  *     while True:
  *         try:             # <<<<<<<<<<<<<<
@@ -25109,7 +25468,7 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "MCMM_client.pyx":250
+      /* "MCMM_client.pyx":266
  *             process_video(video_path, width, height, framerate)
  * 
  *         except KeyboardInterrupt:             # <<<<<<<<<<<<<<
@@ -25119,19 +25478,19 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
       __pyx_t_1 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyboardInterrupt);
       if (__pyx_t_1) {
         __Pyx_AddTraceback("MCMM_client.main", __pyx_clineno, __pyx_lineno, __pyx_filename);
-        if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_11, &__pyx_t_10) < 0) __PYX_ERR(0, 250, __pyx_L7_except_error)
+        if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_11, &__pyx_t_10) < 0) __PYX_ERR(0, 266, __pyx_L7_except_error)
         __Pyx_XGOTREF(__pyx_t_5);
         __Pyx_XGOTREF(__pyx_t_11);
         __Pyx_XGOTREF(__pyx_t_10);
 
-        /* "MCMM_client.pyx":251
+        /* "MCMM_client.pyx":267
  * 
  *         except KeyboardInterrupt:
  *             print("\nArrt."); break             # <<<<<<<<<<<<<<
  *         except Exception as e:
  *             print(f"\nErreur: {e}")
  */
-        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__29, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 251, __pyx_L7_except_error)
+        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__33, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 267, __pyx_L7_except_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         goto __pyx_L39_except_break;
@@ -25142,7 +25501,7 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
         goto __pyx_L10_try_break;
       }
 
-      /* "MCMM_client.pyx":252
+      /* "MCMM_client.pyx":268
  *         except KeyboardInterrupt:
  *             print("\nArrt."); break
  *         except Exception as e:             # <<<<<<<<<<<<<<
@@ -25152,7 +25511,7 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
       __pyx_t_1 = __Pyx_PyErr_ExceptionMatches(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])));
       if (__pyx_t_1) {
         __Pyx_AddTraceback("MCMM_client.main", __pyx_clineno, __pyx_lineno, __pyx_filename);
-        if (__Pyx_GetException(&__pyx_t_10, &__pyx_t_11, &__pyx_t_5) < 0) __PYX_ERR(0, 252, __pyx_L7_except_error)
+        if (__Pyx_GetException(&__pyx_t_10, &__pyx_t_11, &__pyx_t_5) < 0) __PYX_ERR(0, 268, __pyx_L7_except_error)
         __Pyx_XGOTREF(__pyx_t_10);
         __Pyx_XGOTREF(__pyx_t_11);
         __Pyx_XGOTREF(__pyx_t_5);
@@ -25160,25 +25519,25 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
         __pyx_v_e = __pyx_t_11;
         /*try:*/ {
 
-          /* "MCMM_client.pyx":253
+          /* "MCMM_client.pyx":269
  *             print("\nArrt."); break
  *         except Exception as e:
  *             print(f"\nErreur: {e}")             # <<<<<<<<<<<<<<
  * 
  * 
  */
-          __pyx_t_6 = __Pyx_PyObject_FormatSimple(__pyx_v_e, __pyx_empty_unicode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 253, __pyx_L45_error)
+          __pyx_t_6 = __Pyx_PyObject_FormatSimple(__pyx_v_e, __pyx_empty_unicode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 269, __pyx_L45_error)
           __Pyx_GOTREF(__pyx_t_6);
-          __pyx_t_20 = __Pyx_PyUnicode_Concat(__pyx_kp_u_Erreur, __pyx_t_6); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 253, __pyx_L45_error)
+          __pyx_t_20 = __Pyx_PyUnicode_Concat(__pyx_kp_u_Erreur, __pyx_t_6); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 269, __pyx_L45_error)
           __Pyx_GOTREF(__pyx_t_20);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_20); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 253, __pyx_L45_error)
+          __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_20); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 269, __pyx_L45_error)
           __Pyx_GOTREF(__pyx_t_6);
           __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         }
 
-        /* "MCMM_client.pyx":252
+        /* "MCMM_client.pyx":268
  *         except KeyboardInterrupt:
  *             print("\nArrt."); break
  *         except Exception as e:             # <<<<<<<<<<<<<<
@@ -25232,7 +25591,7 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
       }
       goto __pyx_L7_except_error;
 
-      /* "MCMM_client.pyx":233
+      /* "MCMM_client.pyx":249
  * 
  *     while True:
  *         try:             # <<<<<<<<<<<<<<
@@ -25268,7 +25627,7 @@ static void __pyx_f_11MCMM_client_main(CYTHON_UNUSED int __pyx_skip_dispatch) {
   }
   __pyx_L4_break:;
 
-  /* "MCMM_client.pyx":226
+  /* "MCMM_client.pyx":242
  * 
  * 
  * cpdef void main():             # <<<<<<<<<<<<<<
@@ -25321,8 +25680,8 @@ static PyObject *__pyx_pf_11MCMM_client_2main(CYTHON_UNUSED PyObject *__pyx_self
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("main", 1);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_f_11MCMM_client_main(0); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 226, __pyx_L1_error)
-  __pyx_t_1 = __Pyx_void_to_None(NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 226, __pyx_L1_error)
+  __pyx_f_11MCMM_client_main(0); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 242, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 242, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -26321,7 +26680,7 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_kp_s_All_dimensions_preceding_dimensi, __pyx_k_All_dimensions_preceding_dimensi, sizeof(__pyx_k_All_dimensions_preceding_dimensi), 0, 0, 1, 0},
     {&__pyx_kp_u_Arrt, __pyx_k_Arrt, sizeof(__pyx_k_Arrt), 0, 1, 0, 0},
     {&__pyx_n_s_AssertionError, __pyx_k_AssertionError, sizeof(__pyx_k_AssertionError), 0, 0, 1, 1},
-    {&__pyx_kp_u_Audio_extrait_et_converti_en_OGG, __pyx_k_Audio_extrait_et_converti_en_OGG, sizeof(__pyx_k_Audio_extrait_et_converti_en_OGG), 0, 1, 0, 0},
+    {&__pyx_kp_u_Audio_extrait_et_converti_en_OG, __pyx_k_Audio_extrait_et_converti_en_OG, sizeof(__pyx_k_Audio_extrait_et_converti_en_OG), 0, 1, 0, 0},
     {&__pyx_kp_s_Buffer_view_does_not_expose_stri, __pyx_k_Buffer_view_does_not_expose_stri, sizeof(__pyx_k_Buffer_view_does_not_expose_stri), 0, 0, 1, 0},
     {&__pyx_n_s_CAP_PROP_FPS, __pyx_k_CAP_PROP_FPS, sizeof(__pyx_k_CAP_PROP_FPS), 0, 0, 1, 1},
     {&__pyx_n_s_CAP_PROP_FRAME_COUNT, __pyx_k_CAP_PROP_FRAME_COUNT, sizeof(__pyx_k_CAP_PROP_FRAME_COUNT), 0, 0, 1, 1},
@@ -26344,7 +26703,11 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_kp_u_Entrez_la_largeur_en_nombre_de_c, __pyx_k_Entrez_la_largeur_en_nombre_de_c, sizeof(__pyx_k_Entrez_la_largeur_en_nombre_de_c), 0, 1, 0, 0},
     {&__pyx_kp_u_Entrez_le_framerate_dsir_1_20, __pyx_k_Entrez_le_framerate_dsir_1_20, sizeof(__pyx_k_Entrez_le_framerate_dsir_1_20), 0, 1, 0, 0},
     {&__pyx_kp_u_Erreur, __pyx_k_Erreur, sizeof(__pyx_k_Erreur), 0, 1, 0, 0},
+    {&__pyx_kp_u_Erreur_lors_de_la_conversion_aud, __pyx_k_Erreur_lors_de_la_conversion_aud, sizeof(__pyx_k_Erreur_lors_de_la_conversion_aud), 0, 1, 0, 0},
+    {&__pyx_kp_u_Extraction_de_l_audio, __pyx_k_Extraction_de_l_audio, sizeof(__pyx_k_Extraction_de_l_audio), 0, 1, 0, 0},
     {&__pyx_n_s_FFmpeg, __pyx_k_FFmpeg, sizeof(__pyx_k_FFmpeg), 0, 0, 1, 1},
+    {&__pyx_kp_u_Fichier_audio_de_sortie_manquant, __pyx_k_Fichier_audio_de_sortie_manquant, sizeof(__pyx_k_Fichier_audio_de_sortie_manquant), 0, 1, 0, 0},
+    {&__pyx_kp_u_Fichier_audio_vide, __pyx_k_Fichier_audio_vide, sizeof(__pyx_k_Fichier_audio_vide), 0, 1, 0, 0},
     {&__pyx_kp_u_Frame, __pyx_k_Frame, sizeof(__pyx_k_Frame), 0, 1, 0, 0},
     {&__pyx_n_s_INTER_AREA, __pyx_k_INTER_AREA, sizeof(__pyx_k_INTER_AREA), 0, 0, 1, 1},
     {&__pyx_n_s_Image, __pyx_k_Image, sizeof(__pyx_k_Image), 0, 0, 1, 1},
@@ -26387,15 +26750,14 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_VideoCapture, __pyx_k_VideoCapture, sizeof(__pyx_k_VideoCapture), 0, 0, 1, 1},
     {&__pyx_n_s_View_MemoryView, __pyx_k_View_MemoryView, sizeof(__pyx_k_View_MemoryView), 0, 0, 1, 1},
     {&__pyx_kp_u__14, __pyx_k__14, sizeof(__pyx_k__14), 0, 1, 0, 0},
-    {&__pyx_kp_u__19, __pyx_k__19, sizeof(__pyx_k__19), 0, 1, 0, 0},
     {&__pyx_kp_u__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 1, 0, 0},
-    {&__pyx_kp_u__20, __pyx_k__20, sizeof(__pyx_k__20), 0, 1, 0, 0},
+    {&__pyx_kp_u__23, __pyx_k__23, sizeof(__pyx_k__23), 0, 1, 0, 0},
+    {&__pyx_kp_u__24, __pyx_k__24, sizeof(__pyx_k__24), 0, 1, 0, 0},
     {&__pyx_n_s__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 1, 1},
-    {&__pyx_n_s__44, __pyx_k__44, sizeof(__pyx_k__44), 0, 0, 1, 1},
+    {&__pyx_n_s__48, __pyx_k__48, sizeof(__pyx_k__48), 0, 0, 1, 1},
     {&__pyx_kp_u__6, __pyx_k__6, sizeof(__pyx_k__6), 0, 1, 0, 0},
     {&__pyx_kp_u__7, __pyx_k__7, sizeof(__pyx_k__7), 0, 1, 0, 0},
     {&__pyx_n_s_abc, __pyx_k_abc, sizeof(__pyx_k_abc), 0, 0, 1, 1},
-    {&__pyx_n_s_acodec, __pyx_k_acodec, sizeof(__pyx_k_acodec), 0, 0, 1, 1},
     {&__pyx_n_s_allocate_buffer, __pyx_k_allocate_buffer, sizeof(__pyx_k_allocate_buffer), 0, 0, 1, 1},
     {&__pyx_kp_u_and, __pyx_k_and, sizeof(__pyx_k_and), 0, 1, 0, 0},
     {&__pyx_n_s_array, __pyx_k_array, sizeof(__pyx_k_array), 0, 0, 1, 1},
@@ -26404,6 +26766,8 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_base, __pyx_k_base, sizeof(__pyx_k_base), 0, 0, 1, 1},
     {&__pyx_n_s_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 0, 1, 1},
     {&__pyx_n_u_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 1, 0, 1},
+    {&__pyx_kp_u_c_a_libvorbis_q_a_6, __pyx_k_c_a_libvorbis_q_a_6, sizeof(__pyx_k_c_a_libvorbis_q_a_6), 0, 1, 0, 0},
+    {&__pyx_kp_u_chec_de_la_conversion_FFmpeg, __pyx_k_chec_de_la_conversion_FFmpeg, sizeof(__pyx_k_chec_de_la_conversion_FFmpeg), 0, 1, 0, 0},
     {&__pyx_n_s_chunk_size, __pyx_k_chunk_size, sizeof(__pyx_k_chunk_size), 0, 0, 1, 1},
     {&__pyx_n_s_class, __pyx_k_class, sizeof(__pyx_k_class), 0, 0, 1, 1},
     {&__pyx_n_s_class_getitem, __pyx_k_class_getitem, sizeof(__pyx_k_class_getitem), 0, 0, 1, 1},
@@ -26435,7 +26799,6 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_enter, __pyx_k_enter, sizeof(__pyx_k_enter), 0, 0, 1, 1},
     {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
     {&__pyx_n_s_error, __pyx_k_error, sizeof(__pyx_k_error), 0, 0, 1, 1},
-    {&__pyx_n_u_error, __pyx_k_error, sizeof(__pyx_k_error), 0, 1, 0, 1},
     {&__pyx_n_s_exist_ok, __pyx_k_exist_ok, sizeof(__pyx_k_exist_ok), 0, 0, 1, 1},
     {&__pyx_n_s_exit, __pyx_k_exit, sizeof(__pyx_k_exit), 0, 0, 1, 1},
     {&__pyx_n_s_flags, __pyx_k_flags, sizeof(__pyx_k_flags), 0, 0, 1, 1},
@@ -26448,6 +26811,7 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_kp_u_futiax_videotomap, __pyx_k_futiax_videotomap, sizeof(__pyx_k_futiax_videotomap), 0, 1, 0, 0},
     {&__pyx_kp_u_gc, __pyx_k_gc, sizeof(__pyx_k_gc), 0, 1, 0, 0},
     {&__pyx_n_s_get, __pyx_k_get, sizeof(__pyx_k_get), 0, 0, 1, 1},
+    {&__pyx_n_s_getsize, __pyx_k_getsize, sizeof(__pyx_k_getsize), 0, 0, 1, 1},
     {&__pyx_n_s_getstate, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
     {&__pyx_kp_u_got, __pyx_k_got, sizeof(__pyx_k_got), 0, 1, 0, 0},
     {&__pyx_kp_u_got_differing_extents_in_dimensi, __pyx_k_got_differing_extents_in_dimensi, sizeof(__pyx_k_got_differing_extents_in_dimensi), 0, 1, 0, 0},
@@ -26462,16 +26826,15 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_isOpened, __pyx_k_isOpened, sizeof(__pyx_k_isOpened), 0, 0, 1, 1},
     {&__pyx_n_s_is_coroutine, __pyx_k_is_coroutine, sizeof(__pyx_k_is_coroutine), 0, 0, 1, 1},
     {&__pyx_kp_u_isenabled, __pyx_k_isenabled, sizeof(__pyx_k_isenabled), 0, 1, 0, 0},
+    {&__pyx_n_s_isfile, __pyx_k_isfile, sizeof(__pyx_k_isfile), 0, 0, 1, 1},
     {&__pyx_n_s_items, __pyx_k_items, sizeof(__pyx_k_items), 0, 0, 1, 1},
     {&__pyx_n_s_itemsize, __pyx_k_itemsize, sizeof(__pyx_k_itemsize), 0, 0, 1, 1},
     {&__pyx_kp_s_itemsize_0_for_cython_array, __pyx_k_itemsize_0_for_cython_array, sizeof(__pyx_k_itemsize_0_for_cython_array), 0, 0, 1, 0},
     {&__pyx_n_s_iter_content, __pyx_k_iter_content, sizeof(__pyx_k_iter_content), 0, 0, 1, 1},
     {&__pyx_n_s_json, __pyx_k_json, sizeof(__pyx_k_json), 0, 0, 1, 1},
     {&__pyx_n_u_length_in_seconds, __pyx_k_length_in_seconds, sizeof(__pyx_k_length_in_seconds), 0, 1, 0, 1},
-    {&__pyx_n_u_libvorbis, __pyx_k_libvorbis, sizeof(__pyx_k_libvorbis), 0, 1, 0, 1},
     {&__pyx_n_s_load, __pyx_k_load, sizeof(__pyx_k_load), 0, 0, 1, 1},
     {&__pyx_n_u_locked, __pyx_k_locked, sizeof(__pyx_k_locked), 0, 1, 0, 1},
-    {&__pyx_n_s_loglevel, __pyx_k_loglevel, sizeof(__pyx_k_loglevel), 0, 0, 1, 1},
     {&__pyx_n_s_lstrip, __pyx_k_lstrip, sizeof(__pyx_k_lstrip), 0, 0, 1, 1},
     {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
     {&__pyx_n_u_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 1, 0, 1},
@@ -26490,18 +26853,20 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_new, __pyx_k_new, sizeof(__pyx_k_new), 0, 0, 1, 1},
     {&__pyx_n_s_new_2, __pyx_k_new_2, sizeof(__pyx_k_new_2), 0, 0, 1, 1},
     {&__pyx_kp_s_no_default___reduce___due_to_non, __pyx_k_no_default___reduce___due_to_non, sizeof(__pyx_k_no_default___reduce___due_to_non), 0, 0, 1, 0},
+    {&__pyx_kp_u_nostdin_y_i, __pyx_k_nostdin_y_i, sizeof(__pyx_k_nostdin_y_i), 0, 1, 0, 0},
     {&__pyx_n_s_np, __pyx_k_np, sizeof(__pyx_k_np), 0, 0, 1, 1},
     {&__pyx_n_s_numpy, __pyx_k_numpy, sizeof(__pyx_k_numpy), 0, 0, 1, 1},
     {&__pyx_kp_u_numpy__core_multiarray_failed_to, __pyx_k_numpy__core_multiarray_failed_to, sizeof(__pyx_k_numpy__core_multiarray_failed_to), 0, 1, 0, 0},
     {&__pyx_kp_u_numpy__core_umath_failed_to_impo, __pyx_k_numpy__core_umath_failed_to_impo, sizeof(__pyx_k_numpy__core_umath_failed_to_impo), 0, 1, 0, 0},
     {&__pyx_n_s_obj, __pyx_k_obj, sizeof(__pyx_k_obj), 0, 0, 1, 1},
     {&__pyx_n_s_open, __pyx_k_open, sizeof(__pyx_k_open), 0, 0, 1, 1},
+    {&__pyx_n_s_options, __pyx_k_options, sizeof(__pyx_k_options), 0, 0, 1, 1},
     {&__pyx_n_s_os, __pyx_k_os, sizeof(__pyx_k_os), 0, 0, 1, 1},
-    {&__pyx_n_s_output, __pyx_k_output, sizeof(__pyx_k_output), 0, 0, 1, 1},
     {&__pyx_n_s_pack, __pyx_k_pack, sizeof(__pyx_k_pack), 0, 0, 1, 1},
     {&__pyx_n_s_palette, __pyx_k_palette, sizeof(__pyx_k_palette), 0, 0, 1, 1},
     {&__pyx_n_s_parent, __pyx_k_parent, sizeof(__pyx_k_parent), 0, 0, 1, 1},
     {&__pyx_n_s_parents, __pyx_k_parents, sizeof(__pyx_k_parents), 0, 0, 1, 1},
+    {&__pyx_n_s_path, __pyx_k_path, sizeof(__pyx_k_path), 0, 0, 1, 1},
     {&__pyx_n_s_pathlib, __pyx_k_pathlib, sizeof(__pyx_k_pathlib), 0, 0, 1, 1},
     {&__pyx_n_s_pickle, __pyx_k_pickle, sizeof(__pyx_k_pickle), 0, 0, 1, 1},
     {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
@@ -26561,13 +26926,11 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_version_info, __pyx_k_version_info, sizeof(__pyx_k_version_info), 0, 0, 1, 1},
     {&__pyx_kp_u_video_mp4, __pyx_k_video_mp4, sizeof(__pyx_k_video_mp4), 0, 1, 0, 0},
     {&__pyx_n_s_video_path, __pyx_k_video_path, sizeof(__pyx_k_video_path), 0, 0, 1, 1},
-    {&__pyx_n_s_vn, __pyx_k_vn, sizeof(__pyx_k_vn), 0, 0, 1, 1},
     {&__pyx_n_u_wb, __pyx_k_wb, sizeof(__pyx_k_wb), 0, 1, 0, 1},
     {&__pyx_n_s_width, __pyx_k_width, sizeof(__pyx_k_width), 0, 0, 1, 1},
     {&__pyx_n_s_write, __pyx_k_write, sizeof(__pyx_k_write), 0, 0, 1, 1},
     {&__pyx_n_s_write_file, __pyx_k_write_file, sizeof(__pyx_k_write_file), 0, 0, 1, 1},
     {&__pyx_n_u_xCenter, __pyx_k_xCenter, sizeof(__pyx_k_xCenter), 0, 1, 0, 1},
-    {&__pyx_n_s_y, __pyx_k_y, sizeof(__pyx_k_y), 0, 0, 1, 1},
     {&__pyx_n_u_zCenter, __pyx_k_zCenter, sizeof(__pyx_k_zCenter), 0, 1, 0, 1},
     {0, 0, 0, 0, 0, 0, 0}
   };
@@ -26578,10 +26941,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 41, __pyx_L1_error)
   __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 164, __pyx_L1_error)
   __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 171, __pyx_L1_error)
-  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 192, __pyx_L1_error)
-  __pyx_builtin_round = __Pyx_GetBuiltinName(__pyx_n_s_round); if (!__pyx_builtin_round) __PYX_ERR(0, 205, __pyx_L1_error)
-  __pyx_builtin_input = __Pyx_GetBuiltinName(__pyx_n_s_input); if (!__pyx_builtin_input) __PYX_ERR(0, 234, __pyx_L1_error)
-  __pyx_builtin_KeyboardInterrupt = __Pyx_GetBuiltinName(__pyx_n_s_KeyboardInterrupt); if (!__pyx_builtin_KeyboardInterrupt) __PYX_ERR(0, 250, __pyx_L1_error)
+  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 190, __pyx_L1_error)
+  __pyx_builtin_round = __Pyx_GetBuiltinName(__pyx_n_s_round); if (!__pyx_builtin_round) __PYX_ERR(0, 221, __pyx_L1_error)
+  __pyx_builtin_input = __Pyx_GetBuiltinName(__pyx_n_s_input); if (!__pyx_builtin_input) __PYX_ERR(0, 250, __pyx_L1_error)
+  __pyx_builtin_KeyboardInterrupt = __Pyx_GetBuiltinName(__pyx_n_s_KeyboardInterrupt); if (!__pyx_builtin_KeyboardInterrupt) __PYX_ERR(0, 266, __pyx_L1_error)
   __pyx_builtin___import__ = __Pyx_GetBuiltinName(__pyx_n_s_import); if (!__pyx_builtin___import__) __PYX_ERR(1, 100, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 141, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 156, __pyx_L1_error)
@@ -26701,115 +27064,159 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__17);
   __Pyx_GIVEREF(__pyx_slice__17);
 
-  /* "MCMM_client.pyx":192
- *     #Exemple working ffmpeg.options(f"-nostdin -y -i {data.tmp_track} -c:a libvorbis{data.args} {data.out_track}")
- *     ffmpeg.input(video_path).output(str(rp_audio_path), acodec='libvorbis', vn=None, loglevel='error', y=None).run()
- *     print("Audio extrait et converti en OGG.")             # <<<<<<<<<<<<<<
+  /* "MCMM_client.pyx":190
  * 
- *     frame_skip = video_fps / framerate if framerate > 0 else 1
+ *     # Extraction et conversion audio
+ *     print("Extraction de l'audio...")             # <<<<<<<<<<<<<<
+ * 
+ *     ffmpeg = FFmpeg()
  */
-  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_u_Audio_extrait_et_converti_en_OGG); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 192, __pyx_L1_error)
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_u_Extraction_de_l_audio); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__18);
   __Pyx_GIVEREF(__pyx_tuple__18);
 
-  /* "MCMM_client.pyx":215
+  /* "MCMM_client.pyx":199
+ *     except Exception as e:
+ *         print(f"Erreur lors de la conversion audio: {e}")
+ *         raise Exception("chec de la conversion FFmpeg")             # <<<<<<<<<<<<<<
+ * 
+ *     # Validation du fichier de sortie
+ */
+  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_u_chec_de_la_conversion_FFmpeg); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
+
+  /* "MCMM_client.pyx":203
+ *     # Validation du fichier de sortie
+ *     if not os.path.isfile(str(rp_audio_path)):
+ *         raise Exception("Fichier audio de sortie manquant")             # <<<<<<<<<<<<<<
+ * 
+ *     if os.path.getsize(str(rp_audio_path)) == 0:
+ */
+  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_u_Fichier_audio_de_sortie_manquant); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__20);
+  __Pyx_GIVEREF(__pyx_tuple__20);
+
+  /* "MCMM_client.pyx":206
+ * 
+ *     if os.path.getsize(str(rp_audio_path)) == 0:
+ *         raise Exception("Fichier audio vide")             # <<<<<<<<<<<<<<
+ * 
+ *     print(" Audio extrait et converti en OGG")
+ */
+  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_u_Fichier_audio_vide); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 206, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
+
+  /* "MCMM_client.pyx":208
+ *         raise Exception("Fichier audio vide")
+ * 
+ *     print(" Audio extrait et converti en OGG")             # <<<<<<<<<<<<<<
+ * 
+ *     frame_skip = video_fps / framerate if framerate > 0 else 1
+ */
+  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_u_Audio_extrait_et_converti_en_OG); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 208, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__22);
+  __Pyx_GIVEREF(__pyx_tuple__22);
+
+  /* "MCMM_client.pyx":231
  *             print(f'Frame: {frame_count}/{int(video_frame_nbr / frame_skip)} | Restant: {remaining:.1f}s | {elapsed/frame_count*1000:.1f}ms/frame    ', end='\r')
  * 
  *         frame_processed = process_frame(frame, (0, 0, 0), width, height, palette)             # <<<<<<<<<<<<<<
  *         frame_view = frame_processed
  * 
  */
-  __pyx_tuple__21 = PyTuple_Pack(3, __pyx_int_0, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 215, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__21);
-  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_tuple__25 = PyTuple_Pack(3, __pyx_int_0, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 231, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__25);
+  __Pyx_GIVEREF(__pyx_tuple__25);
 
-  /* "MCMM_client.pyx":223
+  /* "MCMM_client.pyx":239
  * 
  *     capture.release()
  *     print("\n Conversion termine!")             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_u_Conversion_termine); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 223, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__22);
-  __Pyx_GIVEREF(__pyx_tuple__22);
+  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_kp_u_Conversion_termine); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__26);
+  __Pyx_GIVEREF(__pyx_tuple__26);
 
-  /* "MCMM_client.pyx":234
+  /* "MCMM_client.pyx":250
  *     while True:
  *         try:
  *             url = input("Entrez l'URL de la vido : ")             # <<<<<<<<<<<<<<
  *             framerate = int(input("Entrez le framerate dsir [1-20] : "))
  *             width = int(input("Entrez la largeur en nombre de cartes : "))
  */
-  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_u_Entrez_l_URL_de_la_vido); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 234, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__23);
-  __Pyx_GIVEREF(__pyx_tuple__23);
+  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_kp_u_Entrez_l_URL_de_la_vido); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 250, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__27);
+  __Pyx_GIVEREF(__pyx_tuple__27);
 
-  /* "MCMM_client.pyx":235
+  /* "MCMM_client.pyx":251
  *         try:
  *             url = input("Entrez l'URL de la vido : ")
  *             framerate = int(input("Entrez le framerate dsir [1-20] : "))             # <<<<<<<<<<<<<<
  *             width = int(input("Entrez la largeur en nombre de cartes : "))
  *             height = int(input("Entrez la hauteur en nombre de cartes : "))
  */
-  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_u_Entrez_le_framerate_dsir_1_20); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 235, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__24);
-  __Pyx_GIVEREF(__pyx_tuple__24);
+  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_u_Entrez_le_framerate_dsir_1_20); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 251, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__28);
+  __Pyx_GIVEREF(__pyx_tuple__28);
 
-  /* "MCMM_client.pyx":236
+  /* "MCMM_client.pyx":252
  *             url = input("Entrez l'URL de la vido : ")
  *             framerate = int(input("Entrez le framerate dsir [1-20] : "))
  *             width = int(input("Entrez la largeur en nombre de cartes : "))             # <<<<<<<<<<<<<<
  *             height = int(input("Entrez la hauteur en nombre de cartes : "))
  * 
  */
-  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_kp_u_Entrez_la_largeur_en_nombre_de_c); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 236, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__25);
-  __Pyx_GIVEREF(__pyx_tuple__25);
+  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_u_Entrez_la_largeur_en_nombre_de_c); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 252, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__29);
+  __Pyx_GIVEREF(__pyx_tuple__29);
 
-  /* "MCMM_client.pyx":237
+  /* "MCMM_client.pyx":253
  *             framerate = int(input("Entrez le framerate dsir [1-20] : "))
  *             width = int(input("Entrez la largeur en nombre de cartes : "))
  *             height = int(input("Entrez la hauteur en nombre de cartes : "))             # <<<<<<<<<<<<<<
  * 
  *             if not (1 <= framerate <= 20 and width > 0 and height > 0):
  */
-  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_kp_u_Entrez_la_hauteur_en_nombre_de_c); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 237, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__26);
-  __Pyx_GIVEREF(__pyx_tuple__26);
+  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_u_Entrez_la_hauteur_en_nombre_de_c); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 253, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__30);
+  __Pyx_GIVEREF(__pyx_tuple__30);
 
-  /* "MCMM_client.pyx":240
+  /* "MCMM_client.pyx":256
  * 
  *             if not (1 <= framerate <= 20 and width > 0 and height > 0):
  *                 print("Valeurs invalides!"); continue             # <<<<<<<<<<<<<<
  * 
  *             print("Tlchargement...")
  */
-  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_kp_u_Valeurs_invalides); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 240, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__27);
-  __Pyx_GIVEREF(__pyx_tuple__27);
+  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_u_Valeurs_invalides); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 256, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__31);
+  __Pyx_GIVEREF(__pyx_tuple__31);
 
-  /* "MCMM_client.pyx":242
+  /* "MCMM_client.pyx":258
  *                 print("Valeurs invalides!"); continue
  * 
  *             print("Tlchargement...")             # <<<<<<<<<<<<<<
  *             r = get(url, stream=True); r.raise_for_status()
  *             with open(video_path, 'wb') as f:
  */
-  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_u_Tlchargement); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 242, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__28);
-  __Pyx_GIVEREF(__pyx_tuple__28);
+  __pyx_tuple__32 = PyTuple_Pack(1, __pyx_kp_u_Tlchargement); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(0, 258, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__32);
+  __Pyx_GIVEREF(__pyx_tuple__32);
 
-  /* "MCMM_client.pyx":251
+  /* "MCMM_client.pyx":267
  * 
  *         except KeyboardInterrupt:
  *             print("\nArrt."); break             # <<<<<<<<<<<<<<
  *         except Exception as e:
  *             print(f"\nErreur: {e}")
  */
-  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_u_Arrt); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 251, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__29);
-  __Pyx_GIVEREF(__pyx_tuple__29);
+  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_u_Arrt); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__33);
+  __Pyx_GIVEREF(__pyx_tuple__33);
 
   /* "View.MemoryView":100
  * cdef object __pyx_collections_abc_Sequence "__pyx_collections_abc_Sequence"
@@ -26818,12 +27225,12 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         __pyx_collections_abc_Sequence = __import__("collections.abc").abc.Sequence
  *     else:
  */
-  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_n_s_sys); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(1, 100, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__30);
-  __Pyx_GIVEREF(__pyx_tuple__30);
-  __pyx_tuple__31 = PyTuple_Pack(2, __pyx_int_3, __pyx_int_3); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(1, 100, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__31);
-  __Pyx_GIVEREF(__pyx_tuple__31);
+  __pyx_tuple__34 = PyTuple_Pack(1, __pyx_n_s_sys); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(1, 100, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__34);
+  __Pyx_GIVEREF(__pyx_tuple__34);
+  __pyx_tuple__35 = PyTuple_Pack(2, __pyx_int_3, __pyx_int_3); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(1, 100, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__35);
+  __Pyx_GIVEREF(__pyx_tuple__35);
 
   /* "View.MemoryView":101
  * try:
@@ -26832,9 +27239,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *     else:
  *         __pyx_collections_abc_Sequence = __import__("collections").Sequence
  */
-  __pyx_tuple__32 = PyTuple_Pack(1, __pyx_kp_s_collections_abc); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(1, 101, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__32);
-  __Pyx_GIVEREF(__pyx_tuple__32);
+  __pyx_tuple__36 = PyTuple_Pack(1, __pyx_kp_s_collections_abc); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(1, 101, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__36);
+  __Pyx_GIVEREF(__pyx_tuple__36);
 
   /* "View.MemoryView":103
  *         __pyx_collections_abc_Sequence = __import__("collections.abc").abc.Sequence
@@ -26843,9 +27250,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * except:
  * 
  */
-  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_n_s_collections); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(1, 103, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__33);
-  __Pyx_GIVEREF(__pyx_tuple__33);
+  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_n_s_collections); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(1, 103, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__37);
+  __Pyx_GIVEREF(__pyx_tuple__37);
 
   /* "View.MemoryView":309
  *         return self.name
@@ -26854,9 +27261,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_tuple__34 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(1, 309, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__34);
-  __Pyx_GIVEREF(__pyx_tuple__34);
+  __pyx_tuple__38 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(1, 309, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__38);
+  __Pyx_GIVEREF(__pyx_tuple__38);
 
   /* "View.MemoryView":310
  * 
@@ -26865,9 +27272,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_tuple__35 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(1, 310, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__35);
-  __Pyx_GIVEREF(__pyx_tuple__35);
+  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(1, 310, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__39);
+  __Pyx_GIVEREF(__pyx_tuple__39);
 
   /* "View.MemoryView":311
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -26876,9 +27283,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__36 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(1, 311, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__36);
-  __Pyx_GIVEREF(__pyx_tuple__36);
+  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(1, 311, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__40);
+  __Pyx_GIVEREF(__pyx_tuple__40);
 
   /* "View.MemoryView":314
  * 
@@ -26887,9 +27294,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(1, 314, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__37);
-  __Pyx_GIVEREF(__pyx_tuple__37);
+  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(1, 314, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__41);
+  __Pyx_GIVEREF(__pyx_tuple__41);
 
   /* "View.MemoryView":315
  * 
@@ -26898,19 +27305,19 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__38 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(1, 315, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__38);
-  __Pyx_GIVEREF(__pyx_tuple__38);
+  __pyx_tuple__42 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(1, 315, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__42);
+  __Pyx_GIVEREF(__pyx_tuple__42);
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_Enum(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_tuple__39 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__39);
-  __Pyx_GIVEREF(__pyx_tuple__39);
-  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__43 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__43);
+  __Pyx_GIVEREF(__pyx_tuple__43);
+  __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) __PYX_ERR(1, 1, __pyx_L1_error)
 
   /* "MCMM_client.pyx":136
  * 
@@ -26919,19 +27326,19 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *     """Traite une vido et gnre les fichiers de cartes Minecraft + audio"""
  *     cdef:
  */
-  __pyx_tuple__41 = PyTuple_Pack(4, __pyx_n_s_video_path, __pyx_n_s_width, __pyx_n_s_height, __pyx_n_s_framerate); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 136, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__41);
-  __Pyx_GIVEREF(__pyx_tuple__41);
-  __pyx_codeobj__42 = (PyObject*)__Pyx_PyCode_New(4, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MCMM_client_pyx, __pyx_n_s_process_video, 136, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__42)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __pyx_tuple__45 = PyTuple_Pack(4, __pyx_n_s_video_path, __pyx_n_s_width, __pyx_n_s_height, __pyx_n_s_framerate); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__45);
+  __Pyx_GIVEREF(__pyx_tuple__45);
+  __pyx_codeobj__46 = (PyObject*)__Pyx_PyCode_New(4, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__45, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MCMM_client_pyx, __pyx_n_s_process_video, 136, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__46)) __PYX_ERR(0, 136, __pyx_L1_error)
 
-  /* "MCMM_client.pyx":226
+  /* "MCMM_client.pyx":242
  * 
  * 
  * cpdef void main():             # <<<<<<<<<<<<<<
  *     """Point d'entre principal - gre le tlchargement et le traitement de la vido"""
  *     np.import_array()
  */
-  __pyx_codeobj__43 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MCMM_client_pyx, __pyx_n_s_main_2, 226, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__43)) __PYX_ERR(0, 226, __pyx_L1_error)
+  __pyx_codeobj__47 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MCMM_client_pyx, __pyx_n_s_main_2, 242, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__47)) __PYX_ERR(0, 242, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -27548,12 +27955,12 @@ if (!__Pyx_RefNanny) {
  *         __pyx_collections_abc_Sequence = __import__("collections.abc").abc.Sequence
  *     else:
  */
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin___import__, __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 100, __pyx_L2_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin___import__, __pyx_tuple__34, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 100, __pyx_L2_error)
       __Pyx_GOTREF(__pyx_t_4);
       __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_version_info); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 100, __pyx_L2_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyObject_RichCompare(__pyx_t_5, __pyx_tuple__31, Py_GE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 100, __pyx_L2_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_t_5, __pyx_tuple__35, Py_GE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 100, __pyx_L2_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_6 < 0))) __PYX_ERR(1, 100, __pyx_L2_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -27566,7 +27973,7 @@ if (!__Pyx_RefNanny) {
  *     else:
  *         __pyx_collections_abc_Sequence = __import__("collections").Sequence
  */
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin___import__, __pyx_tuple__32, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 101, __pyx_L2_error)
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin___import__, __pyx_tuple__36, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 101, __pyx_L2_error)
         __Pyx_GOTREF(__pyx_t_4);
         __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_abc); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 101, __pyx_L2_error)
         __Pyx_GOTREF(__pyx_t_5);
@@ -27597,7 +28004,7 @@ if (!__Pyx_RefNanny) {
  * 
  */
       /*else*/ {
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin___import__, __pyx_tuple__33, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 103, __pyx_L2_error)
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin___import__, __pyx_tuple__37, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 103, __pyx_L2_error)
         __Pyx_GOTREF(__pyx_t_4);
         __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_Sequence); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 103, __pyx_L2_error)
         __Pyx_GOTREF(__pyx_t_5);
@@ -27762,7 +28169,7 @@ if (!__Pyx_RefNanny) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__34, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 309, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__38, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 309, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_XGOTREF(generic);
   __Pyx_DECREF_SET(generic, __pyx_t_7);
@@ -27776,7 +28183,7 @@ if (!__Pyx_RefNanny) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__35, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 310, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__39, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_XGOTREF(strided);
   __Pyx_DECREF_SET(strided, __pyx_t_7);
@@ -27790,7 +28197,7 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__36, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 311, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__40, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 311, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_XGOTREF(indirect);
   __Pyx_DECREF_SET(indirect, __pyx_t_7);
@@ -27804,7 +28211,7 @@ if (!__Pyx_RefNanny) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__37, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 314, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__41, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 314, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_XGOTREF(contiguous);
   __Pyx_DECREF_SET(contiguous, __pyx_t_7);
@@ -27818,7 +28225,7 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__38, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 315, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__42, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_XGOTREF(indirect_contiguous);
   __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_7);
@@ -28250,43 +28657,43 @@ if (!__Pyx_RefNanny) {
  *     """Traite une vido et gnre les fichiers de cartes Minecraft + audio"""
  *     cdef:
  */
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_11MCMM_client_1process_video, 0, __pyx_n_s_process_video, NULL, __pyx_n_s_MCMM_client, __pyx_d, ((PyObject *)__pyx_codeobj__42)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_11MCMM_client_1process_video, 0, __pyx_n_s_process_video, NULL, __pyx_n_s_MCMM_client, __pyx_d, ((PyObject *)__pyx_codeobj__46)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 136, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_process_video, __pyx_t_7) < 0) __PYX_ERR(0, 136, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "MCMM_client.pyx":226
+  /* "MCMM_client.pyx":242
  * 
  * 
  * cpdef void main():             # <<<<<<<<<<<<<<
  *     """Point d'entre principal - gre le tlchargement et le traitement de la vido"""
  *     np.import_array()
  */
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_11MCMM_client_3main, 0, __pyx_n_s_main_2, NULL, __pyx_n_s_MCMM_client, __pyx_d, ((PyObject *)__pyx_codeobj__43)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 226, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_11MCMM_client_3main, 0, __pyx_n_s_main_2, NULL, __pyx_n_s_MCMM_client, __pyx_d, ((PyObject *)__pyx_codeobj__47)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 242, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_main_2, __pyx_t_7) < 0) __PYX_ERR(0, 226, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_main_2, __pyx_t_7) < 0) __PYX_ERR(0, 242, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "MCMM_client.pyx":256
+  /* "MCMM_client.pyx":272
  * 
  * 
  * if __name__ == "__main__":             # <<<<<<<<<<<<<<
  *     main()
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_name_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 256, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_name_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 272, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_t_7, __pyx_n_u_main, Py_EQ)); if (unlikely((__pyx_t_6 < 0))) __PYX_ERR(0, 256, __pyx_L1_error)
+  __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_t_7, __pyx_n_u_main, Py_EQ)); if (unlikely((__pyx_t_6 < 0))) __PYX_ERR(0, 272, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   if (__pyx_t_6) {
 
-    /* "MCMM_client.pyx":257
+    /* "MCMM_client.pyx":273
  * 
  * if __name__ == "__main__":
  *     main()             # <<<<<<<<<<<<<<
  */
-    __pyx_f_11MCMM_client_main(0); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 257, __pyx_L1_error)
+    __pyx_f_11MCMM_client_main(0); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 273, __pyx_L1_error)
 
-    /* "MCMM_client.pyx":256
+    /* "MCMM_client.pyx":272
  * 
  * 
  * if __name__ == "__main__":             # <<<<<<<<<<<<<<
@@ -32169,6 +32576,78 @@ static PyObject* __Pyx_PyInt_FloorDivideObjC(PyObject *op1, PyObject *op2, long 
     return (inplace ? PyNumber_InPlaceFloorDivide : PyNumber_FloorDivide)(op1, op2);
 }
 #endif
+
+/* PyIntCompare */
+  static CYTHON_INLINE int __Pyx_PyInt_BoolEqObjC(PyObject *op1, PyObject *op2, long intval, long inplace) {
+    CYTHON_MAYBE_UNUSED_VAR(intval);
+    CYTHON_UNUSED_VAR(inplace);
+    if (op1 == op2) {
+        return 1;
+    }
+    #if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_CheckExact(op1))) {
+        const long b = intval;
+        long a = PyInt_AS_LONG(op1);
+        return (a == b);
+    }
+    #endif
+    #if CYTHON_USE_PYLONG_INTERNALS
+    if (likely(PyLong_CheckExact(op1))) {
+        int unequal;
+        unsigned long uintval;
+        Py_ssize_t size = __Pyx_PyLong_DigitCount(op1);
+        const digit* digits = __Pyx_PyLong_Digits(op1);
+        if (intval == 0) {
+            return (__Pyx_PyLong_IsZero(op1) == 1);
+        } else if (intval < 0) {
+            if (__Pyx_PyLong_IsNonNeg(op1))
+                return 0;
+            intval = -intval;
+        } else {
+            if (__Pyx_PyLong_IsNeg(op1))
+                return 0;
+        }
+        uintval = (unsigned long) intval;
+#if PyLong_SHIFT * 4 < SIZEOF_LONG*8
+        if (uintval >> (PyLong_SHIFT * 4)) {
+            unequal = (size != 5) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
+                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[2] != ((uintval >> (2 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[3] != ((uintval >> (3 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[4] != ((uintval >> (4 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
+        } else
+#endif
+#if PyLong_SHIFT * 3 < SIZEOF_LONG*8
+        if (uintval >> (PyLong_SHIFT * 3)) {
+            unequal = (size != 4) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
+                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[2] != ((uintval >> (2 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[3] != ((uintval >> (3 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
+        } else
+#endif
+#if PyLong_SHIFT * 2 < SIZEOF_LONG*8
+        if (uintval >> (PyLong_SHIFT * 2)) {
+            unequal = (size != 3) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
+                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[2] != ((uintval >> (2 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
+        } else
+#endif
+#if PyLong_SHIFT * 1 < SIZEOF_LONG*8
+        if (uintval >> (PyLong_SHIFT * 1)) {
+            unequal = (size != 2) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
+                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
+        } else
+#endif
+            unequal = (size != 1) || (((unsigned long) digits[0]) != (uintval & (unsigned long) PyLong_MASK));
+        return (unequal == 0);
+    }
+    #endif
+    if (PyFloat_CheckExact(op1)) {
+        const long b = intval;
+#if CYTHON_COMPILING_IN_LIMITED_API
+        double a = __pyx_PyFloat_AsDouble(op1);
+#else
+        double a = PyFloat_AS_DOUBLE(op1);
+#endif
+        return ((double)a == (double)b);
+    }
+    return __Pyx_PyObject_IsTrueAndDecref(
+        PyObject_RichCompare(op1, op2, Py_EQ));
+}
 
 /* BufferFallbackError */
   static void __Pyx_RaiseBufferFallbackError(void) {
@@ -37229,7 +37708,7 @@ __Pyx_PyType_GetName(PyTypeObject* tp)
     if (unlikely(name == NULL) || unlikely(!PyUnicode_Check(name))) {
         PyErr_Clear();
         Py_XDECREF(name);
-        name = __Pyx_NewRef(__pyx_n_s__44);
+        name = __Pyx_NewRef(__pyx_n_s__48);
     }
     return name;
 }
