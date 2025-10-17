@@ -22,6 +22,8 @@ import cv2
 from requests import get
 from PIL import Image
 from nbt import nbt
+from pyffmpeg import FFmpeg
+
 
 ctypedef np.uint8_t DTYPE_t
 DTYPE = np.uint8
@@ -184,9 +186,8 @@ cpdef void process_video(str video_path, INTP_t width, INTP_t height, INTP_t fra
         audio_json["length_in_seconds"] = video_frame_nbr / video_fps
         f.seek(0); dump(audio_json, f, indent=4); f.truncate()
         
-    command = f'ffmpeg -y -i "{video_path}" -vn -acodec libopus -b:a 128k "{rp_audio_path}"'
-    print(f"Executing: {command}")
-    os.system(command)
+    ffmpeg = FFmpeg()
+    ffmpeg.input(video_path).output(str(rp_audio_path), acodec='libvorbis', vn=None, loglevel='error', y=None).run()
     print("Audio extrait et converti en OGG.")
     
     frame_skip = video_fps / framerate if framerate > 0 else 1
