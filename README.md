@@ -27,6 +27,7 @@ pip install numpy opencv-python pillow requests nbt cython
 ### Minecraft Setup
 
 -   **[Improved Map Colors](https://modrinth.com/mod/improved-map-colors)** : mod is required for this version.
+-   **WARNING** Currently audio is bugged so you need to made it using [IMD](https://github.com/TeamTernate/infinite-music-discs)
 -   The project expects the following directory structure:
 
 ```
