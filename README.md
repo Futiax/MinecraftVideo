@@ -2,6 +2,8 @@
 
 Play videos in Minecraft using custom maps! This project converts any video into a format playable in Minecraft through the map system, complete with audio synchronization.
 
+> **🚧 Roadmap**: The Python/Cython implementation is being replaced by a native C version (see `c version/`), with no Python dependencies (FFmpeg libraries + zlib + OpenMP only). The Python version will be deprecated once the C version is complete.
+
 ## ✨ Features
 
 -   🎥 **Video to Minecraft Maps**: Converts videos frame-by-frame into Minecraft map items
@@ -13,15 +15,22 @@ Play videos in Minecraft using custom maps! This project converts any video into
 
 ## 🔧 Requirements
 
-### Python Dependencies
+### C version (recommended)
+
+-   **CMake** ≥ 3.16 and a C compiler (GCC/Clang/MSVC)
+-   **zlib** development headers (`sudo apt install zlib1g-dev` on Debian/Ubuntu)
+-   **FFmpeg**: `ffmpeg` and `ffprobe` must be available in your `PATH`
+    -   Linux: `sudo apt install ffmpeg` (or your distro's equivalent)
+    -   Windows: download a build from [gyan.dev](https://www.gyan.dev/ffmpeg/builds/) — FFmpeg binaries are **not** bundled in this repository (size and redistribution licensing)
+
+### Python version (legacy, will be deprecated)
 
 ```bash
 pip install numpy opencv-python pillow requests nbt cython
 ```
 
-### External Tools
+### Common
 
--   **FFmpeg**: Required for audio extraction and conversion
 -   **Minecraft Java Edition**: Version 1.21.8 or compatible
 
 ### Minecraft Setup
@@ -45,21 +54,40 @@ pip install numpy opencv-python pillow requests nbt cython
 1. **Clone the repository**
 
     ```bash
-    git clone https://github.com/yourusername/MinecraftVideo.git
+    git clone https://github.com/Futiax/MinecraftVideo.git
     cd MinecraftVideo
     ```
 
-2. **Compile the Cython code**
+2. **Build the C version (Linux/macOS)**
 
     ```bash
-    python setup.py build_ext --inplace
+    sudo apt install cmake gcc zlib1g-dev ffmpeg   # Debian/Ubuntu
+    ./run.sh                                        # builds then runs
     ```
+
+    Or manually:
+
+    ```bash
+    cmake -S "c version" -B "c version/build" -DCMAKE_BUILD_TYPE=Release
+    cmake --build "c version/build"
+    ```
+
+    **Windows**: use `run.bat`, or build with CMake + MSVC/MinGW (FFmpeg must be in your `PATH`).
+
+    _Legacy Python version_: `python setup.py build_ext --inplace`
 
 3. **Install required datapacks and resource packs** in your Minecraft world
 
 ## 💻 Usage
 
-Run the exemple script:
+### C version
+
+```bash
+./run.sh                          # interactive mode
+./run.sh video.mp4 4 3 20         # <video> <width> <height> <fps>
+```
+
+### Python version (legacy)
 
 ```bash
 python exemple.py
@@ -67,7 +95,7 @@ python exemple.py
 
 You'll be prompted to enter:
 
-1. **Video URL**: Direct link to the video file
+1. **Video path or URL**: Local file or direct link to the video file
 2. **Framerate**: Desired playback framerate (1-20 FPS)
 3. **Width**: Number of maps horizontally
 4. **Height**: Number of maps vertically
@@ -128,7 +156,7 @@ Each color has 4 shade variants (180, 220, 255, 135) define by minecraft code.
 
 ## 📝 License
 
-This project is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/) **with commercial use exceptions**.
+This project is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/). See the [LICENSE](LICENSE) file for the full text.
 
 **You are free to:**
 
@@ -139,27 +167,38 @@ This project is licensed under the [Creative Commons Attribution-NonCommercial 4
 **Under these conditions:**
 
 -   📝 Give appropriate credit
--   🚫 No commercial use (unless explicitly authorized)
--   ⚠️ The author is NOT responsible for any misuse of this software
+-   🔄 Share adaptations under the same license (ShareAlike)
+-   🚫 No commercial use (unless explicitly authorized in writing — see below)
 
-### Commercial Use
+### 🚫 Commercial Use & Advertising
 
-Commercial use is **prohibited by default** but can be authorized on a case-by-case basis.
-If you wish to use this project commercially, please one of us for permission.
+**Any commercial use is prohibited without prior written authorization.** This explicitly includes:
 
-**To request commercial use authorization:**
+-   Using this project (or content generated with it) in **advertising or marketing** of any kind — in-game ad displays/billboards, sponsored content, promotional videos, brand campaigns
+-   Selling access to, or monetizing, servers/maps/content built with this project
+-   Bundling it into any paid product or service
 
--   Open an issue on GitHub with tag `[Commercial Request]`
--   Or contact: [votre email]
+Authorization may be granted case by case. To request it, open an issue on GitHub with the tag `[Commercial Request]`.
+
+### ⚠️ Non-Endorsement & Unacceptable Uses
+
+Use of this project **does not imply any association with, or endorsement by, the author** (see Section 2(a)(6) of the license). Do not present your use as affiliated with or approved by this project or its author.
+
+In particular, the author does not consent to this project being used for:
+
+-   **Political campaigns, propaganda, or partisan messaging** of any kind
+-   **Advertising** (see above)
+-   Hateful, discriminatory, harassing, or NSFW content
+
+Any authorization granted may be **revoked** if the project is used for such purposes.
 
 ### Disclaimer
 
 This software is provided "AS IS" without warranty of any kind. The author:
 
 -   ❌ Is NOT responsible for how this software is used
--   ❌ Does NOT endorse any particular use or content processed
+-   ❌ Does NOT endorse any content processed or displayed with it
 -   ❌ Is NOT liable for any damages or legal issues arising from its use
--   ⚠️ Reserves the right to REVOKE authorization for specific uses (racism, homophobia, nsfw, harrasment, etc)
 
 **Users are responsible for:**
 

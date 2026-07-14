@@ -1,0 +1,27 @@
+# --- Build artifacts ---
+build/
+c version/build/
+*.o
+*.obj
+*.exe
+*.exp
+*.lib
+*.pyd
+*.so
+*.dll
+
+# Cython generated files
+MCMM_client.cpp
+MCMM_client.html
+
+# --- FFmpeg Windows bundle ---
+# Not committed: too large and FFmpeg shared builds have their own
+# (L)GPL redistribution terms. Windows users: download FFmpeg from
+# https://www.gyan.dev/ffmpeg/builds/ and add it to PATH.
+# Linux users: install it from your package manager (apt install ffmpeg).
+ffmpeg-shared/
+
+# --- Local environment ---
+.cache/
+.vscode/
+video.mp4
