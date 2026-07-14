@@ -190,9 +190,9 @@ cpdef void process_video(str video_path, INTP_t width, INTP_t height, INTP_t fra
     cmd = f'ffmpeg -y -i "{video_path}" -vn -c:a libvorbis -q:a 4 "{rp_audio_path}"'
     result = os.system(cmd)
     if result == 0:
-        print("✓ Audio extrait et converti en OGG (Vorbis)")
+        print("Audio extrait et converti en OGG (Vorbis)")
     else:
-        print(f"⚠ Avertissement: ffmpeg a retourné le code {result}")
+        print(f"Avertissement: ffmpeg a retourné le code {result}")
         print("Le traitement vidéo continue...")
     
     frame_skip = video_fps / framerate if framerate > 0 else 1
@@ -224,7 +224,7 @@ cpdef void process_video(str video_path, INTP_t width, INTP_t height, INTP_t fra
         num += width * height
 
     capture.release()
-    print("\n✓ Conversion terminée!")
+    print("\nConversion terminée!")
 
 
 cpdef void main():

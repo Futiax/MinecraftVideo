@@ -5,7 +5,7 @@ import os
 what_to_do = input("Entrer 1 pour traiter une vidéo local\n2Pour traiter une vidéo téléchargeable\n3Pour effacer les map générées\n") 
 if what_to_do == "1":
     path = input("Entrer le chemin de la vidéo: ")
-    mcmm.process_video("C:/Users/yux/downloads/PALADIUM_GO.mp4", 4, 3, 20)
+    mcmm.process_video(path, 4, 3, 20)
 if what_to_do == "2":
     video_url = input("Entrer l'url de la vidéo: ")
     video = requests.get(video_url)
