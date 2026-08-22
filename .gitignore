@@ -1,6 +1,12 @@
 # --- Build artifacts ---
 build/
 c version/build/
+c version/build-static/
+plugin/target/
+
+# Native binaries staged into the plugin by prepare-natives.sh (built, not
+# committed). The palette JSON staged next to them is text and IS committed.
+plugin/src/main/resources/natives/
 *.o
 *.obj
 *.exe
