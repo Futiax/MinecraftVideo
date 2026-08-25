@@ -1,0 +1,34 @@
+# IDE / editor
+.vscode/
+.cache/
+.claude/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+
+# Build outputs
+/build/
+**/build/
+**/build-static/
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.o
+*.obj
+*.log
+
+# Generated binaries / local deps
+ffmpeg-shared/
+*.pyd
+
+# OS files
+.DS_Store
+Thumbs.db
