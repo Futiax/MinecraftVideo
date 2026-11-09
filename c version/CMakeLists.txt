@@ -8,7 +8,18 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 if(MSVC)
     set(CMAKE_C_FLAGS_RELEASE "/O2 /DNDEBUG")
 else()
-    set(CMAKE_C_FLAGS_RELEASE "-O2 -DNDEBUG")
+    # -fno-trapping-math : mcmm ne lit jamais les drapeaux d'exception flottante. Sans cette
+    # option GCC n'ose pas vectoriser la quantification de --data (vd_quant_mb, comparaisons et
+    # conversions float -> int), meme sous "omp simd". Aucune valeur calculee ne change.
+    # Pas de -Ofast ni de -fassociative-math : reordonner les sommes de la DCT fait basculer un
+    # arrondi, et la sortie doit rester celle de gen_dct.py a l'octet pres.
+    set(CMAKE_C_FLAGS_RELEASE "-O3 -fno-trapping-math -DNDEBUG")
+    # x86-64-v2 = SSE4.2, tout x86 depuis 2009-2013 environ (pas de FMA a ce niveau, donc
+    # aucune contraction flottante).
+    # Ensemble, mesure 9800X3D sur --data : -33 a -35 % de CPU contre -O2, sortie identique.
+    if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64")
+        string(APPEND CMAKE_C_FLAGS_RELEASE " -march=x86-64-v2")
+    endif()
 endif()
 
 if(NOT CMAKE_BUILD_TYPE)

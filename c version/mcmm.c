@@ -35,6 +35,8 @@
 #include <omp.h>
 #include <zlib.h>
 
+#include "vmc_data.h"
+
 // ==========================================================================
 // Constantes
 // ==========================================================================
@@ -65,6 +67,21 @@ static const int SHADES[NUM_SHADES] = { 180, 220, 255, 135 };
 // le plugin lance en parallele sur la meme source -- un compteur de frames ne
 // marche que sur un fichier, pas sur un direct ou les deux connexions
 // rejoignent le flux a des endroits differents.
+//
+// Avec --stats (/vmc debug du plugin), le u32 reserve de l'en-tete vaut
+// STREAM_STATS, et chaque frame porte STREAM_STATS u32 entre pts_us et ses tuiles,
+// les temps de cette frame en microsecondes. Dans le flux plutot que dans un fichier :
+// le plugin les ecrit sur la meme ligne que ses propres temps, sans synchro.
+//   0 ffmpeg     attente de ffmpeg (frame + PTS)
+//   1 write      ecriture de la frame PRECEDENTE (bloque = mcmm attend le plugin)
+//   2 cpu        CPU du process depuis la frame d'avant, tous threads (POSIX)
+//   3 convert    conversion entiere ; le detail qui suit n'existe qu'en --data
+//   4 dct        5 encode (quantif + Huffman a q = 0)
+//   6 search     dichotomie si q = 0 ne tient pas, troncatures
+//   7 assemble   en-tete + macroblocs bout a bout
+//   8 symbols    mots -> symboles -> mur -> tuiles
+//   9 q         10 bits du flux
+#define STREAM_STATS        11
 #define STREAM_MAGIC        "MCMM"
 #define STREAM_VERSION      2
 #define STREAM_HEADER_SIZE  16
@@ -87,6 +104,35 @@ static uint8_t pal_rgb[256][3];
 
 // Tramage Floyd-Steinberg (--dither) : desactive par defaut
 static int g_dither = 0;
+
+// Mode strict (--strict, exclusif avec --dither) : aucune couleur inventee par la
+// mise a l'echelle. Pour le pixel art et les QR, ou un module de 5 px doit rester
+// 5 px pleins et pas 4 px + un lisere gris.
+//
+// POURQUOI la mise a l'echelle est faite ICI et pas par ffmpeg : le scale par defaut
+// (bicubique) cree des gris a chaque bord, meme a x2 exact (22 couleurs de palette
+// au lieu de 9 sur une mire QR). Et flags=neighbor ne suffit pas : en REDUCTION,
+// swscale moyenne quand meme -- 274 couleurs nouvelles sur la mire divisee par 2,
+// 7589 sur du bruit, avec bitexact, accurate_rnd, sws_dither=none ou en gbrp
+// (verifie sur ffmpeg 8.0). En --strict ffmpeg sort donc chaque frame a sa taille
+// d'ORIGINE, en PPM (l'en-tete donne la taille : pas de ffprobe, et une video
+// pivotee arrive deja tournee), et strict_scale() la place.
+// LIMITE : l'encodeur ppm fige la taille de la premiere frame. Une source dont la
+// resolution change en cours de route (TS concatenes, changement de variante HLS)
+// est redimensionnee par ffmpeg vers cette premiere taille, en bicubique : pour
+// ces frames-la, plus de garantie.
+static int g_strict = 0;
+
+// Mode --data (avec --stream, exclusif avec --dither et --strict) : le mur porte
+// l'image codee en DCT au lieu de l'image quantifiee. Voir data_frame_to_ids().
+static int g_data = 0;
+
+// --stats : voir le protocole de streaming.
+static int g_stats = 0;
+
+// Plus grand cote de source accepte en --strict : la frame entiere transite par le
+// pipe et par la memoire avant reduction (8192^2 = 192 Mo en rgb24).
+#define STRICT_MAX_SIDE 8192
 
 // Palette : couleurs effectives apres application des nuances
 typedef struct {
@@ -634,6 +680,9 @@ static int shell_quote_arg(char *dst, size_t cap, const char *arg) {
 // PTS : le fragment est colle en fin de commande et detourne le stderr de
 // ffmpeg (donc les lignes showinfo) vers le canal lateral prepare par
 // l'appelant. NULL = chemin .dat, commande inchangee.
+//
+// En --strict : ni scale ni pad, des PPM a la taille de la source (voir
+// g_strict), lus par next_frame().
 static int build_decode_cmd(char *cmd, size_t cap, const char *video_path,
                             int fps, int dst_w, int dst_h, double seek_s,
                             const char *stderr_redirect) {
@@ -646,20 +695,32 @@ static int build_decode_cmd(char *cmd, size_t cap, const char *video_path,
         if (m < 0 || (size_t)m >= sizeof(seek_part)) return -1;
     }
 
-    char scale_pad[256];
-    int s = snprintf(scale_pad, sizeof(scale_pad),
-             "scale=%d:%d:force_original_aspect_ratio=decrease,"
-             "pad=%d:%d:(ow-iw)/2:(oh-ih)/2:black",
-             dst_w, dst_h, dst_w, dst_h);
-    if (s < 0 || (size_t)s >= sizeof(scale_pad)) return -1;
+    // -pix_fmt rgb24 aussi en PPM : sans lui une source 16 bits sortirait en
+    // rgb48 (maxval 65535), que read_ppm refuse.
+    // --data : directement les plans du JPEG (BT.601 plage pleine, 4:2:0), ni RGB
+    // chez ffmpeg ni reconversion chez nous.
+    const char *out_fmt = g_strict ? "-f image2pipe -c:v ppm -pix_fmt rgb24 -"
+                        : g_data   ? "-f rawvideo -pix_fmt yuvj420p -"
+                                   : "-f rawvideo -pix_fmt rgb24 -";
+    char scale_pad[256] = "";
+    if (!g_strict) {
+        int s = snprintf(scale_pad, sizeof(scale_pad),
+                 "scale=%d:%d:force_original_aspect_ratio=decrease%s,"
+                 "pad=%d:%d:(ow-iw)/2:(oh-ih)/2:black",
+                 dst_w, dst_h,
+                 g_data ? ":flags=bicubic+accurate_rnd:out_color_matrix=bt601:out_range=full:out_h_chr_pos=128:out_v_chr_pos=128,format=yuvj420p" : "",
+                 dst_w, dst_h);
+        if (s < 0 || (size_t)s >= sizeof(scale_pad)) return -1;
+    }
 
     int n;
     if (!stderr_redirect) {
         // Chemin .dat : aucun besoin de PTS, commande inchangee.
         n = snprintf(cmd, cap,
-                 "ffmpeg -v error %s-i %s -r %d -vf \"%s\""
-                 " -f rawvideo -pix_fmt rgb24 -",
-                 seek_part, quoted, fps, scale_pad);
+                 "ffmpeg -v error %s-i %s -r %d %s%s%s %s",
+                 seek_part, quoted, fps,
+                 g_strict ? "" : "-vf \"", scale_pad, g_strict ? "" : "\"",
+                 out_fmt);
         return (n < 0 || (size_t)n >= cap) ? -1 : 0;
     }
 
@@ -676,10 +737,112 @@ static int build_decode_cmd(char *cmd, size_t cap, const char *video_path,
     // Les lignes qui ne sont pas des PTS sont reemises sur notre stderr par
     // read_pts_us(), le plugin ne perd donc aucun diagnostic ffmpeg.
     n = snprintf(cmd, cap,
-             "ffmpeg -hide_banner -v info -copyts %s-i %s -vf \"fps=%d,%s,showinfo\""
-             " -f rawvideo -pix_fmt rgb24 - %s",
-             seek_part, quoted, fps, scale_pad, stderr_redirect);
+             "ffmpeg -hide_banner -v info -copyts %s-i %s -vf \"fps=%d,%s%sshowinfo%s\""
+             " %s %s",
+             seek_part, quoted, fps, scale_pad, g_strict ? "" : ",",
+             g_data ? "=checksum=0" : "",               // ffmpeg >= 5.1
+             out_fmt, stderr_redirect);
     return (n < 0 || (size_t)n >= cap) ? -1 : 0;
+}
+
+// Lit une frame PPM (P6, 8 bits) sur le pipe ffmpeg du mode --strict. *buf est
+// agrandi a la taille de la source si besoin. Retourne 0, ou -1 en fin de flux
+// ou sur un en-tete inattendu.
+static int read_ppm(FILE *fp, uint8_t **buf, size_t *cap, int *w, int *h) {
+    int maxval;
+    // Pas d'espace apres le dernier %d : il avalerait aussi les premiers
+    // pixels s'ils valent 9 a 13 ou 32 (tout isspace). Le seul blanc qui
+    // separe l'en-tete des pixels part avec le fgetc.
+    if (fscanf(fp, "P6 %d %d %d", w, h, &maxval) != 3 || fgetc(fp) == EOF) {
+        return -1;
+    }
+    if (maxval != 255 || *w <= 0 || *h <= 0
+            || *w > STRICT_MAX_SIDE || *h > STRICT_MAX_SIDE) {
+        fprintf(stderr, "Erreur: frame %dx%d (maxval %d) refusee en --strict"
+                        " (8 bits, %d px de cote au plus)\n",
+                *w, *h, maxval, STRICT_MAX_SIDE);
+        return -1;
+    }
+    size_t need = (size_t)*w * (size_t)*h * 3;
+    if (need > *cap) {
+        uint8_t *grown = (uint8_t *)realloc(*buf, need);
+        if (!grown) {
+            fprintf(stderr, "Erreur: allocation memoire echouee\n");
+            return -1;
+        }
+        *buf = grown;
+        *cap = need;
+    }
+    return fread(*buf, 1, need, fp) == need ? 0 : -1;
+}
+
+// Place la source (sw x sh) dans dst (dw x dh, rgb24 contigu) au plus proche
+// voisin, a facteur ENTIER, centree sur fond noir :
+//   - plus petite que l'ecran : chaque pixel devient un bloc up x up, up = le
+//     plus grand entier qui tient (un QR a 5 px/module en sort a 5*up px pile) ;
+//   - plus grande : un pixel sur down, down = le plus petit entier tel que
+//     floor(cote / down) tienne -- le pixel CENTRAL de chaque bloc down x down.
+//     floor et pas ceil : 257 px sur 128 donnent 128 px a 1/2 (la derniere
+//     colonne n'est jamais lue), pas 85 px a 1/3.
+// Dans les deux cas chaque pixel de sortie EST un pixel de la source.
+// Ecrit dans *zw/*zh la taille de l'image placee et retourne up, ou -down.
+static int strict_scale(const uint8_t *src, int sw, int sh,
+                        uint8_t *dst, int dw, int dh, int *zw, int *zh) {
+    int up = 1, down = 1;
+    if (sw <= dw && sh <= dh) {
+        up = dw / sw < dh / sh ? dw / sw : dh / sh;
+    } else {
+        int dx = sw / (dw + 1) + 1, dy = sh / (dh + 1) + 1;
+        down = dx > dy ? dx : dy;
+    }
+    int ow = sw * up / down, oh = sh * up / down;
+    int ox = (dw - ow) / 2, oy = (dh - oh) / 2;
+    memset(dst, 0, (size_t)dw * (size_t)dh * 3);
+    for (int y = 0; y < oh; y++) {
+        // une seule formule pour les deux sens : up = 1 ou down = 1
+        const uint8_t *srow = src + (size_t)((y * down + down / 2) / up) * sw * 3;
+        uint8_t *drow = dst + ((size_t)(oy + y) * dw + ox) * 3;
+        for (int x = 0; x < ow; x++) {
+            memcpy(drow + (size_t)x * 3, srow + (size_t)((x * down + down / 2) / up) * 3, 3);
+        }
+    }
+    *zw = ow;
+    *zh = oh;
+    return down > 1 ? -down : up;
+}
+
+// Frame suivante du pipe ffmpeg dans dst (dst_w x dst_h, rgb24, yuvj420p en --data). Retourne 0, ou
+// -1 en fin de flux (on ne distingue pas fin de video et erreur).
+static int next_frame(FILE *pipe_fp, uint8_t *dst, int dst_w, int dst_h) {
+    if (!g_strict) {
+        size_t bytes = (size_t)dst_w * (size_t)dst_h * 3;
+        if (g_data) bytes /= 2;
+        return fread(dst, 1, bytes, pipe_fp) == bytes ? 0 : -1;
+    }
+    // Tampon de la source garde d'une frame a l'autre, jamais libere : le
+    // process se termine avec le flux.
+    static uint8_t *src = NULL;
+    static size_t cap = 0;
+    static int last_w = 0, last_h = 0;
+    int sw, sh, zw, zh;
+    if (read_ppm(pipe_fp, &src, &cap, &sw, &sh) != 0) return -1;
+    int f = strict_scale(src, sw, sh, dst, dst_w, dst_h, &zw, &zh);
+    if (zw == 0 || zh == 0) {
+        // un bandeau 2000x12 sur une map : 1/16 laisse 0 ligne, et sans ce test
+        // le plugin recevait une frame toute noire comme si de rien n'etait
+        fprintf(stderr, "Erreur: source %dx%d trop allongee pour %dx%d en --strict\n",
+                sw, sh, dst_w, dst_h);
+        return -1;
+    }
+    if (sw != last_w || sh != last_h) {
+        // une ligne par taille de source, pas par frame : c'est LE renseignement
+        // pour choisir une taille d'ecran qui tombe pile
+        fprintf(g_log, "Strict: source %dx%d, %s%d -> %dx%d dans %dx%d\n",
+                sw, sh, f > 0 ? "x" : "1/", f > 0 ? f : -f, zw, zh, dst_w, dst_h);
+        last_w = sw;
+        last_h = sh;
+    }
+    return 0;
 }
 
 // Vide la fin du journal ffmpeg sur notre stderr, une fois le decodage fini.
@@ -852,9 +1015,8 @@ static int process_video(const char *video_path, int map_w, int map_h, int targe
     double est_total = duration * target_fps;
 
     while (1) {
-        size_t bytes_read = fread(dst_buf, 1, frame_bytes, pipe_fp);
-        if (bytes_read < frame_bytes) {
-            break;  // lecture courte : fin de video ou erreur, on ne distingue pas
+        if (next_frame(pipe_fp, dst_buf, dst_w, dst_h) != 0) {
+            break;
         }
 
         frame_count++;
@@ -885,6 +1047,433 @@ static int process_video(const char *video_path, int map_w, int map_h, int targe
     free(dst_buf);
     free(ids_buf);
     return 0;
+}
+
+// ==========================================================================
+// Mode --data : l'image codee en JPEG de base sur un mur de maps (les murs
+// connus : VD_LAYOUTS de vmc_data.h, 7x4 pour le WAN et 10x6 pour le LAN)
+//
+// POURQUOI : le goulot de la lecture est la bande passante du client, et une
+// frame coute le meme nombre d'octets quoi qu'on mette dans les maps (459 Ko
+// pour 7x4). Quantifiee sur 244 couleurs de palette, l'image gache ces octets ;
+// ici chaque symbole (une couleur de map sur 2x2 pixels, lisible de loin) porte
+// 7,75 bits d'un flux JPEG, soit un canva de 848x464 en vraies couleurs
+// (1232x720 sur le mur LAN).
+// Un JPEG de base : DCT 8x8, q GLOBAL (le plus fin qui tient dans le mur, par
+// dichotomie), Huffman standard ; un index des longueurs pour que le decodeur
+// trouve chaque macrobloc sans lire ceux d'avant.
+//
+// QUI DECODE : le post effect minecraft:vmc_data (vmc_data_lan) du pack VMC. Il
+// detecte le mur a l'ecran, lit les symboles et dessine l'image au centre.
+// Sans le pack le joueur voit un mur de bruit colore.
+//
+// LE FORMAT vit dans vmc_data.h, GENERE par tools/shader_test/gen_dct.py (repo VMC)
+// en meme temps que le decodeur GLSL. Ce code reproduit encode_planes() de gen_dct.py,
+// OCTET POUR OCTET (python3 gen_dct.py --mcmm <mcmm>), d'ou les memes operations en
+// flottants 32 bits dans le meme ordre (dct8). Le decodeur, lui, n'exige pas cette
+// egalite : c'est le test qui garde les deux codeurs synchrones. Changer le format =
+// changer le script et regenerer, jamais a la main ici.
+// ==========================================================================
+
+// Bornes valables pour tous les murs de VD_LAYOUTS : un macrobloc 16x16 du canva
+// par carre de 8x8 cellules de la zone de donnees.
+#define VD_DW_MAX   (VD_MAX_GW - 2 * VD_DATA_X0)
+#define VD_DH_MAX   (VD_MAX_GH - 2 * VD_DATA_Y0)
+#define VD_MAX_MB   ((VD_DW_MAX / 8) * (VD_DH_MAX / 8))
+#define VD_MAX_BITS (VD_DW_MAX * VD_DH_MAX / VD_WORD_SYMS * VD_WORD_BITS)
+#define VD_LEN_MAX  ((1 << VD_LEN_BITS) - 1)
+
+static float vd_qm[2][64];                       // Y, C : 1 / (Q 8 a(u) a(v)), indice u * 8 + v
+static uint8_t vd_zz[64];                        // rang zigzag -> u * 8 + v
+static uint8_t vd_wall[VD_MAX_WALL_H][VD_MAX_WALL_W];   // ids du mur, ligne 0 = haut
+static uint8_t vd_nbits[2048];                   // longueur en bits de 0..2047
+static double vd_t[5];                           // --stats : dct, encode, search, assemble, symbols (s)
+static int vd_last_q, vd_last_bits;              // --stats
+static const vd_layout *vd_L;                    // le mur choisi par data_init()
+static float vd_z[VD_MAX_MB][6][64];             // coefficients AAN, u * 8 + v : Y0..Y3, Cb, Cr
+static int16_t vd_q[VD_MAX_MB][6][64];           // quantifies au q de la frame
+static int vd_len[VD_MAX_MB];                    // bits du flux de chaque macrobloc
+// Un macrobloc avant truncate() : 6 x (DC + 63 AC d'au plus 26 bits) < 10 000 bits.
+#define VD_ENC_MAX  1256
+static uint8_t vd_enc[VD_MAX_MB][VD_ENC_MAX];    // le flux de chaque macrobloc
+static uint8_t vd_stream[VD_MAX_BITS / 8 + 16];  // le flux du mur
+static uint8_t vd_sym[VD_DW_MAX * VD_DH_MAX];    // ses symboles, ligne par ligne
+
+// La zone de donnees est copiee ligne par ligne dans le mur.
+_Static_assert(VD_CELL == 1, "modules de plus d'un pixel de map : recopier avec vd_module");
+
+// Le mur de VD_LAYOUTS qui fait maps_x x maps_y maps, NULL si aucun : le
+// decodeur du pack n'existe que pour ceux-la.
+static const vd_layout *vd_find_layout(int maps_x, int maps_y) {
+    for (int i = 0; i < VD_N_LAYOUTS; i++) {
+        if (VD_LAYOUTS[i].maps_x == maps_x && VD_LAYOUTS[i].maps_y == maps_y) return &VD_LAYOUTS[i];
+    }
+    return NULL;
+}
+
+// Pose le module (mx, my) : VD_CELL x VD_CELL pixels de map, apres la marge.
+static void vd_module(int mx, int my, uint8_t id) {
+    for (int j = 0; j < VD_CELL; j++) {
+        memset(&vd_wall[vd_L->y0 + my * VD_CELL + j][vd_L->x0 + mx * VD_CELL], id, VD_CELL);
+    }
+}
+
+// Motif n x n modules centre en (cx, cy), en modules continus : sombre sauf
+// l'anneau a n/2 - 1 du centre (repere 7x7, alignement 5x5), comme wall_ids.
+static void vd_pattern(double cx, double cy, int n) {
+    int h = n / 2, x0 = (int)(cx - n / 2.0), y0 = (int)(cy - n / 2.0);
+    for (int j = 0; j < n; j++) {
+        for (int i = 0; i < n; i++) {
+            int d = abs(i - h) > abs(j - h) ? abs(i - h) : abs(j - h);
+            vd_module(x0 + i, y0 + j, d != h - 1 ? VD_DARK_ID : VD_LIGHT_ID);
+        }
+    }
+}
+
+// Tables, et toute la partie constante du mur (fond clair, reperes,
+// alignements) : seules les cellules de donnees changent d'une frame a l'autre.
+static void data_init(const vd_layout *L) {
+    vd_L = L;
+    for (int v = 1; v < 2048; v++) vd_nbits[v] = (uint8_t)(vd_nbits[v / 2] + 1);
+    // aan[k] = racine(2) cos(k pi / 16), aan[0] = 1 : le gain de la DCT AAN (jfdctflt.c)
+    static const double aan[8] = {1.0, 1.387039845, 1.306562965, 1.175875602,
+                                  1.0, 0.785694958, 0.541196100, 0.275899379};
+    for (int i = 0; i < 64; i++) {
+        int u = i / 8, v = i % 8;
+        vd_qm[0][i] = (float)(1.0 / (VD_QY[v * 8 + u] * 8.0 * aan[u] * aan[v]));
+        vd_qm[1][i] = (float)(1.0 / (VD_QC[v * 8 + u] * 8.0 * aan[u] * aan[v]));
+        vd_zz[i] = (uint8_t)(VD_ZZ_U[i] * 8 + VD_ZZ_V[i]);
+    }
+    memset(vd_wall, VD_LIGHT_ID, sizeof(vd_wall));
+    for (int f = 0; f < VD_N_FINDERS; f++) vd_pattern(L->finders[f][0], L->finders[f][1], 7);
+    for (int a = 0; a < VD_N_ALIGNS; a++) vd_pattern(L->aligns[a][0], L->aligns[a][1], 5);
+}
+
+// DCT AAN (5 multiplications, 29 additions, jfdctflt.c de libjpeg) sur le premier
+// indice de b, les 8 colonnes a la fois. Gain : voir vd_qm.
+static void vd_aan(float (*b)[8]) {
+    #pragma omp simd
+    for (int x = 0; x < 8; x++) {
+        float t0 = b[0][x] + b[7][x], t7 = b[0][x] - b[7][x];
+        float t1 = b[1][x] + b[6][x], t6 = b[1][x] - b[6][x];
+        float t2 = b[2][x] + b[5][x], t5 = b[2][x] - b[5][x];
+        float t3 = b[3][x] + b[4][x], t4 = b[3][x] - b[4][x];
+        float e0 = t0 + t3, e3 = t0 - t3, e1 = t1 + t2, e2 = t1 - t2;
+        float z1 = (e2 + e3) * 0.707106781f;
+        b[0][x] = e0 + e1;
+        b[4][x] = e0 - e1;
+        b[2][x] = e3 + z1;
+        b[6][x] = e3 - z1;
+        float o0 = t4 + t5, o1 = t5 + t6, o2 = t6 + t7;
+        float z5 = (o0 - o2) * 0.382683433f;
+        float z2 = 0.541196100f * o0 + z5;
+        float z4 = 1.306562965f * o2 + z5;
+        float z3 = o1 * 0.707106781f;
+        float z11 = t7 + z3, z13 = t7 - z3;
+        b[5][x] = z13 + z2;
+        b[3][x] = z13 - z2;
+        b[1][x] = z11 + z4;
+        b[7][x] = z11 - z4;
+    }
+}
+
+// Bloc 8x8 d'un plan -> z[u * 8 + v].
+static void vd_dct_block(const uint8_t *p, int stride, float *z) {
+    float a[8][8], t[8][8];
+    for (int y = 0; y < 8; y++, p += stride) {
+        for (int x = 0; x < 8; x++) a[y][x] = (float)p[x] - 128.0f;
+    }
+    vd_aan(a);
+    for (int y = 0; y < 8; y++) {
+        for (int x = 0; x < 8; x++) t[x][y] = a[y][x];
+    }
+    vd_aan(t);
+    memcpy(z, t, sizeof(t));
+}
+
+// Macrobloc k (ligne par ligne, vd_L->sx par ligne) du canva yuvj420p -> vd_z[k].
+static void data_dct_mb(const uint8_t *yuv, int k) {
+    const int cw = vd_L->canvas_w, ch = vd_L->canvas_h, mx = k % vd_L->sx, my = k / vd_L->sx;
+    for (int b = 0; b < 4; b++) {
+        vd_dct_block(yuv + (size_t)(my * 16 + (b >> 1) * 8) * cw + mx * 16 + (b & 1) * 8, cw, vd_z[k][b]);
+    }
+    const uint8_t *cb = yuv + (size_t)cw * ch, *cr = cb + (size_t)(cw / 2) * (ch / 2);
+    vd_dct_block(cb + (size_t)(my * 8) * (cw / 2) + mx * 8, cw / 2, vd_z[k][4]);
+    vd_dct_block(cr + (size_t)(my * 8) * (cw / 2) + mx * 8, cw / 2, vd_z[k][5]);
+}
+
+// Pas de quantification du q : m[t][u * 8 + v] * coefficient AAN = coefficient / (Q s).
+static void vd_q_table(int qv, float m[2][64]) {
+    float is = (float)(1.0 / pow(2.0, (qv - VD_Q_OFF) / (double)VD_Q_DIV));
+    for (int t = 0; t < 2; t++) {
+        for (int i = 0; i < 64; i++) m[t][i] = vd_qm[t][i] * is;
+    }
+}
+
+// floor(c m + 0,5) borne a +-VD_AMP_MAX, rangee en zigzag. Borner AVANT l'arrondi
+// donne le meme entier (les bornes sont entieres) et tient t dans la plage ou la
+// troncature en int + correction vaut floor().
+static void vd_quant_mb(int k, float m[2][64], int16_t q[6][64]) {
+    for (int c = 0; c < 6; c++) {
+        const float *z = vd_z[k][c], *mc = m[c < 4 ? 0 : 1];
+        int r[64];
+        #pragma omp simd
+        for (int i = 0; i < 64; i++) {
+            float t = z[i] * mc[i] + 0.5f;
+            t = t < -VD_AMP_MAX ? -VD_AMP_MAX : (t > VD_AMP_MAX ? VD_AMP_MAX : t);
+            int v = (int)t;
+            r[i] = v - (t < v);
+        }
+        for (int i = 0; i < 64; i++) q[c][i] = (int16_t)r[vd_zz[i]];
+    }
+}
+
+static inline int vd_bitlen(int v) {
+    return vd_nbits[abs(v)];
+}
+
+// Bits d'un bloc : DC (categorie Huffman + amplitude), puis (zeros, taille)
+// Huffman + amplitude, ZRL, EOB. Tables tdc / tac de VD_HUF_LEN.
+static int vd_block_bits(const int16_t *z, int dc, int tdc, int tac) {
+    int c = vd_bitlen(dc), bits = VD_HUF_LEN[tdc][c] + c, run = 0, last = 0;
+    for (int i = 1; i < 64; i++) {
+        if (!z[i]) {
+            run++;
+            continue;
+        }
+        int s = vd_bitlen(z[i]);
+        bits += (run >> 4) * VD_HUF_LEN[tac][0xF0] + VD_HUF_LEN[tac][((run & 15) << 4) | s] + s;
+        run = 0;
+        last = i;
+    }
+    return bits + (last < 63 ? VD_HUF_LEN[tac][0x00] : 0);
+}
+
+// mb_bits() : Y0 absolu, Y1..Y3 en difference du precedent, Cb et Cr absolus.
+static int vd_mb_bits(int16_t q[6][64]) {
+    int bits = 0;
+    for (int b = 0; b < 4; b++) bits += vd_block_bits(q[b], q[b][0] - (b ? q[b - 1][0] : 0), 0, 2);
+    for (int c = 4; c < 6; c++) bits += vd_block_bits(q[c], q[c][0], 1, 3);
+    return bits;
+}
+
+// truncate() : un macrobloc trop long perd ses plus hautes frequences (le meme
+// rang zigzag dans les 6 blocs, en partant de 63) jusqu'a tenir. -> ses bits.
+static int vd_truncate(int16_t q[6][64]) {
+    int bits = vd_mb_bits(q);
+    for (int cut = 63; cut > 0 && bits > VD_LEN_MAX; cut--) {
+        for (int c = 0; c < 6; c++) {
+            for (int i = cut; i < 64; i++) q[c][i] = 0;
+        }
+        bits = vd_mb_bits(q);
+    }
+    return bits;
+}
+
+// Ecrivain de bits, poids fort d'abord, par mots de 32 bits : n <= 32.
+typedef struct { uint8_t *p; uint64_t acc; int n; } vd_bw;
+
+static inline void vd_be32(uint8_t *p, uint32_t t) {
+    p[0] = (uint8_t)(t >> 24); p[1] = (uint8_t)(t >> 16); p[2] = (uint8_t)(t >> 8); p[3] = (uint8_t)t;
+}
+
+static inline void vd_put(vd_bw *w, uint32_t v, int n) {
+    w->acc = (w->acc << n) | v;
+    w->n += n;
+    if (w->n >= 32) {
+        w->n -= 32;
+        vd_be32(w->p, (uint32_t)(w->acc >> w->n));
+        w->p += 4;
+    }
+}
+
+static inline void vd_put_huf(vd_bw *w, int t, int sym) {
+    vd_put(w, (uint32_t)VD_HUF_CODE[t][sym], VD_HUF_LEN[t][sym]);
+}
+
+// Amplitude JPEG : v > 0 tel quel, v < 0 -> v + 2^n - 1.
+static inline void vd_put_amp(vd_bw *w, int v, int n) {
+    vd_put(w, (uint32_t)(v > 0 ? v : v + (1 << n) - 1), n);
+}
+
+static void vd_put_block(vd_bw *w, const int16_t *z, int dc, int tdc, int tac) {
+    int c = vd_bitlen(dc), run = 0, last = 0;
+    vd_put_huf(w, tdc, c);
+    vd_put_amp(w, dc, c);
+    for (int i = 1; i < 64; i++) {
+        if (!z[i]) {
+            run++;
+            continue;
+        }
+        for (; run >= 16; run -= 16) vd_put_huf(w, tac, 0xF0);
+        int s = vd_bitlen(z[i]);
+        vd_put_huf(w, tac, (run << 4) | s);
+        vd_put_amp(w, z[i], s);
+        run = 0;
+        last = i;
+    }
+    if (last < 63) vd_put_huf(w, tac, 0x00);
+}
+
+// vd_q[k] -> vd_enc[k], complete a l'octet par des zeros. -> ses bits.
+static int vd_encode_mb(int k) {
+    vd_bw w = { vd_enc[k], 0, 0 };
+    for (int b = 0; b < 4; b++) vd_put_block(&w, vd_q[k][b], vd_q[k][b][0] - (b ? vd_q[k][b - 1][0] : 0), 0, 2);
+    for (int c = 4; c < 6; c++) vd_put_block(&w, vd_q[k][c], vd_q[k][c][0], 1, 3);
+    int bits = (int)(w.p - vd_enc[k]) * 8 + w.n;
+    vd_be32(w.p, (uint32_t)(w.acc << (32 - w.n)));   // n < 32
+    return bits;
+}
+
+// Quantifie et code tous les macroblocs au pas q -> la somme de leurs bits (chacun
+// compte pour LEN_MAX au plus : truncate() le ramenera la).
+static long vd_encode_all(int qv, int n) {
+    float m[2][64];
+    vd_q_table(qv, m);
+    long total = 0;
+    #pragma omp parallel for schedule(static) reduction(+:total) num_threads(NUM_THREADS)
+    for (int k = 0; k < n; k++) {
+        vd_quant_mb(k, m, vd_q[k]);
+        vd_len[k] = vd_encode_mb(k);
+        total += vd_len[k] < VD_LEN_MAX ? vd_len[k] : VD_LEN_MAX;
+    }
+    return total;
+}
+
+// Le flux de tous les macroblocs au pas q tient-il dans room bits ? Sans le coder.
+static int data_fits(int qv, int n, int room) {
+    float m[2][64];
+    vd_q_table(qv, m);
+    long total = 0;
+    #pragma omp parallel for schedule(static) reduction(+:total) num_threads(NUM_THREADS)
+    for (int k = 0; k < n; k++) {
+        int16_t q[6][64];
+        vd_quant_mb(k, m, q);
+        int b = vd_mb_bits(q);
+        total += b < VD_LEN_MAX ? b : VD_LEN_MAX;
+    }
+    return total <= room;
+}
+
+// Le q le plus fin qui tient, sachant que q = 0 ne tient pas (a 255 tout tient : il ne reste que
+// les DC). Galop a partir de prev, le q de la frame precedente, puis dichotomie : q bouge peu d'une
+// frame a l'autre, ~3 essais au lieu de 8. Le meme parcours que search_q() de gen_dct.py : si le
+// nombre de bits n'est pas monotone en q, deux recherches differentes peuvent s'arreter sur des q
+// differents.
+static int data_search_q(int prev, int n, int room) {
+    int lo = 1, hi = 255;
+    int q = prev < 1 ? 1 : prev > 254 ? 254 : prev;
+    if (data_fits(q, n, room)) {
+        hi = q;
+        for (int step = 1; lo < hi; step *= 2) {
+            q = hi - step;
+            if (q < lo) break;
+            if (!data_fits(q, n, room)) { lo = q + 1; break; }
+            hi = q;
+        }
+    } else {
+        lo = q + 1;
+        for (int step = 1; lo < hi; step *= 2) {
+            q = lo + step - 1;
+            if (q >= hi) break;
+            if (data_fits(q, n, room)) { hi = q; break; }
+            lo = q + 1;
+        }
+    }
+    while (lo < hi) {
+        int mid = (lo + hi) / 2;
+        if (data_fits(mid, n, room)) hi = mid;
+        else lo = mid + 1;
+    }
+    return lo;
+}
+
+// Canva yuvj420p (vd_L->canvas_w x canvas_h) -> out, le mur decoupe en tuiles
+// comme frame_to_ids : encode(), wall_ids() et wall_tiles() de gen_dct.py.
+// data_init() d'abord.
+static void data_frame_to_ids(const uint8_t *yuv, uint8_t *out) {
+    const int n = vd_L->sx * vd_L->sy, dw = vd_L->dw;
+    const int capacity = vd_L->dw * vd_L->dh / VD_WORD_SYMS * VD_WORD_BITS;
+    const int head = VD_QB_BITS + vd_L->sy * VD_ROW_BITS + n * VD_LEN_BITS;
+
+    double t0 = omp_get_wtime(), t1;
+    #pragma omp parallel for schedule(static) num_threads(NUM_THREADS)
+    for (int k = 0; k < n; k++) data_dct_mb(yuv, k);
+    t1 = omp_get_wtime(); vd_t[0] = t1 - t0; t0 = t1;
+
+    // Le q le plus fin qui tient. q = 0 d'abord : la plupart des videos y tiennent,
+    // et le codage de cet essai sert directement. Sinon on part du q de la frame
+    // precedente (data_search_q).
+    int lo = 0;
+    int fits_q0 = vd_encode_all(0, n) <= capacity - head;
+    t1 = omp_get_wtime(); vd_t[1] = t1 - t0; t0 = t1;
+    if (!fits_q0) {
+        lo = data_search_q(vd_last_q, n, capacity - head);
+        vd_encode_all(lo, n);
+    }
+    #pragma omp parallel for schedule(dynamic, 64) num_threads(NUM_THREADS)
+    for (int k = 0; k < n; k++) {
+        if (vd_len[k] > VD_LEN_MAX) {
+            vd_truncate(vd_q[k]);
+            vd_len[k] = vd_encode_mb(k);
+        }
+    }
+
+    t1 = omp_get_wtime(); vd_t[2] = t1 - t0; t0 = t1;
+
+    // En-tete : q, debut de chaque ligne de macroblocs (depuis le debut des
+    // donnees), longueur de chaque macrobloc. Puis les macroblocs mis bout a bout.
+    vd_bw w = { vd_stream, 0, 0 };
+    vd_put(&w, (uint32_t)lo, VD_QB_BITS);
+    int row = 0;
+    for (int y = 0; y < vd_L->sy; y++) {
+        vd_put(&w, (uint32_t)row, VD_ROW_BITS);
+        for (int x = 0; x < vd_L->sx; x++) row += vd_len[y * vd_L->sx + x];
+    }
+    for (int k = 0; k < n; k++) vd_put(&w, (uint32_t)vd_len[k], VD_LEN_BITS);
+    for (int k = 0; k < n; k++) {
+        const uint8_t *e = vd_enc[k];
+        int left = vd_len[k];
+        for (; left > 0; left -= 32, e += 4) {
+            uint32_t t = ((uint32_t)e[0] << 24) | ((uint32_t)e[1] << 16) | ((uint32_t)e[2] << 8) | e[3];
+            if (left >= 32) vd_put(&w, t, 32);
+            else vd_put(&w, t >> (32 - left), left);
+        }
+    }
+    int used = ((int)(w.p - vd_stream) * 8 + w.n + VD_WORD_BITS - 1) / VD_WORD_BITS;
+    vd_be32(w.p, (uint32_t)(w.acc << (32 - w.n)));
+    memset(w.p + 4, 0, 8);                       // le dernier mot lit au-dela
+    vd_last_q = lo;
+    vd_last_bits = (int)(w.p - vd_stream) * 8 + w.n;
+    t1 = omp_get_wtime(); vd_t[3] = t1 - t0; t0 = t1;
+
+    // Mot w = bits [31w, 31w + 31), poids fort d'abord -> symboles 4w..4w+3 en
+    // base 244 (poids faible d'abord), cellule c = (c % dw, c / dw) de la zone.
+    // Les mots au-dela du flux valent 0.
+    int words = capacity / VD_WORD_BITS;
+    #pragma omp parallel for schedule(static) num_threads(NUM_THREADS)
+    for (int i = 0; i < used; i++) {
+        int off = i * VD_WORD_BITS;
+        const uint8_t *p = vd_stream + (off >> 3);
+        uint64_t a = ((uint64_t)p[0] << 32) | ((uint64_t)p[1] << 24) | ((uint64_t)p[2] << 16)
+                   | ((uint64_t)p[3] << 8) | p[4];
+        uint32_t v = (uint32_t)(a >> (40 - VD_WORD_BITS - (off & 7))) & ((1u << VD_WORD_BITS) - 1);
+        for (int s4 = 0; s4 < VD_WORD_SYMS; s4++, v /= VD_ALPHA) {
+            vd_sym[i * VD_WORD_SYMS + s4] = (uint8_t)(v % VD_ALPHA + 4);
+        }
+    }
+    memset(vd_sym + used * VD_WORD_SYMS, 4, (size_t)(words - used) * VD_WORD_SYMS);
+    for (int r = 0; r * dw < words * VD_WORD_SYMS; r++) {
+        memcpy(&vd_wall[vd_L->y0 + VD_DATA_Y0 + r][vd_L->x0 + VD_DATA_X0], vd_sym + r * dw, (size_t)dw);
+    }
+    for (int y = 0; y < vd_L->wall_h; y++) {
+        for (int tx = 0; tx < vd_L->maps_x; tx++) {
+            memcpy(out + ((size_t)(y / MAP_SIZE) * vd_L->maps_x + tx) * MAP_PIXELS
+                       + (size_t)(y % MAP_SIZE) * MAP_SIZE,
+                   &vd_wall[y][tx * MAP_SIZE], MAP_SIZE);
+        }
+    }
+    vd_t[4] = omp_get_wtime() - t0;
 }
 
 // ==========================================================================
@@ -920,6 +1509,10 @@ static void stream_put_u16_be(uint8_t *p, unsigned int v) {
     p[1] = (uint8_t)(v & 0xFF);
 }
 
+static void stream_put_u32_be(uint8_t *p, uint32_t v) {
+    p[0] = (uint8_t)(v >> 24); p[1] = (uint8_t)(v >> 16); p[2] = (uint8_t)(v >> 8); p[3] = (uint8_t)v;
+}
+
 static void stream_put_s64_be(uint8_t *p, int64_t v) {
     uint64_t u = (uint64_t)v; // complement a deux, defini sur les non signes
     for (int i = 0; i < 8; i++) {
@@ -948,8 +1541,14 @@ static int stream_video(const char *video_path, const char *palette_path,
 #endif
 
     // --- Palette + LUT (logs sur stderr via g_log) ---
-    if (load_palette(palette_path) != 0) return 1;
-    prepare_lut(palette_path);
+    // Inutiles en --data (les symboles sont des ids fixes) : on economise la
+    // construction de la LUT, plusieurs secondes sans cache.
+    if (g_data) {
+        data_init(vd_find_layout(map_w, map_h));
+    } else {
+        if (load_palette(palette_path) != 0) return 1;
+        prepare_lut(palette_path);
+    }
 
     // --- En-tete du protocole ---
     uint8_t header[STREAM_HEADER_SIZE] = {0};
@@ -958,7 +1557,8 @@ static int stream_video(const char *video_path, const char *palette_path,
     stream_put_u16_be(header + 6,  (unsigned int)map_w);
     stream_put_u16_be(header + 8,  (unsigned int)map_h);
     stream_put_u16_be(header + 10, (unsigned int)target_fps);
-    // octets 12-15 : reserve = 0 (deja mis a zero)
+    // octets 12-15 : reserve = 0 (deja mis a zero), sauf --stats
+    if (g_stats) stream_put_u32_be(header + 12, STREAM_STATS);
     stream_write(NULL, header, sizeof(header));
     if (fflush(stdout) != 0) {
         fprintf(stderr, "Flux ferme par le consommateur, arret propre.\n");
@@ -966,10 +1566,12 @@ static int stream_video(const char *video_path, const char *palette_path,
     }
 
     // --- Buffers ---
-    int dst_w = map_w * MAP_SIZE;
-    int dst_h = map_h * MAP_SIZE;
+    // En --data ffmpeg sort le canva du codeur, pas l'image des maps (main a
+    // deja verifie que map_w x map_h est un mur de VD_LAYOUTS).
+    int dst_w = g_data ? vd_L->canvas_w : map_w * MAP_SIZE;
+    int dst_h = g_data ? vd_L->canvas_h : map_h * MAP_SIZE;
     int dst_stride = dst_w * 3;
-    size_t frame_bytes = (size_t)dst_h * (size_t)dst_stride;
+    size_t frame_bytes = g_data ? (size_t)dst_w * dst_h * 3 / 2 : (size_t)dst_h * (size_t)dst_stride;
     int total_maps = map_w * map_h;
     size_t out_bytes = (size_t)total_maps * MAP_PIXELS;
 
@@ -1081,10 +1683,13 @@ static int stream_video(const char *video_path, const char *palette_path,
     }
 
     int frame_count = 0;
+    double conv_s = 0.0; // temps de conversion cumule : doit tenir dans 1/fps
+    double write_s = 0.0;           // --stats : ecriture de la frame precedente
+    clock_t cpu_last = clock();     // --stats. CPU du process sous POSIX (temps ecoule sous Windows)
     while (1) {
-        size_t bytes_read = fread(dst_buf, 1, frame_bytes, pipe_fp);
-        if (bytes_read < frame_bytes) {
-            break;  // lecture courte : fin de video ou erreur, on ne distingue pas
+        double wait_start = omp_get_wtime();
+        if (next_frame(pipe_fp, dst_buf, dst_w, dst_h) != 0) {
+            break;
         }
 
         // PTS de CETTE frame : sa ligne showinfo est deja ecrite, ffmpeg
@@ -1097,13 +1702,35 @@ static int stream_video(const char *video_path, const char *palette_path,
             pts_us = read_pts_us(pts_fp, pts_us);
         }
 
-        frame_to_ids(dst_buf, dst_stride, map_w, map_h, out_buf);
+        double conv_start = omp_get_wtime();
+        if (g_data) {
+            data_frame_to_ids(dst_buf, out_buf);
+        } else {
+            frame_to_ids(dst_buf, dst_stride, map_w, map_h, out_buf);
+        }
+        double conv_end = omp_get_wtime();
+        conv_s += conv_end - conv_start;
 
         // Flush apres chaque frame : sans lui stdio garderait la frame dans son
         // tampon de 4 Ko et le plugin afficherait avec un retard variable.
         uint8_t pts_be[8];
         stream_put_s64_be(pts_be, pts_us);
         stream_write(pipe_fp, pts_be, sizeof(pts_be));
+        if (g_stats) {
+            clock_t cpu_now = clock();
+            uint32_t st[STREAM_STATS] = {
+                (uint32_t)((conv_start - wait_start) * 1e6), (uint32_t)(write_s * 1e6),
+                (uint32_t)((cpu_now - cpu_last) * 1e6 / CLOCKS_PER_SEC),
+                (uint32_t)((conv_end - conv_start) * 1e6),
+                (uint32_t)(vd_t[0] * 1e6), (uint32_t)(vd_t[1] * 1e6), (uint32_t)(vd_t[2] * 1e6),
+                (uint32_t)(vd_t[3] * 1e6), (uint32_t)(vd_t[4] * 1e6),
+                (uint32_t)vd_last_q, (uint32_t)vd_last_bits,
+            };
+            uint8_t be[STREAM_STATS * 4];
+            for (int i = 0; i < STREAM_STATS; i++) stream_put_u32_be(be + i * 4, st[i]);
+            stream_write(pipe_fp, be, sizeof(be));
+            cpu_last = cpu_now;
+        }
         stream_write(pipe_fp, out_buf, out_bytes);
         if (fflush(stdout) != 0) {
             fprintf(stderr, "Flux ferme par le consommateur, arret propre.\n");
@@ -1114,6 +1741,7 @@ static int stream_video(const char *video_path, const char *palette_path,
 #endif
             exit(0);
         }
+        write_s = omp_get_wtime() - conv_end;
 
         frame_count++;
         if (frame_count % 100 == 0) {
@@ -1133,7 +1761,8 @@ static int stream_video(const char *video_path, const char *palette_path,
         drain_pts_log(pts_fp);
         fclose(pts_fp);
     }
-    fprintf(stderr, "Flux termine: %d frames envoyees.\n", frame_count);
+    fprintf(stderr, "Flux termine: %d frames envoyees (conversion %.1f ms/frame).\n",
+            frame_count, frame_count ? conv_s * 1000.0 / frame_count : 0.0);
 
     free(dst_buf);
     free(out_buf);
@@ -1163,6 +1792,12 @@ int main(int argc, char *argv[]) {
             palette_arg = argv[++i];
         } else if (strcmp(argv[i], "--dither") == 0) {
             g_dither = 1;
+        } else if (strcmp(argv[i], "--strict") == 0) {
+            g_strict = 1;
+        } else if (strcmp(argv[i], "--data") == 0) {
+            g_data = 1;
+        } else if (strcmp(argv[i], "--stats") == 0) {
+            g_stats = 1;
         } else if (strcmp(argv[i], "--seek") == 0) {
             if (i + 1 >= argc) {
                 fprintf(stderr, "Erreur: --seek requiert un temps en secondes\n");
@@ -1183,17 +1818,32 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    if (g_dither && g_strict) {
+        // le tramage invente des couleurs, exactement ce que --strict interdit
+        fprintf(stderr, "Erreur: --dither et --strict s'excluent\n");
+        return 1;
+    }
+    if (g_data && (g_dither || g_strict)) {
+        // --data ne quantifie plus l'image : ni tramage ni placement strict
+        fprintf(stderr, "Erreur: --data exclut --dither et --strict\n");
+        return 1;
+    }
+    if (g_data && !stream_mode) {
+        fprintf(stderr, "Erreur: --data requiert --stream\n");
+        return 1;
+    }
+
     // En mode --stream, stdout est reserve au flux binaire
     g_log = stream_mode ? stderr : stdout;
     fprintf(g_log, "=== MinecraftVideo (C natif) ===\n\n");
 
-    if (stream_mode && !palette_arg) {
+    if (stream_mode && !palette_arg && !g_data) {
         fprintf(stderr, "Erreur: --palette <palette.json> est requis en mode --stream\n");
         return 1;
     }
     if (stream_mode && npos < 4) {
         fprintf(stderr, "Usage: mcmm --stream --palette <palette.json>"
-                        " [--seek <secondes>] [--dither]"
+                        " [--seek <secondes>] [--dither|--strict|--data]"
                         " <video> <largeur> <hauteur> <fps>\n");
         return 1;
     }
@@ -1234,6 +1884,15 @@ int main(int argc, char *argv[]) {
     if (stream_mode) {
         if (width > 0xFFFF || height > 0xFFFF) {
             fprintf(stderr, "Erreur: largeur/hauteur trop grandes pour l'en-tete (max 65535)\n");
+            return 1;
+        }
+        if (g_data && !vd_find_layout(width, height)) {
+            // le decodeur du pack est genere pour ces murs-la, aucune autre taille
+            fprintf(stderr, "Erreur: --data exige un mur de");
+            for (int i = 0; i < VD_N_LAYOUTS; i++) {
+                fprintf(stderr, "%s %dx%d", i ? " ou" : "", VD_LAYOUTS[i].maps_x, VD_LAYOUTS[i].maps_y);
+            }
+            fprintf(stderr, " cartes (recu %dx%d)\n", width, height);
             return 1;
         }
         return stream_video(video_path, palette_arg, width, height, framerate, seek_arg);
