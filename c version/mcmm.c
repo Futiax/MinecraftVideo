@@ -1769,12 +1769,15 @@ static int stream_video(const char *video_path, const char *palette_path,
     return 0;
 }
 
+#include "vmc_daemon.h"
+
 // ==========================================================================
 // Point d'entree
 // ==========================================================================
 
 int main(int argc, char *argv[]) {
     int stream_mode = 0;
+    int daemon_mode = 0;
     const char *palette_arg = NULL;
     double seek_arg = 0.0;
     const char *positional[4] = { NULL, NULL, NULL, NULL };
@@ -1784,6 +1787,8 @@ int main(int argc, char *argv[]) {
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "--stream") == 0) {
             stream_mode = 1;
+        } else if (strcmp(argv[i], "--daemon") == 0) {
+            daemon_mode = 1;
         } else if (strcmp(argv[i], "--palette") == 0) {
             if (i + 1 >= argc) {
                 fprintf(stderr, "Erreur: --palette requiert un chemin de fichier JSON\n");
@@ -1833,9 +1838,17 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // En mode --stream, stdout est reserve au flux binaire
-    g_log = stream_mode ? stderr : stdout;
+    // En mode --stream ou --daemon, stdout est reserve au flux binaire
+    g_log = (stream_mode || daemon_mode) ? stderr : stdout;
     fprintf(g_log, "=== MinecraftVideo (C natif) ===\n\n");
+
+    if (daemon_mode) {
+        if (!palette_arg) {
+            fprintf(stderr, "Erreur: --palette <palette.json> est requis en mode --daemon\n");
+            return 1;
+        }
+        return run_daemon(palette_arg);
+    }
 
     if (stream_mode && !palette_arg && !g_data) {
         fprintf(stderr, "Erreur: --palette <palette.json> est requis en mode --stream\n");
